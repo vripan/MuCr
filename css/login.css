@@ -5,7 +5,7 @@ html, body {
 body{
  margin: 0;
  padding: 0;
- background-image: url("../img/log.jpg");
+ background-image: url("../img/background2.jpg");
  background-repeat: no-repeat;
  background-position: center;
  background-size: cover;
@@ -43,7 +43,7 @@ body .shadow-overlay {
 .loginbox{
   width: 320px;
   height: 440px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(15, 15, 15, 0.8);
   color: #fff;
   margin: auto;
   margin-top: 10%;
