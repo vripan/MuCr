@@ -235,3 +235,58 @@ border-radius: 5px;
 margin: auto;
 display: block;
 }
+
+@media only screen and (max-width: 900px)
+{
+  .container .left
+  {
+    margin: 0;
+    padding: 0;
+    padding-top: 7px;
+    width: 100%;
+    background-color: rgba(255,255,255,.035);
+    position: static;
+    height: auto;
+  }
+
+  .container .right
+  {
+    width:100%;
+    position: static;
+    background-color: rgba(255,255,255,.025);
+    min-height:1000px;
+    margin:0;
+    clear:both;
+  }
+
+  .formContaine
+  {
+    padding: 5px 30px 20px 30px;
+  }
+
+  .profileImage
+  {
+    width:40%;
+    margin: auto;
+
+  }
+  .profileImage img
+  {
+    border-radius: 50%;
+    width:100%;
+  }
+
+  ul li
+  {
+    padding-left: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+  }
+
+  .sectionTitle:nth-of-type(1)
+  {
+    margin-top: 10px;
+  }
+
+}

@@ -1,12 +1,12 @@
 
-/* ------------------------------------------------------------------- 
+/* -------------------------------------------------------------------
  * ## Cover
  * ------------------------------------------------------------------- */
 
 .cover{
 	width: 100%;
 	height: 55%;
-	background-image: url("../girl2.jpg");
+	background-image: url("../img/cover.jpg");
  	background-repeat: no-repeat;
  	background-position: center;
 	background-size: cover;
@@ -14,7 +14,7 @@
 }
 
 
-/* ------------------------------------------------------------------- 
+/* -------------------------------------------------------------------
  * ## Profile Box
  * ------------------------------------------------------------------- */
 .profileBox{
@@ -25,7 +25,7 @@
 	margin-left: 8rem;
 	background: rgba(0,0,0,0.8);
 	box-sizing: border-box;
-	
+
 
 }
 
@@ -46,7 +46,7 @@
 .profileBox .picture{
 	width: 100%;
 	height: 50%;
-	background-image: url("../girl.png");
+	background-image: url("../img/user.png");
  	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -112,7 +112,7 @@
 	margin-top: 75px;
 }
 
-/* ------------------------------------------------------------------- 
+/* -------------------------------------------------------------------
  * ## Collection Part
  * ------------------------------------------------------------------- */
 .container{
@@ -125,7 +125,7 @@
     font-size: 1.8rem;
 }
 .collection li {
-	margin-top: 5.0rem; 
+	margin-top: 5.0rem;
     margin-right: 25px;
     display: inline-block;
 }
@@ -136,7 +136,7 @@
 }
 
 
-/* ------------------------------------------------------------------- 
+/* -------------------------------------------------------------------
  * ## POP UP
  * ------------------------------------------------------------------- */
 
@@ -158,7 +158,7 @@
   width:80%;
   animation-name:fadeIn;
   animation-duration:1s;
- 
+
 }
 
 .photo-row{
@@ -181,7 +181,7 @@
   vertical-align: middle;
 }
 
-/* ------------------------------------------------------------------- 
+/* -------------------------------------------------------------------
  * ## RESPONSIVE MODAL
  * ------------------------------------------------------------------- */
 
@@ -241,8 +241,8 @@
   from{ opacity: 0}
   to {opacity: 1}
 }
-/* ------------------------------------------------------------------- 
- * ## Responsive 
+/* -------------------------------------------------------------------
+ * ## Responsive
  * ------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1400px) {
@@ -258,11 +258,11 @@
 	}
 
 	.collection li {
-	margin-top: 5.0rem; 
+	margin-top: 5.0rem;
     margin-right: 20px;
     display: inline-block;
 	}
-	
+
 	.collection img{
 	width: 190px;
 	height: 190px;
@@ -286,11 +286,11 @@
 	}
 
 	.collection li {
-	margin-top: 5.0rem; 
+	margin-top: 5.0rem;
     margin-right: 15px;
     display: inline-block;
 	}
-	
+
 	.collection img{
 	width: 190px;
 	height: 190px;
@@ -318,12 +318,12 @@
 	}
 
 	.collection li {
-	margin-top: 1.8rem; 
+	margin-top: 1.8rem;
     margin-right: 25px;
     display: inline-block;
     margin-left:0;
 	}
-	
+
 	.collection img{
 	width: 220px;
 	height: 220px;
@@ -357,7 +357,7 @@
     display: inline-block;
     margin-left:0;
 	}
-	
+
 	.collection img{
 	width: 160px;
 	height: 160px;
@@ -390,11 +390,11 @@
 	}
 
 	.collection li {
-	margin-top: 3.0rem; 
+	margin-top: 3.0rem;
     margin-right: 13px;
     display: inline-block;
 	}
-	
+
 	.collection img{
 	width: 170px;
 	height: 170px;
@@ -438,11 +438,11 @@
 	}
 
 	.collection li {
-	margin-top: 3.0rem; 
+	margin-top: 3.0rem;
     display: inline-block;
     margin-right: 0;
 	}
-	
+
 	.collection img{
 	width: 320px;
 	height: 320px;
@@ -466,7 +466,7 @@
 
 
 @media only screen and (max-width: 400px) {
- 
+
 
  .profileBox{
 	width: 100%;
@@ -484,10 +484,10 @@
 	}
 
 	.collection li {
-	margin-top: 3.0rem; 
+	margin-top: 3.0rem;
     display: inline-block;
 	}
-	
+
 	.collection img{
 	width: 300px;
 	height: 300px;
@@ -523,5 +523,3 @@
 		margin-right: 3.0rem;
 	}
 }
-
-	
