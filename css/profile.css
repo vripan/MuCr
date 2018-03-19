@@ -1,5 +1,9 @@
-.cover{
 
+/* ------------------------------------------------------------------- 
+ * ## Cover
+ * ------------------------------------------------------------------- */
+
+.cover{
 	width: 100%;
 	height: 55%;
 	background-image: url("girl2.jpg");
@@ -7,19 +11,36 @@
  	background-position: center;
 	background-size: cover;
  	font-family: sans-serif;
-
 }
 
+
+/* ------------------------------------------------------------------- 
+ * ## Profile Box
+ * ------------------------------------------------------------------- */
 .profileBox{
 	width:280px;
 	height: 580px;
 	float: left;
-	margin-top: 112px;
-	margin-left: 85px;
+	margin-top: 11.5rem;
+	margin-left: 8rem;
 	background: rgba(0,0,0,0.8);
 	box-sizing: border-box;
 	
 
+}
+
+.profileBox .btn--stroke{
+	background:#fff;
+	border-radius: 25px;
+	padding:0 35px 0 35px;
+	margin: 2.0rem 13.0rem 2.0rem 13.0rem;
+	display: none;
+
+}
+
+.profileBox .btn--stroke:hover{
+    border: 0.2rem solid #fff;
+    color: #fff;
 }
 
 .profileBox .picture{
@@ -62,6 +83,7 @@
    font-family: 'Lato', sans-serif;
 }
 
+
 .profileBio a{
 	color: #39b54a;
 	font-family: 'Lato', sans-serif;
@@ -90,46 +112,46 @@
 	margin-top: 75px;
 }
 
+/* ------------------------------------------------------------------- 
+ * ## Collection Part
+ * ------------------------------------------------------------------- */
 .container{
-	width:75%;
-	margin-left: 25%;
+	width:80%;
+	margin-left: 20%;
 }
 .collection {
     list-style: none;
     display: inline-block;
     font-size: 1.8rem;
-    margin-left: 90px;
 }
 .collection li {
 	margin-top: 5.0rem; 
-    margin-right: 30px;
+    margin-right: 25px;
     display: inline-block;
 }
 
 .collection img{
-	width: 190px;
-	height: 190px;
+	width: 220px;
+	height: 220px;
 }
 
 
+
+
+/* ------------------------------------------------------------------- 
+ * ## Responsive 
+ * ------------------------------------------------------------------- */
+
 @media only screen and (max-width: 1400px) {
 
-
 	.profileBox{
-	width:280px;
-	height: 580px;
-	float: left;
-	margin-top: 112px;
-	margin-left: 85px;
-	background: rgba(0,0,0,0.8);
-	box-sizing: border-box;
+	margin-top: 13.0rem;
+	margin-left: 5.0rem;
 	}
 
 	.collection {
-    list-style: none;
-    display: inline-block;
     font-size: 1.8rem;
-    margin-left: 30px;
+    margin-left: 3.0rem;
 	}
 
 	.collection li {
@@ -139,29 +161,25 @@
 	}
 	
 	.collection img{
-	width: 170px;
-	height: 170px;
+	width: 190px;
+	height: 190px;
 	}
 }
 
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1280px) {
 
-.profileBox{
-	width:280px;
-	height: 580px;
+	.profileBox{
 	float: left;
-	margin-top: 112px;
-	margin-left: 50px;
-	background: rgba(0,0,0,0.8);
-	box-sizing: border-box;
+	margin-top: 10.5rem;
+	margin-left: 5.0rem;
 	}
 
 	.collection {
     list-style: none;
     display: inline-block;
     font-size: 1.8rem;
-    margin-left: 25px;
+    margin-left: 2.0rem;
 	}
 
 	.collection li {
@@ -171,61 +189,94 @@
 	}
 	
 	.collection img{
-	width: 150px;
-	height: 150px;
+	width: 190px;
+	height: 190px;
 	}
 }
 
 
+
+
+
 @media only screen and (max-width: 1024px) {
-   .profileBox{
-	width:280px;
-	height: 580px;
+
+  .profileBox{
+	width: 300px;
+	height: 600px;
 	float: left;
-	margin-top: 112px;
-	margin-left: 35px;
-	background: rgba(0,0,0,0.8);
-	box-sizing: border-box;
+	margin-top: 12.0rem;
+	margin-left: 7.0rem;
 	}
 
 	.collection {
     list-style: none;
     display: inline-block;
     font-size: 1.8rem;
-    margin-left: 20px;
 	}
 
 	.collection li {
-	margin-top: 5.0rem; 
-    margin-right: 12px;
+	margin-top: 1.8rem; 
+    margin-right: 25px;
     display: inline-block;
+    margin-left:0;
 	}
 	
 	.collection img{
-	width: 140px;
-	height: 140px;
+	width: 220px;
+	height: 220px;
 	}
+
+	.container{
+	width: 63%;
+	margin-left: 37%;
+	}
+
 }
 
+@media only screen and (max-width: 800px) {
+  .profileBox{
+	width: 300px;
+	height: 600px;
+	float: left;
+	margin-top: 15.0rem;
+	margin-left: 3.0rem;
+	position: fixed;
+	}
 
-}
+	.collection {
+    list-style: none;
+    display: inline-block;
+    font-size: 1.8rem;
+	}
 
-@media only screen and (max-width: 700px) {
-   .signinbox{
-    margin-top: 12%;
-   }
+	.collection li {
+    margin-right: 15px;
+    display: inline-block;
+    margin-left:0;
+	}
+	
+	.collection img{
+	width: 160px;
+	height: 160px;
+	}
+
+	.container{
+	width: 60%;
+	margin-left: 40%;
+	margin-right: 0;
+
+	}
 
 }
 
 @media only screen and (max-width: 600px) {
  .profileBox{
-	width:300px;
-	height: 600px;
+	width:360px;
+	height: 680px;
 	float: left;
-	margin-top: 225px;
-	margin-left: 145px;
-	background: rgba(0,0,0,0.8);
-	box-sizing: border-box;
+	margin-top: 18.7rem;
+	margin-left: 13rem;
+	position:static;
 	}
 
 	.collection {
@@ -236,35 +287,138 @@
 	}
 
 	.collection li {
-	margin-top: 5.0rem; 
-    margin-right: 12px;
+	margin-top: 3.0rem; 
+    margin-right: 13px;
     display: inline-block;
 	}
 	
 	.collection img{
-	width: 140px;
-	height: 140px;
+	width: 170px;
+	height: 170px;
 	}
 
 	.container{
-		margin-left: 18%;
+		margin-left: 15%;
+		width: 75%;
+	}
+
+	.profileBox .btn--stroke{
+	margin: 1.5rem 16.0rem 1.5rem 11.0rem;
+	display: inline-block;
+	}
+
+	#social{
+	font-size: 20px;
+	margin-right: 0.8rem;
+	margin-left: 1.5rem;
+	color:#fff;
 	}
 
 }
 
 @media only screen and (max-width: 500px)
 {
-  .signinbox{
-     margin-top: 15%;
+  .profileBox{
+	width: 320px;
+	height: 740px;
+	float: left;
+	margin-top: 15.0rem;
+	margin-left: 5.0rem;
+	margin-right: 0;
+	}
 
-  }
+	.collection {
+    list-style: none;
+    display: inline-block;
+    font-size: 1.8rem;
+    margin-left: 0%;
+	}
+
+	.collection li {
+	margin-top: 3.0rem; 
+    display: inline-block;
+    margin-right: 0;
+	}
+	
+	.collection img{
+	width: 320px;
+	height: 320px;
+	}
+
+	.container{
+		width: 90%;
+		margin-left: 3%;
+	}
+
+	.profileBox .btn--stroke{
+	margin: 2rem 8.0rem 1.5rem 9.0rem;
+	}
+
+	#social{
+	font-size: 20px;
+	margin-right: 0.8rem;
+	margin-left: 1rem;
+	}
 }
 
+
 @media only screen and (max-width: 400px) {
- .signinbox{
-    margin-top: 5%;
-    background: rgba(0,0,0,0.6);
-   }
+ 
+
+ .profileBox{
+	width: 100%;
+	height: 720px;
+	float: left;
+	margin-top: 10.0rem;
+	margin-left: 0;
+	}
+
+	.collection {
+    list-style: none;
+    display: inline-block;
+    font-size: 1.8rem;
+    margin-left: 0;
+	}
+
+	.collection li {
+	margin-top: 3.0rem; 
+    display: inline-block;
+	}
+	
+	.collection img{
+	width: 300px;
+	height: 300px;
+	}
+
+	.container{
+		margin-left: 1%;
+		margin-right: 0%;
+		width: 90%;
+	}
+	.cover{
+		display: none;
+	}
+
+	.profileBox .btn--stroke{
+		display: inline-block;
+		margin: 4.0rem 9rem 1.5rem 12rem;
+		padding:0 45px 0 45px;
+	}
+	#social{
+	font-size: 22px;
+	margin-right: 14px;
+	margin-left: 14px;
+	color:#fff;
+	}
+
+	.profileBio h3{
+		margin-left: 3.0rem;
+		margin-right: 3.0rem;
+	}
+	.profileBio p{
+		margin-left: 3.0rem;
+		margin-right: 3.0rem;
+	}
 }
 
 	
