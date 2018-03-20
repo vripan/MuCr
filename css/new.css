@@ -67,7 +67,7 @@ h1, h2,  h3, h4 {
 }
 
 @media only screen and (max-width: 600px) {
-    h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+    h1, h2, h3, h4 {
         margin-top: 5.1rem;
     }
 }
@@ -172,20 +172,12 @@ fieldset {
     margin-bottom: 1.5rem;
 }
 
-input,
-textarea,
-select,
-pre,
-blockquote,
-figure,
-table,
+
 p,
 ul,
 ol,
 dl,
-form,
-.video-container,
-.cl-custom-select {
+{
     margin-bottom: 1.5rem;
 }
 
@@ -248,14 +240,9 @@ form,
 
 .btn:hover,
 button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
 .btn:focus,
 button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
+{
     background-color: #b8b8b8;
     border-color: #b8b8b8;
     color: #000000;
@@ -267,10 +254,7 @@ input[type="button"]:focus {
  * ------------------------------------------------- */
 
 .btn.btn--primary,
-button.btn--primary,
-input[type="submit"].btn--primary,
-input[type="reset"].btn--primary,
-input[type="button"].btn--primary {
+button.btn--primary{
     background: #39b54a;
     border-color: #39b54a;
     color: #FFFFFF;
@@ -278,14 +262,8 @@ input[type="button"].btn--primary {
 
 .btn.btn--primary:hover,
 button.btn--primary:hover,
-input[type="submit"].btn--primary:hover,
-input[type="reset"].btn--primary:hover,
-input[type="button"].btn--primary:hover,
 .btn.btn--primary:focus,
-button.btn--primary:focus,
-input[type="submit"].btn--primary:focus,
-input[type="reset"].btn--primary:focus,
-input[type="button"].btn--primary:focus {
+button.btn--primary:focus{
     background: #33a242;
     border-color: #33a242;
 }
@@ -330,65 +308,6 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
-
-
-
-
-/* -------------------------------------------------------------------
- * ## slick slider
- * ------------------------------------------------------------------- */
-.slick-slider .slick-slide {
-    outline: none;
-}
-
-.slick-slider .slick-dots {
-    display: block;
-    list-style: none;
-    width: 100%;
-    padding: 0;
-    margin: 3rem 0 0 0;
-    text-align: center;
-    position: absolute;
-    top: 100%;
-    left: 0;
-}
-
-.slick-slider .slick-dots li {
-    display: inline-block;
-    width: 27px;
-    height: 27px;
-    margin: 0;
-    padding: 9px;
-    cursor: pointer;
-}
-
-.slick-slider .slick-dots li button {
-    display: block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #959595;
-    border: none;
-    line-height: 10px;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    font: 0/0 a;
-    text-shadow: none;
-    color: transparent;
-}
-
-.slick-slider .slick-dots li button:hover,
-.slick-slider .slick-dots li button:focus {
-    outline: none;
-}
-
-.slick-slider .slick-dots li.slick-active button,
-.slick-slider .slick-dots li:hover button {
-    background: #39b54a;
-}
-
-
 
 /* ===================================================================
  * # header styles
@@ -723,7 +642,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     height: 100%;
     opacity: .4;
     background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000', GradientType=0);
+
 }
 
 .s-home .overlay {
