@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="no-js" lang="en">
+<html>
 
 <head>
 
@@ -15,25 +15,23 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/new.css">
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+    <link rel="stylesheet" type="text/css" href="./css/new.css">
     <link rel="stylesheet" type="text/css" href="./css/profile.css">
 
     <!-- script
     ================================================== -->
-    <script src="js/modernizr.js"></script>
     <script src="js/pace.min.js"></script>
 
     <!-- favicons
     ================================================== -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
     <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
 </head>
 
 <body id="top">
@@ -78,6 +76,8 @@
 
     </header> <!-- end s-header -->
 
+<!-- PROFILE BIO BOX
+    ================================================== -->
     <div class="profileBox">
     	<div class="picture"></div>
     	<div class="profileBio">
@@ -107,11 +107,18 @@
                 </ul>
 
          </div>
-    </div>
+    </div><!-- end profileBox -->
 
+
+    <!-- COVER PHOTO
+    ================================================== -->
     <div class="cover">
-    </div>
+    </div> <!-- end cover -->
 
+
+
+    <!-- COLLECTION BUTTON -TRANSLATE TO MODAL
+    ================================================== -->
     <div class="container">
     	<ul class="collection">
                     <li id="modalBtn">
@@ -128,7 +135,11 @@
                     </li>
 
         </ul>
-    </div>
+    </div><!-- end cover -->
+
+
+    <!--    MODAL WINDOW FOR COLLECTION
+    ================================================== -->
 
 <div id="simpleModal" class="modal">
     <div class="modal-content">
@@ -167,8 +178,10 @@
 </div>
 </div>
 </div>
+
+    <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
     <script src="js/modal.js"></script>
 </body>
