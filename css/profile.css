@@ -91,14 +91,14 @@
 
 }
 
-#social{
+.social{
 	font-size: 17px;
 	margin-right: 6px;
 	margin-left: 6px;
 	color:#fff;
 }
 
-#social:hover{
+.social:hover{
 	color: #39b54a;
 }
 
@@ -410,7 +410,7 @@
 	display: inline-block;
 	}
 
-	#social{
+	.social{
 	font-size: 20px;
 	margin-right: 0.8rem;
 	margin-left: 1.5rem;
@@ -457,7 +457,7 @@
 	margin: 2rem 8.0rem 1.5rem 9.0rem;
 	}
 
-	#social{
+	.social{
 	font-size: 20px;
 	margin-right: 0.8rem;
 	margin-left: 1rem;
@@ -507,7 +507,7 @@
 		margin: 4.0rem 9rem 1.5rem 12rem;
 		padding:0 45px 0 45px;
 	}
-	#social{
+	.social{
 	font-size: 22px;
 	margin-right: 14px;
 	margin-left: 14px;
