@@ -1,0 +1,22 @@
+Music Collector - tipuri utilizatori
+  1. Vizitator
+      - se poate inregistra pentru a folosi aplicatia web
+  2. User
+      - se poate conecta la aplicatie
+      - poate folosi functiile de cautare
+      - isi poate popula colectie cu iteme proprii
+      - poate adauga la colectia de iteme favorite itemele altor utilizatori
+  3. Admin
+      - poate juca rolul de users
+      - are acces la baza de date
+      - asigura buna functionare a aplicatiei
+
+Functii api:
+  1. logare
+  2. inregistare
+  3. search in baza de date
+  4. search in MusicBrain database
+  5. informatii user
+  6. informatii iteme
+  7. informatii grup
+  8. update entitati (user, items, groups)
