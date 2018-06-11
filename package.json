@@ -1,0 +1,28 @@
+{
+  "name": "nodeserver",
+  "version": "1.0.0",
+  "description": "Pagini:\r  - landingpage\r  - login\r  - register\r  - profile\r  - profile settings\r  - item\r  - item settings\r  - group\r  - group settings\r  - collection",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "connect": "^3.6.6",
+    "cookies": "^0.7.1",
+    "ejs": "^2.6.1",
+    "formidable": "^1.2.1",
+    "mongoose": "^5.1.4",
+    "mysql": "^2.15.0",
+    "oracledb": "^2.2.0",
+    "request": "^2.87.0",
+    "sha256": "^0.2.0",
+    "swagger-tools": "^0.10.3",
+    "sync": "^0.2.5",
+    "xml2js": "^0.4.19",
+    "xmldom": "^0.1.27"
+  }
+}
