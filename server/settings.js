@@ -26,6 +26,7 @@ exports.album_default_name = "My album";
 exports.album_default_release_date = "2000";
 exports.default_album_type = "album";
 exports.default_album_id = 0;
+exports.default_album_label = 'Label Records';
 exports.default_album_pic = "/img/user.png";
 exports.default_profile_pic = "/img/user.png";
 exports.default_cover_pic = "/img/cover.jpg";

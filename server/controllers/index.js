@@ -7,6 +7,7 @@ let user = require("./user");
 let error = require("./error");
 let logic = require("../logic");
 let artist = require('./artist');
+let album = require('./album');
 
 let URLMap = {
     '': staticRes.landing,
@@ -15,11 +16,13 @@ let URLMap = {
 
     'user': user.requestListener,
 
+    'album': album.requestListener,
     'artist': artist.requestListener,
 
     'js': resource.resource,
     'css': resource.resource,
     'img': resource.resource,
+    'favicon.ico' : resource.favicon,
     'resource': resource.requestListener
 };
 

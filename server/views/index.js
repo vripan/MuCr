@@ -5,3 +5,4 @@ exports.resource = require("./resource");
 exports.user = require("./user");
 exports.object = require("./object");
 exports.artist = require("./artist");
+exports.album =require("./album");

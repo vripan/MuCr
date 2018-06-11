@@ -2,6 +2,8 @@
 let request = require('request');
 let settings = require('../settings');
 let logic = require('../logic');
+let fs = require('fs');
+let ejs = require('ejs');
 
 exports.artist_get = function (req, res, path) {
     let spotify_artist_id = path[0];
@@ -27,9 +29,6 @@ exports.artist_get = function (req, res, path) {
 
         logic.spotify.get_albums_by_artist(spotify_artist_id, (albums_info) => {
             template_info.albums = [];
-
-
-
             if (albums_info.items !== null && albums_info.items !== undefined)
                 for (let album of albums_info.items) {
                     let tempalte_album = {};
@@ -48,17 +47,23 @@ exports.artist_get = function (req, res, path) {
                     template_info.albums.push(tempalte_album);
                 }
 
-                LOG(JSON.stringify(template_info));
-                //put into template
+            fs.readFile(settings.templatesPath + 'artist.html', 'utf-8', function (err, data) {
+                if (err) {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.write("Something went wrong");
+                    res.end();
+                    return;
+                }
+
+                data = ejs.render(data, template_info);
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write(data);
+                res.end();
+            });
         });
     });
-    res.writeHead(500, {'Content-Type': 'text/html'});
-    res.write("Here");
-    res.end();
 };
 
 exports.default_artist_get = function (req, res, path) {
-    res.writeHead(500, {'Content-Type': 'text/html'});
-    res.write("Something went wrong");
-    res.end();
+    message_page(req,res,path,"Give me an artist");
 };

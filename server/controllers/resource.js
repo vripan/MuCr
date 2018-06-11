@@ -14,6 +14,11 @@ let resource = function (req, res, path) {
     }
 };
 
+let favicon = function (req, res, path) {
+    res.writeHead(404, {'Content-Type': 'application/json'});
+    res.end();
+};
+
 let URLMap = {
     'css': resource,
     'js': resource,

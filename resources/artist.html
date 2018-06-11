@@ -2,33 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Artist</title>
+    <title>Artist <%= name %></title>
 </head>
 <body>
 <%= name %><br>
-<%= type %><br>
-<%= disambiguation %><br>
-<%= gender %><br>
-<%= life_end %><br>
-<%= life_begin %><br>
+<%= popularity %><br>
 
+<img src="<%= artist_profile_picture %>" alt="artist">
 
-<img src="<%= image %>" alt="artist">
-
-<% if(releases.length >0) {%>
-<h1>Releases</h1>
+<% if(albums.length >0) {%>
+<h1>Albums</h1>
 <ul>
-    <% releases.forEach((release) => { %>
-    <li><a href="<%= release.link %>"><%= release.title%></a></li>
-    <% }); %>
-</ul>
-<% } %>
-
-<% if(recordings.length >0) {%>
-<h1>Recordings</h1>
-<ul>
-    <% recordings.forEach((recording) => { %>
-    <li><a href="<%= recording.link %>"><%= recording.title%></a></li>
+    <% albums.forEach((album) => { %>
+    <li><a href="/album/<%= album.id %>">
+        <img src="<%=album.picture%>">
+        <%=album.release_date%>
+        <%=album.type%>
+        <%= album.name%></a></li>
     <% }); %>
 </ul>
 <% } %>

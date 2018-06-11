@@ -17,14 +17,14 @@ exports.get_access_token = function () {
 };
 
 exports.get_artist = function (artist_id, callback) {
-    ajax.get(settings.spotify_base_url + "artists/" + artist_id, {'Authorization': 'Bearer '+spotify_access_token}, (err, response, body) => {
+    ajax.get(settings.spotify_base_url + "artists/" + artist_id, {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
         let artist_info = null;
 
         if (response.statusCode !== 200) {
-            LOG("Invalid id: "+artist_id);
+            LOG("Invalid id: " + artist_id);
             let err = utils.parse(body);
-            if(err!=null && err.error!==undefined)
-                LOG("Err: "+err.error.message);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
             callback(artist_info);
             return;
         }
@@ -34,21 +34,56 @@ exports.get_artist = function (artist_id, callback) {
     });
 };
 
-exports.get_albums_by_artist = function(artist_id, callback)
-{
-    ajax.get(settings.spotify_base_url + "artists/" + artist_id + "/albums?include_groups=album&limit=50", {'Authorization': 'Bearer '+spotify_access_token}, (err, response, body) => {
+exports.get_albums_by_artist = function (artist_id, callback) {
+    ajax.get(settings.spotify_base_url + "artists/" + artist_id + "/albums?include_groups=album&limit=50&market=RO", {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
         let albums_info = null;
 
         if (response.statusCode !== 200) {
-            LOG("Invalid id: "+artist_id);
+            LOG("Invalid id: " + artist_id);
             let err = utils.parse(body);
-            if(err!=null && err.error!==undefined)
-                LOG("Err: "+err.error.message);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
             callback(albums_info);
             return;
         }
 
         albums_info = utils.parse(body);
         callback(albums_info);
+    });
+};
+
+exports.get_album = function (album_id, callback) {
+    ajax.get(settings.spotify_base_url + "albums/" + album_id, {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
+        let album_info = null;
+
+        if (response.statusCode !== 200) {
+            LOG("Invalid id: " + album_id);
+            let err = utils.parse(body);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
+            callback(album_info);
+            return;
+        }
+
+        album_info = utils.parse(body);
+        callback(album_info);
+    });
+};
+
+exports.get_tracks_by_album = function (album_id, callback) {
+    ajax.get(settings.spotify_base_url + "albums/" + album_id + "/tracks?limit=50", {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
+        let tracks_info = null;
+
+        if (response.statusCode !== 200) {
+            LOG("Invalid id: " + album_id);
+            let err = utils.parse(body);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
+            callback(tracks_info);
+            return;
+        }
+
+        tracks_info = utils.parse(body);
+        callback(tracks_info);
     });
 };
