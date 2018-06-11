@@ -1,5 +1,6 @@
 # Music Collector - Tehnologii Web UAIC
 ### Cerinta
+    https://profs.info.uaic.ro/~busaco/teach/courses/web/projects/xml-transform.php?pag=projects
 ### Documentatie
 * https://musicbrainz.org/doc/Developer_Resources
 * https://www.programmableweb.com/category/music/api
