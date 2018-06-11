@@ -14,10 +14,12 @@ let ejs = require('ejs');
 
 exports.user_delete = function (req, res, path) {
     //Todo:here
+    //Todo:Implement later, trebuie sters si din alte tabele
 };
 
 exports.user_update = function (req, res, path) {
     //Todo:here
+    //Todo:verificare pentru undefined, se trimit doar campurile care vor fi modificate, celelate undefined, un switch pe un statement SQL
 };
 
 exports.user_get = function (req, res, path) {

@@ -6,6 +6,7 @@ let staticRes = require("./static");
 let user = require("./user");
 let error = require("./error");
 let logic = require("../logic");
+let artist = require('./artist');
 
 let URLMap = {
     '': staticRes.landing,
@@ -13,6 +14,8 @@ let URLMap = {
     'static': staticRes.requestListener,
 
     'user': user.requestListener,
+
+    'artist': artist.requestListener,
 
     'js': resource.resource,
     'css': resource.resource,
@@ -25,6 +28,8 @@ exports.requestListener = function (request, response) {
     let path = URL.pathname.split('/');
 
     let resolver = URLMap[path[1]];
+
+    path.push('');
 
     if (resolver === undefined) error_page(request, response, path.slice(1), 404);
     else try {

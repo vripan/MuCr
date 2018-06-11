@@ -2,6 +2,11 @@
 let cookies_ = require("cookies");
 let databaseOracle = require('oracledb');
 
+let assignCheck = function (value, default_value) {
+    if (value === null || value === undefined)
+        return default_value;
+    return value;
+};
 
 let parse = function (obj) {
     let res = null;
@@ -67,8 +72,7 @@ exports.JSONparse = function (req, res, path, callback) {
     });
 };
 
-exports.mustBeLoggedIn = function(req,res,path)
-{
+exports.mustBeLoggedIn = function (req, res, path) {
     return req.user_id !== undefined;
 
 };
@@ -93,3 +97,6 @@ exports.realeaseConnection = function (connection) {
         if (err) console.log("Cannot release connection\n" + err.message);
     });
 };
+
+exports.assignCheck = assignCheck;
+exports.parse = parse;

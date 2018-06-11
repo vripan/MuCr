@@ -1,4 +1,5 @@
 "use strict";
+let logic = require('./logic');
 
 module.exports = function () {
     global.MIMEtypes = {
@@ -131,4 +132,10 @@ module.exports = function () {
         510: 'Not Extended (RFC 2774)',
         511: 'Network Authentication Required (RFC 6585)',
     };
+
+    global.spotify_access_token = null;
+
+    logic.spotify.get_access_token();
+    setInterval(logic.spotify.get_access_token,1000 * 60 * 45); // 45 minutes
+
 };
