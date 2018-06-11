@@ -8,3 +8,6 @@
 * https://developer.spotify.com/documentation/
 * https://nodejs.org/en/docs/
 * https://stackoverflow.com/
+
+## To DO
+* documentatie API
