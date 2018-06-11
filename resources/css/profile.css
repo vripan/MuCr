@@ -6,13 +6,12 @@
 .cover{
 	width: 100%;
 	height: 55%;
-	background-image: url("../img/cover.jpg");
+	/*background-image: url("../img/cover.jpg");*/
  	background-repeat: no-repeat;
  	background-position: center;
 	background-size: cover;
  	font-family: sans-serif;
 }
-
 
 /* -------------------------------------------------------------------
  * ## Profile Box
@@ -46,9 +45,14 @@
 .profileBox .picture{
 	width: 100%;
 	height: 50%;
-	background-image: url("../img/user.png");
+	/*background-image: url("../img/user.png");*/
  	background-repeat: no-repeat;
 	background-size: cover;
+}
+
+.profileBox .picture img{
+	width: 100%;
+	height: 100%;
 }
 
 .profileBio h3{

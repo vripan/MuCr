@@ -1,17 +1,13 @@
 'use strict';
 
-let settings = require('./server/settings');
-let databaseOracle = require('oracledb');
-let http = require('http');
-let controllers = require('./server/controllers');
+let settings        = require('./server/settings');
+let databaseOracle  = require('oracledb');
+let http            = require('http');
+let controllers     = require('./server/controllers');
 
 require("./server/init")();
 
 global.LOG = function (string) {
-    console.log(string);
-};
-
-global.DEBUG = function (string) {
     console.log(string);
 };
 

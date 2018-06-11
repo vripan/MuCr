@@ -15,20 +15,20 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" type="text/css" href="/css/base.css">
-    <link rel="stylesheet" type="text/css" href="/css/new.css">
-    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+    <link rel="stylesheet" type="text/css" href="./css/new.css">
+    <link rel="stylesheet" type="text/css" href="./css/profile.css">
 
     <!-- script
     ================================================== -->
-    <script src="/js/pace.min.js"></script>
+    <script src="js/pace.min.js"></script>
 
     <!-- favicons
     ================================================== -->
     <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon/favicon-16x16.png">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
 
@@ -42,7 +42,7 @@
 
         <div class="header-logo">
             <a href="#">
-                <img src="/img/logo.png" alt="Homepage">
+                <img src="img/logo.png" alt="Homepage">
             </a>
         </div>
 
@@ -79,19 +79,16 @@
 <!-- PROFILE BIO BOX
     ================================================== -->
     <div class="profileBox">
-    	<div class="picture">
-            <img src="<%= profile_pic %>" alt="profile">
-        </div>
+    	<div class="picture"></div>
     	<div class="profileBio">
-            <h3>About</h3>
-    		<p><%= description %></p>
+    		<h3>About</h3>
+    		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    		cillum dolore eu fugiat nulla pariatur.</p>
     		<p><a href="#">Read More!</a></p>
-            <p><%= firstname %></p>
-            <p><%= lastname %></p>
-            <!--Todo: nu cred ca mai e nevoie de read more, puntem tot ce e in descriere si cu o limitare de 250 caractere si gata, daca nu este o descriere punem ceva default-->
-    	    <!--Todo: fara linkuri sociale, ne fac viata mai grea-->
-
-            <ul class="header-nav__social">
+    	   <ul class="header-nav__social">
                     <li>
                         <a class="social" href="#"><i class="fa fa-facebook"></i></a>
                     </li>
@@ -115,7 +112,7 @@
 
     <!-- COVER PHOTO
     ================================================== -->
-    <div style="background-image: url('<%= cover_pic %>');" class="cover">
+    <div class="cover">
     </div> <!-- end cover -->
 
 
@@ -125,16 +122,16 @@
     <div class="container">
     	<ul class="collection">
                     <li id="modalBtn">
-                       <a href="#"><img src="/img/vinyl.jpg" alt="vinyl"></a>
+                       <a href="#"><img src="./img/vinyl.jpg" alt="vinyl"></a>
                     </li>
                     <li>
-                        <a href="#"><img src="/img/cd.jpg" alt="cd"></a>
+                        <a href="#"><img src="./img/cd.jpg" alt="cd"></a>
                     </li>
                     <li>
-                       <a href="#"><img src="/img/caseta.jpg" alt="caseta"></a>
+                       <a href="#"><img src="./img/caseta.jpg" alt="caseta"></a>
                     </li>
                     <li>
-                         <a href="#"><img src="/img/bilet.jpg" alt="bilet"></a>
+                         <a href="#"><img src="./img/bilet.jpg" alt="bilet"></a>
                     </li>
 
         </ul>
@@ -152,31 +149,31 @@
       </div>
       <div class="photo-row">
   <div class="photo-column">
-    <img src="/img/albumCover1.jpg" alt="cover">
-    <img src="/img/albumCover2.jpg" alt="cover">
-    <img src="/img/albumCover3.jpg" alt="cover">
-    <img src="/img/albumCover4.jpg" alt="cover">
+    <img src="./img/albumCover1.jpg" alt="cover">
+    <img src="./img/albumCover2.jpg" alt="cover">
+    <img src="./img/albumCover3.jpg" alt="cover">
+    <img src="./img/albumCover4.jpg" alt="cover">
   </div>
   <div class="photo-column">
-    <img src="/img/albumCover5.jpg" alt="cover">
-    <img src="/img/albumCover6.jpg" alt="cover">
-    <img src="/img/albumCover7.jpg" alt="cover">
-    <img src="/img/albumCover8.jpg" alt="cover">
+    <img src="./img/albumCover5.jpg" alt="cover">
+    <img src="./img/albumCover6.jpg" alt="cover">
+    <img src="./img/albumCover7.jpg" alt="cover">
+    <img src="./img/albumCover8.jpg" alt="cover">
 
   </div>
   <div class="photo-column">
 
-    <img src="/img/albumCover9.jpg" alt="cover">
-    <img src="/img/albumCover1.jpg" alt="cover">
-    <img src="/img/albumCover2.jpg" alt="cover">
-    <img src="/img/albumCover3.jpg" alt="cover">
+    <img src="./img/albumCover9.jpg" alt="cover">
+    <img src="./img/albumCover1.jpg" alt="cover">
+    <img src="./img/albumCover2.jpg" alt="cover">
+    <img src="./img/albumCover3.jpg" alt="cover">
 
   </div>
   <div class="photo-column">
-    <img src="/img/albumCover4.jpg" alt="cover">
-    <img src="/img/albumCover6.jpg" alt="cover">
-    <img src="/img/albumCover5.jpg" alt="cover">
-    <img src="/img/albumCover7.jpg" alt="cover">
+    <img src="./img/albumCover4.jpg" alt="cover">
+    <img src="./img/albumCover6.jpg" alt="cover">
+    <img src="./img/albumCover5.jpg" alt="cover">
+    <img src="./img/albumCover7.jpg" alt="cover">
   </div>
 </div>
 </div>
@@ -184,8 +181,8 @@
 
     <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
     ============================================================== -->
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script src="/js/modal.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/modal.js"></script>
 </body>
 </html>

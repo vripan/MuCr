@@ -175,7 +175,7 @@ fieldset {
 p,
 ul,
 ol,
-dl,
+dl
 {
     margin-bottom: 1.5rem;
 }
@@ -236,7 +236,7 @@ dl,
 .btn:hover,
 button:hover,
 .btn:focus,
-button:focus,
+button:focus
 {
     background-color: #b8b8b8;
     border-color: #b8b8b8;

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artist</title>
+</head>
+<body>
+<%= name %><br>
+<%= type %><br>
+<%= disambiguation %><br>
+<%= gender %><br>
+<%= life_end %><br>
+<%= life_begin %><br>
+
+
+<img src="<%= image %>" alt="artist">
+
+<% if(releases.length >0) {%>
+<h1>Releases</h1>
+<ul>
+    <% releases.forEach((release) => { %>
+    <li><a href="<%= release.link %>"><%= release.title%></a></li>
+    <% }); %>
+</ul>
+<% } %>
+
+<% if(recordings.length >0) {%>
+<h1>Recordings</h1>
+<ul>
+    <% recordings.forEach((recording) => { %>
+    <li><a href="<%= recording.link %>"><%= recording.title%></a></li>
+    <% }); %>
+</ul>
+<% } %>
+
+
+</body>
+</html>
