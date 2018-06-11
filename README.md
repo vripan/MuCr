@@ -11,3 +11,4 @@
 
 ## To DO
 * documentatie API
+* grupuri
