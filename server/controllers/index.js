@@ -4,11 +4,13 @@ let url = require('url');
 let resource = require("./resource");
 let staticRes = require("./static");
 let user = require("./user");
-let error = require("./error");
 let logic = require("../logic");
+let error = require("./error");
 let artist = require('./artist');
 let album = require('./album');
 let group = require('./group');
+let ticket = require('./ticket');
+let cd =require('./cd');
 
 let URLMap = {
     '': staticRes.landing,
@@ -19,7 +21,10 @@ let URLMap = {
 
     'album': album.requestListener,
     'artist': artist.requestListener,
-    'group':group.requestListener,
+    'group': group.requestListener,
+    'cd': cd.requestListener,
+
+    'ticket': ticket.requestListener,
 
     'js': resource.resource,
     'css': resource.resource,
@@ -33,8 +38,6 @@ exports.requestListener = function (request, response) {
     let path = URL.pathname.split('/');
 
     let resolver = URLMap[path[1]];
-
-    path.push('');
 
     if (resolver === undefined) error_page(request, response, path.slice(1), 404);
     else try {
