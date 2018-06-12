@@ -25,30 +25,33 @@
         <form id="registration">
             <p>First Name</p>
             <input id="firstname" type="text" placeholder="Enter First Name" required><br>
+
             <p>Last Name</p>
             <input id="lastname" type="text" placeholder="Enter Last Name" required><br>
+
             <p>Email Address</p>
             <input id="email" type="email" placeholder="Enter Email Address" required><br>
+
             <p>Password</p>
             <input id="password" type="password" placeholder="Enter Password" required><br><br>
 
-            <div id="msg" class="message"> Allow only ascii characters to be sent.</div>
-            <input type="submit" value="Register">
+            <div id="msg" class="message"></div>
+            <input id="submit_button" type="submit" value="Register">
             <div id="info">Already have an account? <a href="login">Log in</a></div>
         </form>
     </div>
 </div>
-<div id="success">
-    <h1>You are registered. Go <a href="/">home</a></h1>
-</div>
 
 <script>
-    var clearInfoDiv = function () {
-        var info = document.getElementById("msg");
+    let clear_message_container = function () {
+        let info = document.getElementById("msg");
+
         if (info.classList.contains("message-error"))
             info.classList.remove("message-error");
+
         if (info.classList.contains("message-warning"))
             info.classList.remove("message-warning");
+
         if (info.classList.contains("message-success"))
             info.classList.remove("message-success");
 
@@ -56,86 +59,100 @@
             info.classList.add("message");
 
         info.innerText = "";
-
     };
-    var errorInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_error = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-error");
-        info.innerHTML = msg;
+        info.innerHTML = message;
     };
-    var warningInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_warning = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-warning");
-        info.innerText = msg;
+        info.innerText = message;
     };
-    var successInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_succcess = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-success");
-        info.innerText = msg;
+        info.innerText = message;
     };
 
-    var ajaxReq = function () {
-        if (this.readyState !== 4) return;
-        if (this.status !== 200) {
-            errorInfo("Bad server response code.");
-            return;
-        }
 
-        var resObj = JSON.parse(this.responseText);
-        if (resObj === undefined || resObj.code === undefined || resObj.msg === undefined) {
-            errorInfo("Invalid server response.");
-            return;
-        }
+    let ajax_register_listener = function () {
+            switch (this.readyState) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    document.getElementById("submit_button").disabled = true;
+                    show_warning("Registering...");
+                    break;
+                case 4:
+                    let response;
+                    document.getElementById("submit_button").disabled = false;
+                    document.getElementById("submit_button").innerText = "Register";
+                    try {
+                        response = JSON.parse(this.responseText);
+                    } catch (err) {
+                        show_error("Bad server response. Try again.");
+                        return;
+                    }
+                    if (response === undefined || response.code === undefined || response.msg === undefined) {
+                        show_error("Invalid server response. Try again.");
+                        return;
+                    }
 
-        if (resObj.code === 0) {
-            let _form = document.getElementById('registration');
-            if (_form) _form.reset();
-            let layer = document.getElementById('success');
-            if (layer)
-                layer.style.display = 'block';
+                    if (response.code === 0) {
+                        let _form = document.getElementById('registration');
+                        if (_form) _form.reset();
+
+                        show_succcess("Account created!\nYou will be redirected to login page.");
+                        setTimeout(() => {
+                            window.location.href = "/static/login";
+                        }, 4000);
+                    }
+                    else {
+                        show_warning(response.msg);
+                    }
+            }
         }
-        else {
-            warningInfo(resObj.msg);
-        }
-    };
+    ;
 
     document.getElementById("registration").addEventListener("submit", function (event) {
         event.preventDefault();
-        console.log("here");
-        var reqObj = {};
+        let request_object = {};
 
-        var fname = document.getElementById("firstname");
-        var lname = document.getElementById("lastname");
-        var email = document.getElementById("email");
-        var passw = document.getElementById("password");
+        let fname = document.getElementById("firstname");
+        let lname = document.getElementById("lastname");
+        let email = document.getElementById("email");
+        let passw = document.getElementById("password");
 
-        var info = document.getElementById("msg");
+        let info = document.getElementById("msg");
 
         if (info === undefined) return;
 
         if (fname === undefined || lname === undefined || email === undefined || passw === undefined) {
-            errorInfo("Something went wrong. Reload the page.");
+            show_error("Something went wrong. Reload the page.");
             return;
         }
 
-        reqObj.firstname = fname.value;
-        reqObj.lastname = lname.value;
-        reqObj.email = email.value;
-        reqObj.password = passw.value;
+        request_object.firstname = fname.value;
+        request_object.lastname = lname.value;
+        request_object.email = email.value;
+        request_object.password = passw.value;
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = ajaxReq;
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = ajax_register_listener;
 
         xhttp.open("PUT", "/user", true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        console.log(JSON.stringify(reqObj));////////////////////////////////////////
-        xhttp.send(JSON.stringify(reqObj));
+        console.log(JSON.stringify(request_object));
+        xhttp.send(JSON.stringify(request_object));
     });
 </script>
 </body>

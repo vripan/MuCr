@@ -8,6 +8,8 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/forms.css">
 </head>
 <body>
@@ -23,8 +25,8 @@
             <input id='email' type="email" name="email" placeholder="Enter Email Address" required>
             <p>Password</p>
             <input id='password' type="password" name="password" placeholder="Enter Password" required>
-            <div id="msg" class="message"> Allow only ascii characters to be sent.</div>
-            <input type="submit" value="Login">
+            <div id="msg" class="message"></div>
+            <input id="submit_button" type="submit" value="Login">
             <input type="checkbox" id="rememberMe" name="rememberMe">
             <label for="rememberMe">Remember me</label><br>
             <a href="recover.html">Lost your password?</a><br>
@@ -32,13 +34,17 @@
         </form>
     </div>
 </div>
+
 <script>
-    var clearInfoDiv = function () {
-        var info = document.getElementById("msg");
+    let clear_message_container = function () {
+        let info = document.getElementById("msg");
+
         if (info.classList.contains("message-error"))
             info.classList.remove("message-error");
+
         if (info.classList.contains("message-warning"))
             info.classList.remove("message-warning");
+
         if (info.classList.contains("message-success"))
             info.classList.remove("message-success");
 
@@ -46,77 +52,98 @@
             info.classList.add("message");
 
         info.innerText = "";
-
     };
-    var errorInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_error = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-error");
-        info.innerHTML = msg;
+        info.innerHTML = message;
     };
-    var warningInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_warning = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-warning");
-        info.innerText = msg;
+        info.innerText = message;
     };
-    var successInfo = function (msg) {
-        var info = document.getElementById("msg");
-        clearInfoDiv();
+    let show_succcess = function (message) {
+        let info = document.getElementById("msg");
+        clear_message_container();
 
         info.classList.add("message-success");
-        info.innerText = msg;
+        info.innerText = message;
     };
 
-    var ajaxReq = function () {
-        if (this.readyState !== 4) return;
-        if (this.status !== 200) {
-            errorInfo("Bad server response code.");
-            return;
+
+    let ajax_login_listener = function () {
+            switch (this.readyState) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    document.getElementById("submit_button").disabled = true;
+                    show_warning("Loading...");
+                    break;
+                case 4:
+                    let response;
+                    document.getElementById("submit_button").disabled = false;
+                    document.getElementById("submit_button").innerText = "Register";
+                    try {
+                        response = JSON.parse(this.responseText);
+                    } catch (err) {
+                        show_error("Bad server response. Try again.");
+                        return;
+                    }
+                    if (response === undefined || response.code === undefined || response.msg === undefined) {
+                        show_error("Invalid server response. Try again.");
+                        return;
+                    }
+
+                    if (response.code === 0) {
+                        let _form = document.getElementById('login');
+                        if (_form) _form.reset();
+
+                        show_succcess("Logged in successfully!\nYou will be redirected to profile page.");
+                        setTimeout(() => {
+                            window.location.href = "/user";
+                        }, 500);
+                    }
+                    else {
+                        show_warning(response.msg);
+                    }
+            }
         }
-        let resObj;
-        try {
-            resObj = JSON.parse(this.responseText);
-        }catch(err)
-        {
-            console.log(this.responseText);
-            resObj = {msg:'Bad response from server local', code:505};
-        }
+    ;
 
-
-        console.log(resObj);
-        //Todo:redirect to profile
-    };
-
-    document.getElementById('login').addEventListener("submit", function (event) {
+    document.getElementById("login").addEventListener("submit", function (event) {
         event.preventDefault();
-        var reqObj = {};
+        let request_object = {};
 
-        var email = document.getElementById("email");
-        var passw = document.getElementById("password");
-        var remember = document.getElementById('rememberMe');
-        var info = document.getElementById("msg");
+        let email = document.getElementById("email");
+        let passw = document.getElementById("password");
+        let remember = document.getElementById('rememberMe');
+
+        let info = document.getElementById("msg");
 
         if (info === undefined) return;
 
-        if (remember === undefined || email === undefined || passw === undefined) {
-            errorInfo("Something went wrong. Reload the page.");
+        if (email === undefined || passw === undefined || remember === undefined) {
+            show_error("Something went wrong. Reload the page.");
             return;
         }
 
-        reqObj.email = email.value;
-        reqObj.password = passw.value;
-        reqObj.remember = remember.checked;
+        request_object.email = email.value;
+        request_object.password = passw.value;
+        request_object.remember = remember.checked;
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = ajaxReq;
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = ajax_login_listener;
 
         xhttp.open("POST", "/user", true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        console.log(JSON.stringify(reqObj));////////////////////////////////////////
-        xhttp.send(JSON.stringify(reqObj));
+        console.log(JSON.stringify(request_object));
+        xhttp.send(JSON.stringify(request_object));
     });
 </script>
 </body>
