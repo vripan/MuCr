@@ -132,7 +132,7 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ajaxReq;
 
-        xhttp.open("POST", "/api/register", true);
+        xhttp.open("PUT", "/user", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         console.log(JSON.stringify(reqObj));////////////////////////////////////////
         xhttp.send(JSON.stringify(reqObj));

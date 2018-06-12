@@ -76,8 +76,16 @@
             errorInfo("Bad server response code.");
             return;
         }
+        let resObj;
+        try {
+            resObj = JSON.parse(this.responseText);
+        }catch(err)
+        {
+            console.log(this.responseText);
+            resObj = {msg:'Bad response from server local', code:505};
+        }
 
-        var resObj = JSON.parse(this.responseText);
+
         console.log(resObj);
         //Todo:redirect to profile
     };
@@ -105,9 +113,9 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = ajaxReq;
 
-        xhttp.open("POST", "/api/login", true);
+        xhttp.open("POST", "/user", true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        // console.log(JSON.stringify(reqObj));////////////////////////////////////////
+        console.log(JSON.stringify(reqObj));////////////////////////////////////////
         xhttp.send(JSON.stringify(reqObj));
     });
 </script>

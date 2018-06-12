@@ -28,7 +28,14 @@ global.error_page = function (req, res, path, code) {
 };
 
 global.error_response = function(req,res,path,code){
-    //Todo: here
+    let message = ErrorMessages[code];
+    if (message === undefined) {
+        code = 400;
+        message = ErrorMessages[code];
+    }
+    res.writeHead(code, {'Content-Type': 'application/json'});
+    res.write(message);
+    res.end();
 };
 
 global.error_object = function(req,res,path,object){

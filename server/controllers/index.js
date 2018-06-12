@@ -8,6 +8,7 @@ let error = require("./error");
 let logic = require("../logic");
 let artist = require('./artist');
 let album = require('./album');
+let group = require('./group');
 
 let URLMap = {
     '': staticRes.landing,
@@ -18,11 +19,12 @@ let URLMap = {
 
     'album': album.requestListener,
     'artist': artist.requestListener,
+    'group':group.requestListener,
 
     'js': resource.resource,
     'css': resource.resource,
     'img': resource.resource,
-    'favicon.ico' : resource.favicon,
+    'favicon.ico': resource.favicon,
     'resource': resource.requestListener
 };
 
@@ -36,7 +38,7 @@ exports.requestListener = function (request, response) {
 
     if (resolver === undefined) error_page(request, response, path.slice(1), 404);
     else try {
-        logic.utils.JSONparse(request, response, path.slice(1),resolver);
+        logic.utils.JSONparse(request, response, path.slice(1), resolver);
     } catch (err) {
         response.writeHead(500, {'Content-Type': 'text/html'});
         response.write("Something went wrong");
@@ -45,21 +47,3 @@ exports.requestListener = function (request, response) {
 
     LOG(request.method + ' ' + URL.pathname);
 };
-
-
-// URL.query
-// let urlMapper = {
-// '': staticRes.landing,
-// 'index': _g.resolvers.resolveLanding,
-// 'register': _g.resolvers.resolveRegister,
-// 'login': _g.resolvers.resolveLogin,
-// 'documentation': _g.resolvers.resolveDocumentation,
-// 'profile': _g.resolvers.resolveProfile,
-//
-// 'css': _g.resolvers.resolveResource,
-// 'js': _g.resolvers.resolveResource,
-// 'img': _g.resolvers.resolveResource,
-//
-// 'mucr': _g.mucrc.mucrListener,
-// 'api': _g.apic.apiListener
-// };

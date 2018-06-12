@@ -15,8 +15,14 @@ let resource = function (req, res, path) {
 };
 
 let favicon = function (req, res, path) {
-    res.writeHead(404, {'Content-Type': 'application/json'});
-    res.end();
+    switch (req.method) {
+        case 'GET':
+            views.resource.favicon_get(req, res, path);
+            break;
+        default:
+            error_page(req,res,path,405);
+            break;
+    }
 };
 
 let URLMap = {
@@ -32,5 +38,5 @@ exports.requestListener = function (request, response, path) {
 };
 
 exports.resource = resource;
-
+exports.favicon = favicon;
 

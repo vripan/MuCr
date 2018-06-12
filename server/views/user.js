@@ -28,8 +28,9 @@ exports.user_get = function (req, res, path) {
         return;
     }
 
+
     let request_user = req.user_id;
-    if (path.length === 1 && /^[0-9]+$/.test(path[0]))
+    if (/^[0-9]+$/.test(path[0]))
         request_user = Number(path[0]);
 
     databaseOracle.getConnection((err, connection) => {
@@ -99,18 +100,17 @@ exports.login_post = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
-            error_object(res, req, path, {
+            error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 6
             });
             return;
         }
-
-        req.body.remember = undefined;
+        delete req.body.remember;
         connection.execute('select id from users where email = :email and password = :password', req.body, (err, result) => {
             if (err) {
                 LOG(err);
-                error_object(res, req, path, {
+                error_object(req, res, path, {
                     msg: 'Something went wrong. Try again.',
                     code: 3
                 });
@@ -118,14 +118,14 @@ exports.login_post = function (req, res, path) {
             }
 
             if (result.rows.length === 0) {
-                error_object(res, req, path, {
+                error_object(req, res, path, {
                     msg: 'Email or password incorrect.', code: 4
                 });
                 return;
             }
 
             let sessionToken = sha256(req.body.email + req.body.password + result.rows[0][0] + Date.now());
-            let cookies = new cookies(req, res);
+            let cookiess = new cookies(req, res);
 
             connection.execute("insert into sessions values(NULL,:id,:token)", {
                 id: result.rows[0][0],
@@ -133,12 +133,12 @@ exports.login_post = function (req, res, path) {
             }, settings.queryOptions, (err, result) => {
                 if (err) {
                     LOG(err.message);
-                    error_object(res, req, path, {msg: 'Something went wrong. Try again.', code: 5});
+                    error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                     return;
                 }
 
-                cookies.set("session_id", sessionToken);
-                error_object(res, req, path, {
+                cookiess.set("session_id", sessionToken);
+                error_object(req, res, path, {
                     msg: 'Your are logged in.',
                     session_id: sessionToken,
                     code: 0

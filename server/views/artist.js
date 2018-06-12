@@ -16,10 +16,8 @@ exports.artist_get = function (req, res, path) {
         }
 
         template_info.name = logic.utils.assignCheck(artist_info.name, settings.default_artist_name);
-        //Intre 0 si 100 relativ la toti artistii
         template_info.popularity = logic.utils.assignCheck(artist_info.popularity, settings.default_artist_popularity);
 
-        //Vine un array de 3 elemente
         template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[0].url, null);
         if (template_info.artist_profile_picture === null)
             template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[1].url, null);
