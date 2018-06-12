@@ -9,6 +9,7 @@ exports.favicon_get = function(req,res,path){
 };
 
 exports.resource_get = function (req, res, path) {
+    path.pop();
     let pathToResource = path.reduce(function (prev, current) {
         return prev + '/' + current;
     }, settings.resourcesPath.slice(0, -1));
@@ -16,7 +17,7 @@ exports.resource_get = function (req, res, path) {
     if (fs.existsSync(pathToResource))
         fs.readFile(pathToResource, function (err, data) {
             if (err) {
-                error_response(request,response,path,500);
+                error_response(request,response,path,404);
                 return;
             }
 
@@ -26,4 +27,5 @@ exports.resource_get = function (req, res, path) {
             res.write(data);
             res.end();
         });
+    else error_response(req,res,path,404);
 };

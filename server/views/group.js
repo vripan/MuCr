@@ -8,11 +8,14 @@ let fs = require('fs');
 let ejs = require('ejs');
 
 exports.group_delete = function (req, res, pat) {
+    //Todo:here
 };
 exports.group_update = function (req, res, pat) {
+    //Todo:here
 };
 exports.group_get = function (req, res, pat) {
+    //Todo:here
 };
 exports.group_create = function (req, res, pat) {
-
+    //Todo:here
 };
