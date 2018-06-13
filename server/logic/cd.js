@@ -13,11 +13,13 @@ exports.check_cd = function (req) {
 
         if (!(utils.checkLength(req.body.artist, 3, 50) &&
             utils.checkLength(req.body.label, 3, 20) &&
+            utils.checkLength(req.body.album, 3, 50) &&
             utils.checkLength(req.body.title, 3, 20) &&
             utils.checkLength(req.body.group_name, 3, 20)))
             return "Name too short";
 
         if (!(utils.isAlfanumeric(req.body.artist) &&
+            utils.isAlfanumeric(req.body.album) &&
             utils.isAlfanumeric(req.body.label) &&
             utils.isAlfanumeric(req.body.title) &&
             utils.isAlfanumeric(req.body.group_name)))
