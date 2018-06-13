@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>LogIn - Music Collector</title>
@@ -8,75 +9,78 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/forms.css">
 </head>
+
 <body>
-<div class="overlay"></div>
-<div class="shadow-overlay"></div>
-<div class="header">
-    <div class="formbox">
-        <div class="logo">
-            <img src="/img/logo.png" alt="Homepage">
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
+    <div class="header">
+        <div class="formbox">
+            <div class="logo">
+                <img src="/img/logo.png" alt="Homepage">
+            </div>
+            <form id='login'>
+                <p>Email Address</p>
+                <input id='email' type="email" name="email" placeholder="Enter Email Address" required>
+                <p>Password</p>
+                <input id='password' type="password" name="password" placeholder="Enter Password" required>
+                <div id="msg" class="message"></div>
+                <input id="submit_button" type="submit" value="Login">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">Remember me</label>
+                <br>
+                <a href="recover.html">Lost your password?</a>
+                <br>
+                <a href="register.html">Don't have an account?</a>
+                <br>
+            </form>
         </div>
-        <form id='login'>
-            <p>Email Address</p>
-            <input id='email' type="email" name="email" placeholder="Enter Email Address" required>
-            <p>Password</p>
-            <input id='password' type="password" name="password" placeholder="Enter Password" required>
-            <div id="msg" class="message"></div>
-            <input id="submit_button" type="submit" value="Login">
-            <input type="checkbox" id="rememberMe" name="rememberMe">
-            <label for="rememberMe">Remember me</label><br>
-            <a href="recover.html">Lost your password?</a><br>
-            <a href="register.html">Don't have an account?</a><br>
-        </form>
     </div>
-</div>
 
-<script>
-    let clear_message_container = function () {
-        let info = document.getElementById("msg");
+    <script>
+        let clear_message_container = function () {
+            let info = document.getElementById("msg");
 
-        if (info.classList.contains("message-error"))
-            info.classList.remove("message-error");
+            if (info.classList.contains("message-error"))
+                info.classList.remove("message-error");
 
-        if (info.classList.contains("message-warning"))
-            info.classList.remove("message-warning");
+            if (info.classList.contains("message-warning"))
+                info.classList.remove("message-warning");
 
-        if (info.classList.contains("message-success"))
-            info.classList.remove("message-success");
+            if (info.classList.contains("message-success"))
+                info.classList.remove("message-success");
 
-        if (!info.classList.contains("message"))
-            info.classList.add("message");
+            if (!info.classList.contains("message"))
+                info.classList.add("message");
 
-        info.innerText = "";
-    };
-    let show_error = function (message) {
-        let info = document.getElementById("msg");
-        clear_message_container();
+            info.innerText = "";
+        };
+        let show_error = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
 
-        info.classList.add("message-error");
-        info.innerHTML = message;
-    };
-    let show_warning = function (message) {
-        let info = document.getElementById("msg");
-        clear_message_container();
+            info.classList.add("message-error");
+            info.innerHTML = message;
+        };
+        let show_warning = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
 
-        info.classList.add("message-warning");
-        info.innerText = message;
-    };
-    let show_succcess = function (message) {
-        let info = document.getElementById("msg");
-        clear_message_container();
+            info.classList.add("message-warning");
+            info.innerText = message;
+        };
+        let show_succcess = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
 
-        info.classList.add("message-success");
-        info.innerText = message;
-    };
+            info.classList.add("message-success");
+            info.innerText = message;
+        };
 
 
-    let ajax_login_listener = function () {
+        let ajax_login_listener = function () {
             switch (this.readyState) {
                 case 0:
                 case 1:
@@ -114,37 +118,38 @@
                     }
             }
         }
-    ;
+            ;
 
-    document.getElementById("login").addEventListener("submit", function (event) {
-        event.preventDefault();
-        let request_object = {};
+        document.getElementById("login").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let request_object = {};
 
-        let email = document.getElementById("email");
-        let passw = document.getElementById("password");
-        let remember = document.getElementById('rememberMe');
+            let email = document.getElementById("email");
+            let passw = document.getElementById("password");
+            let remember = document.getElementById('rememberMe');
 
-        let info = document.getElementById("msg");
+            let info = document.getElementById("msg");
 
-        if (info === undefined) return;
+            if (info === undefined) return;
 
-        if (email === undefined || passw === undefined || remember === undefined) {
-            show_error("Something went wrong. Reload the page.");
-            return;
-        }
+            if (email === undefined || passw === undefined || remember === undefined) {
+                show_error("Something went wrong. Reload the page.");
+                return;
+            }
 
-        request_object.email = email.value;
-        request_object.password = passw.value;
-        request_object.remember = remember.checked;
+            request_object.email = email.value;
+            request_object.password = passw.value;
+            request_object.remember = remember.checked;
 
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = ajax_login_listener;
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = ajax_login_listener;
 
-        xhttp.open("POST", "/user", true);
-        xhttp.setRequestHeader("Content-type", "application/json");
-        console.log(JSON.stringify(request_object));
-        xhttp.send(JSON.stringify(request_object));
-    });
-</script>
+            xhttp.open("POST", "/user", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            console.log(JSON.stringify(request_object));
+            xhttp.send(JSON.stringify(request_object));
+        });
+    </script>
 </body>
+
 </html>

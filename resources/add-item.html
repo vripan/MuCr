@@ -1,5 +1,6 @@
 <html>
-    <head>
+
+<head>
   <meta charset="utf-8">
   <title>Add new item</title>
   <!-- favicon
@@ -13,21 +14,480 @@
     ================================================== -->
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/new.css">
-
+  <link rel="stylesheet" href="/css/add-item.css">
   <!-- script
     ================================================== -->
   <script src="/js/pace.min.js"></script>
-
   <!-- icons
     ================================================== -->
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    <body>
-        <select>
-            <option value="vinyl">Vinyl</option>
-            <option value="cd">CD</option>
-            <option value="caseta">Cassette</option>
-            <option value="bilet">Ticket</option>
-          </select> 
-    </body>
+</head>
+
+<body id="top">
+  <div class="overlay"></div>
+  <!-- header
+      ================================================== -->
+  <header class="s-header">
+
+    <div class="header-logo">
+      <a href="#">
+        <img src="/img/logo.png" alt="Homepage">
+      </a>
+    </div>
+
+    <nav class="header-nav">
+
+      <a href="#0" class="header-nav__close" title="close">
+        <span>Close</span>
+      </a>
+
+      <div class="header-nav__content">
+        <h3>Navigation</h3>
+
+        <ul class="header-nav__list">
+          <li>
+            <a class="smoothscroll" href="index.html" title="home">Home</a>
+          </li>
+          <li>
+            <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+          </li>
+          <li class="current">
+            <a class="smoothscroll" href="#services" title="services">My Profile</a>
+          </li>
+          <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+          <li>
+            <a class="smoothscroll" href="#clients" title="clients"></a>
+          </li>
+          <li id="last">
+            <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+          </li>
+        </ul>
+
+        <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza during
+          2017-2018. All rights reserved.
+        </p>
+
+      </div>
+      <!-- end header-nav__content -->
+
+    </nav>
+    <!-- end header-nav -->
+
+    <a class="header-menu-toggle" href="#0">
+      <span class="header-menu-text">Menu</span>
+      <span class="header-menu-icon"></span>
+    </a>
+
+  </header>
+  <!-- end s-header -->
+
+  <div class="select center-on-page" id="slct-container">
+    <select id="slct">
+      <option>Choose the item type, first!</option>
+      <option value="1">I would like to add a new Vinyl to my collection</option>
+      <option value="2">I've just purchased a new CD</option>
+      <option value="3">I found a new cassette while thrifting! Yay!</option>
+      <option value="4">I bought a new ticket!</option>
+    </select>
+  </div>
+
+  <!-- multistep form -->
+  <form class="formula" id="form1">
+    <!-- progress -->
+    <ul id="progress">
+      <li class="active">Album Details</li>
+      <li>Vinyl Proprieties</li>
+      <li>Personal Details</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset>
+      <h2 class="title">Add the Record Details</h2>
+      <h3 class="subtitle">First things first</h3>
+      <input type="text" id="v-artist" placeholder="Artist" />
+      <input type="text" id="v-title" placeholder="Album Title" />
+      <input type="text" id="v-label" placeholder="Label" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Add the Vinyl Proprieties</h2>
+      <h3 class="subtitle">This way, everyone will know what kind of disk you own</h3>
+      <div class="genre-input">
+        <select id="v-rpm">
+          <option value="#">What's the RPM?</option>
+          <option value="33">33 RPM</option>
+          <option value="45">45 RPM</option>
+          <option value="78">78 RPM</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-channel">
+          <option value="#">Is it stereo or mono?</option>
+          <option value="1">Stereo</option>
+          <option value="0">Mono</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-weight">
+          <option value="#">Do you know the weight?</option>
+          <option value="120">120g</option>
+          <option value="180">180g</option>
+          <option value="200">200g</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-genre">
+          <option value="#">Genre</option>
+          <option value="1">Alternative</option>
+          <option value="2">Anime</option>
+          <option value="3">Blues</option>
+          <option value="4">Children’s Music</option>
+          <option value="5">Classical</option>
+          <option value="6">Comedy</option>
+          <option value="7">Commercial</option>
+          <option value="8">Country</option>
+          <option value="9">Dance</option>
+          <option value="10">Disney</option>
+          <option value="11">Easy Listening</option>
+          <option value="12">Electronic</option>
+          <option value="13">Enka</option>
+          <option value="14">French Pop</option>
+          <option value="15">German Folk</option>
+          <option value="16">German Pop</option>
+          <option value="17">Fitness & Workout</option>
+          <option value="18">Hip-Hop/Rap</option>
+          <option value="19">Holiday</option>
+          <option value="20">Indie Pop</option>
+          <option value="21">Industrial</option>
+          <option value="22">Inspirational</option>
+          <option value="23">Instrumental</option>
+          <option value="24">J-Pop</option>
+          <option value="25">Jazz</option>
+          <option value="26">K-Pop</option>
+          <option value="27">Karaoke</option>
+          <option value="28">Kayokyoku</option>
+          <option value="29">Latin</option>
+          <option value="30">New Age</option>
+          <option value="31">Opera</option>
+          <option value="32">Pop</option>
+          <option value="33">R&B/Soul</option>
+          <option value="34">Reggae</option>
+          <option value="35">Rock</option>
+          <option value="36">Singer/Songwriter</option>
+          <option value="37">Soundtrack</option>
+          <option value="38">Spoken Word</option>
+          <option value="39">Tejano</option>
+          <option value="40">Vocal</option>
+        </select>
+      </div>
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Condition</h2>
+      <h3 class="subtitle">Let's establish the disk market value!</h3>
+      <div class="genre-input">
+        <select id="v-state">
+          <option value="#">Rate the vinyl state</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-condition">
+          <option value="#">Disk condition</option>
+          <option value="1">New</option>
+          <option value="0">Used</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-special">
+          <option value="#">Are we talking about a special edition?</option>
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="v-color">
+          <option value="#">Disk color</option>
+          <option value="1">Default/Black</option>
+          <option value="2">Red</option>
+          <option value="3">Green</option>
+          <option value="4">Blue</option>
+          <option value="5">Yellow</option>
+          <option value="6">Pink</option>
+          <option value="7">Multicolor</option>
+        </select>
+      </div>
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="submit" id="submit1" class="submit action-button" value="Submit" />
+    </fieldset>
+  </form>
+  <form class="formula" id="form2" action="/asd">
+    <!-- progress -->
+    <ul id="progress">
+      <li class="active">Artist details</li>
+      <li>Album Title</li>
+      <li>Duration</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset>
+      <h2 class="title">Artist related details</h2>
+      <h3 class="subtitle">Tell us something about the artist</h3>
+      <input type="text" id="cd-artist" placeholder="Artist" />
+      <input type="text" id="cd-label" placeholder="Label that signed the artist" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Album Details</h2>
+      <h3 class="subtitle">Now tell us something about the album</h3>
+      <input type="text" id="cd-title" placeholder="Album Title" />
+      <div class="genre-input">
+        <select id="cd-genre">
+          <option value="#">Genre?</option>
+          <option value="1">Alternative</option>
+          <option value="2">Anime</option>
+          <option value="3">Blues</option>
+          <option value="4">Children’s Music</option>
+          <option value="5">Classical</option>
+          <option value="6">Comedy</option>
+          <option value="7">Commercial</option>
+          <option value="8">Country</option>
+          <option value="9">Dance</option>
+          <option value="10">Disney</option>
+          <option value="11">Easy Listening</option>
+          <option value="12">Electronic</option>
+          <option value="13">Enka</option>
+          <option value="14">French Pop</option>
+          <option value="15">German Folk</option>
+          <option value="16">German Pop</option>
+          <option value="17">Fitness & Workout</option>
+          <option value="18">Hip-Hop/Rap</option>
+          <option value="19">Holiday</option>
+          <option value="20">Indie Pop</option>
+          <option value="21">Industrial</option>
+          <option value="22">Inspirational</option>
+          <option value="23">Instrumental</option>
+          <option value="24">J-Pop</option>
+          <option value="25">Jazz</option>
+          <option value="26">K-Pop</option>
+          <option value="27">Karaoke</option>
+          <option value="28">Kayokyoku</option>
+          <option value="29">Latin</option>
+          <option value="30">New Age</option>
+          <option value="31">Opera</option>
+          <option value="32">Pop</option>
+          <option value="33">R&B/Soul</option>
+          <option value="34">Reggae</option>
+          <option value="35">Rock</option>
+          <option value="36">Singer/Songwriter</option>
+          <option value="37">Soundtrack</option>
+          <option value="38">Spoken Word</option>
+          <option value="39">Tejano</option>
+          <option value="40">Vocal</option>
+        </select>
+      </div>
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Duration</h2>
+      <h3 class="subtitle">Can you aproximate the duration of this album?</h3>
+      <input type="text" id="cd-duration" placeholder="Duration" />
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="submit" id="submit2" class="submit action-button" value="Submit" />
+    </fieldset>
+  </form>
+  <form class="formula" id="form3" action="/asd">
+    <!-- progress -->
+    <ul id="progress">
+      <li class="active">General details</li>
+      <li>Cassette details</li>
+      <li>Condition</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset>
+      <h2 class="title">General details</h2>
+      <h3 class="subtitle">Fill in the blanks for us</h3>
+      <input type="text" id="cs-artist" placeholder="Artist" />
+      <input type="text" id="cs-title" placeholder="Title" />
+      <input type="text" id="cs-label" placeholder="Label" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Cassette Details</h2>
+      <h3 class="subtitle">Hit us with some details about your item</h3>
+      <input type="text" id="cs-duration" placeholder="Duration" />
+      <div class="genre-input">
+        <select id="cs-channel">
+          <option value="#">Is it stereo or mono?</option>
+          <option value="1">Stereo</option>
+          <option value="0">Mono</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="cs-genre">
+          <option value="#">Genre?</option>
+          <option value="1">Alternative</option>
+          <option value="2">Anime</option>
+          <option value="3">Blues</option>
+          <option value="4">Children’s Music</option>
+          <option value="5">Classical</option>
+          <option value="6">Comedy</option>
+          <option value="7">Commercial</option>
+          <option value="8">Country</option>
+          <option value="9">Dance</option>
+          <option value="10">Disney</option>
+          <option value="11">Easy Listening</option>
+          <option value="12">Electronic</option>
+          <option value="13">Enka</option>
+          <option value="14">French Pop</option>
+          <option value="15">German Folk</option>
+          <option value="16">German Pop</option>
+          <option value="17">Fitness & Workout</option>
+          <option value="18">Hip-Hop/Rap</option>
+          <option value="19">Holiday</option>
+          <option value="20">Indie Pop</option>
+          <option value="21">Industrial</option>
+          <option value="22">Inspirational</option>
+          <option value="23">Instrumental</option>
+          <option value="24">J-Pop</option>
+          <option value="25">Jazz</option>
+          <option value="26">K-Pop</option>
+          <option value="27">Karaoke</option>
+          <option value="28">Kayokyoku</option>
+          <option value="29">Latin</option>
+          <option value="30">New Age</option>
+          <option value="31">Opera</option>
+          <option value="32">Pop</option>
+          <option value="33">R&B/Soul</option>
+          <option value="34">Reggae</option>
+          <option value="35">Rock</option>
+          <option value="36">Singer/Songwriter</option>
+          <option value="37">Soundtrack</option>
+          <option value="38">Spoken Word</option>
+          <option value="39">Tejano</option>
+          <option value="40">Vocal</option>
+        </select>
+      </div>
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Condition</h2>
+      <h3 class="subtitle">How old is your item??</h3>
+      <div class="genre-input">
+        <select id="cs-state">
+          <option value="#">Current state</option>
+          <option value="1">New</option>
+          <option value="0">Used</option>
+        </select>
+      </div>
+      <div class="genre-input">
+        <select id="cs-type">
+          <option value="#">Cassette type?</option>
+          <option value="1">For a classic cassette player</option>
+          <option value="0">For tape recorder</option>
+        </select>
+      </div>
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="submit" id="submit3" class="submit action-button" value="Submit" />
+    </fieldset>
+  </form>
+  <form class="formula" id="form4" action="/asd">
+    <!-- progress -->
+    <ul id="progress">
+      <li class="active">Artist details</li>
+      <li>Date & Time</li>
+      <li>Pricing</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset>
+      <h2 class="title">Artist related details</h2>
+      <h3 class="subtitle">What's the artist/band performing?</h3>
+      <input type="text" id="ticket-artist" placeholder="Artist" />
+      <input type="text" id="ticket-tour" placeholder="Tournament/Festival Name" />
+      <div class="genre-input">
+        <select id="ticket-genre">
+          <option value="#">Genre?</option>
+          <option value="1">Alternative</option>
+          <option value="2">Anime</option>
+          <option value="3">Blues</option>
+          <option value="4">Children’s Music</option>
+          <option value="5">Classical</option>
+          <option value="6">Comedy</option>
+          <option value="7">Commercial</option>
+          <option value="8">Country</option>
+          <option value="9">Dance</option>
+          <option value="10">Disney</option>
+          <option value="11">Easy Listening</option>
+          <option value="12">Electronic</option>
+          <option value="13">Enka</option>
+          <option value="14">French Pop</option>
+          <option value="15">German Folk</option>
+          <option value="16">German Pop</option>
+          <option value="17">Fitness & Workout</option>
+          <option value="18">Hip-Hop/Rap</option>
+          <option value="19">Holiday</option>
+          <option value="20">Indie Pop</option>
+          <option value="21">Industrial</option>
+          <option value="22">Inspirational</option>
+          <option value="23">Instrumental</option>
+          <option value="24">J-Pop</option>
+          <option value="25">Jazz</option>
+          <option value="26">K-Pop</option>
+          <option value="27">Karaoke</option>
+          <option value="28">Kayokyoku</option>
+          <option value="29">Latin</option>
+          <option value="30">New Age</option>
+          <option value="31">Opera</option>
+          <option value="32">Pop</option>
+          <option value="33">R&B/Soul</option>
+          <option value="34">Reggae</option>
+          <option value="35">Rock</option>
+          <option value="36">Singer/Songwriter</option>
+          <option value="37">Soundtrack</option>
+          <option value="38">Spoken Word</option>
+          <option value="39">Tejano</option>
+          <option value="40">Vocal</option>
+        </select>
+      </div>
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Date & Time</h2>
+      <h3 class="subtitle">Keep your memories in one place</h3>
+      <input type="text" id="ticket-location" placeholder="Where?" />
+      <input type="text" id="ticket-date" placeholder="When? (YYYY-MM-DD HH:MM)" />
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+    <fieldset>
+      <h2 class="title">Princing</h2>
+      <h3 class="subtitle">Keep track of your finances!</h3>
+      <input type="text" id="ticket-price" placeholder="How much did you pay?" />
+      <input type="button" name="previous" class="previous action-button" value="Previous" />
+      <input type="submit" id="submit4" class="submit action-button" value="Submit" />
+    </fieldset>
+  </form>
+  <div id="msg" class="message"></div>
+  <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+
+
+  <script src="/js/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/add-new.js"></script>
+  <script src="/js/steps.js"></script>
+</body>
+
 </html>

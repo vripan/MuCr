@@ -1,0 +1,291 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+ margin: 0;
+ padding: 0;
+ background-image: url("../img/background11.jpg");
+ background-repeat: no-repeat;
+ background-position: center;
+ background-size: cover;
+ font-family: sans-serif;
+}
+
+body .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100% !important;
+  opacity: .6;
+  background-color: #000000;
+  z-index: 0;
+}
+
+.center-on-page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+h1 {
+  text-align: center;
+}
+/* Reset Select */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #39b54a;
+  background-image: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: block;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  background: #39b54a;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 0 .5em;
+  color: #fff;
+  cursor: pointer;
+}
+select::-ms-expand {
+  display: none;
+}
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1em;
+  background: #fff;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #39b54a;
+}
+.select::after {
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+.header{
+  display: none;
+}
+
+.logo{
+  margin-bottom:14px;
+  margin-left: 4.2rem;
+  
+}
+
+.logo h3{
+  color: #39b54a;
+  margin: 0;
+}
+
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+/*form styles*/
+.formula {
+width: 400px;
+margin: 6em auto;
+text-align: center;
+position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+}
+.formula fieldset {
+background: white;
+border: 0 none;
+border-radius: 3px;
+box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+padding: 20px 30px;
+box-sizing: border-box;
+width: 80%;
+margin: 0 10%;
+
+/*stacking fieldsets above each other*/
+position: relative;
+}
+/*Hide all except first fieldset*/
+.formula fieldset:not(:first-of-type) {
+display: none;
+}
+/*inputs*/
+.formula input, .formula .genre-input {
+padding: 15px;
+border: 1px solid #ccc;
+border-radius: 3px;
+margin-bottom: 10px;
+width: 100%;
+box-sizing: border-box;
+font-family: montserrat;
+color: #2C3E50;
+font-size: 13px;
+}
+/*buttons*/
+.formula .action-button {
+width: 100px;
+background: #39b54a;
+font-weight: bold;
+color: white;
+border: 0 none;
+border-radius: 1px;
+cursor: pointer;
+padding: 10px 5px;
+margin: 10px 5px;
+}
+.formula .action-button:hover, .formula .action-button:focus {
+box-shadow: 0 0 0 2px white, 0 0 0 3px #39b54a;
+}
+/*headings*/
+.title {
+font-size: 15px;
+text-transform: uppercase;
+color: #2C3E50;
+margin-bottom: 10px;
+}
+.subtitle {
+font-weight: normal;
+font-size: 13px;
+color: #666;
+margin-bottom: 20px;
+}
+/*progress*/
+#progress {
+margin-bottom: 30px;
+overflow: hidden;
+/*CSS counters to number the steps*/
+counter-reset: step;
+}
+#progress li {
+list-style-type: none;
+color: white;
+text-transform: uppercase;
+font-size: 9px;
+width: 33.33%;
+float: left;
+position: relative;
+}
+#progress li:before {
+content: counter(step);
+counter-increment: step;
+width: 20px;
+line-height: 20px;
+display: block;
+font-size: 10px;
+color: #333;
+background: white;
+border-radius: 3px;
+margin: 0 auto 5px auto;
+}
+/*progress connectors*/
+#progress li:after {
+content: '';
+width: 100%;
+height: 2px;
+background: white;
+position: absolute;
+left: -50%;
+top: 9px;
+z-index: -1; /*put it behind the numbers*/
+}
+#progress li:first-child:after {
+/*connector not needed before the first step*/
+content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progress li.active:before,  #progress li.active:after{
+background: #39b54a;
+color: white;
+}
+
+.formula{
+display: none;
+z-index: 1;
+}
+.formula h1, h2, h3{
+margin: 0;
+}
+.genre-input select
+{
+font-family: montserrat;
+color: grey;
+font-size: 13px;
+background: transparent;
+padding: 0;
+margin: 0;
+appearance: none;
+outline: 0;
+}
+.message {
+  display: none;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px 0 10px 0;
+  border-radius: 1px;
+}
+
+.message-warning::before {
+  padding-right: 5px;
+  font-family: 'FontAwesome', serif;
+  content: "\f06a";
+}
+
+.message-warning {
+  display: block;
+  color: #FFFFFF;
+  background-color: rgba(255, 152, 0, 0.9)
+}
+
+.message-error::before {
+  padding-right: 5px;
+  font-family: 'FontAwesome', serif;
+  content: "\f00d";
+}
+
+.message-error {
+  display: block;
+  color: #FFFFFF;
+  background-color: rgba(244, 67, 54, 0.9);
+}
+
+.message-success::before {
+  padding-right: 5px;
+  font-family: 'FontAwesome', serif;
+  content: "\f00c";
+}
+
+.message-success {
+  display: block;
+  color: #FFFFFF;
+  background-color: rgba(76, 175, 80, 0.9);
+}
