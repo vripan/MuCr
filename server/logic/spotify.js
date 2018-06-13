@@ -35,7 +35,7 @@ exports.get_artist = function (artist_id, callback) {
 };
 
 exports.get_albums_by_artist = function (artist_id, callback) {
-    ajax.get(settings.spotify_base_url + "artists/" + artist_id + "/albums?include_groups=album&limit=50&market=RO", {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
+    ajax.get(settings.spotify_base_url + "artists/" + artist_id + "/albums?limit=50&market=RO", {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
         let albums_info = null;
 
         if (response.statusCode !== 200) {
