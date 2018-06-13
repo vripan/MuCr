@@ -59,13 +59,26 @@ let create = function(req,res,path)
     }
 };
 
+let search = function(req,res,path)
+{
+    switch (req.method) {
+        case 'GET':
+            views.staticRes.search_get(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
+
 let URLMap = {
     '': landing,
     'index': landing,
     'register': register,
     'login': login,
     'documentation': documentation,
-    'create': create
+    'create': create,
+    'search':search
 };
 
 exports.requestListener = function (request, response, path) {

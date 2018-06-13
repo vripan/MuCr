@@ -10,9 +10,12 @@ let artist = require('./artist');
 let album = require('./album');
 let group = require('./group');
 let ticket = require('./ticket');
-let cd =require('./cd');
+let cd = require('./cd');
+let cassette = require('./cassete');
 
 let URLMap = {
+    'search': sss,
+
     '': staticRes.landing,
     'index': staticRes.landing,
     'static': staticRes.requestListener,
@@ -23,6 +26,7 @@ let URLMap = {
     'artist': artist.requestListener,
     'group': group.requestListener,
     'cd': cd.requestListener,
+    'cassette': cassette.requestListener,
 
     'ticket': ticket.requestListener,
 
