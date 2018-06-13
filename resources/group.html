@@ -8,6 +8,8 @@
 Group <%= name %><br>
 Owner <a href="/user/<%=owner.id%>"><%= owner.firstname %> <%= owner.lastname %></a><br>
 
+is member: <%=isMember%>
+is owner <%=isOwner%>
 
 Members:
 <% members.forEach((member) => { %>

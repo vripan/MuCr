@@ -82,8 +82,14 @@ exports.cassette_group_get = function (req, res, path) {
 };
 
 exports.cassette_all_get = function (req, res, path) {
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    let request_user_cassette = undefined;
+    if (/^[0-9]+$/.test(path[1]))
+        request_user_cassette = Number(path[1]);
+
+    if (request_user_cassette === undefined) {
+        message_page(req, res, path, "Invalid user ID");
         return;
     }
 
@@ -94,47 +100,66 @@ exports.cassette_all_get = function (req, res, path) {
             return;
         }
 
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'user\' and owner_id = :id', [req.user_id], (err, result) => {
+        connection.execute('select * from cassetes where owner_id = :id', [request_user_cassette], (err, result) => {
             if (err) {
                 LOG(err.message);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
 
-
-            let info = {tickets: []};
+            let cassettes_data = {cassettes: []};
 
             for (let idx = 0; idx < result.rows.length; idx++) {
-                let ticket = {};
+                let cassette = {};
+                cassette.page = "/cassette/" + result.rows[idx][0];
+                cassette.artist = result.rows[idx][1];
+                cassette.artist_link = logic.spotify.get_artist_search_link(result.rows[idx][1]);
+                cassette.duration = result.rows[idx][2];
+                cassette.title = result.rows[idx][3];
+                cassette.album_link = logic.spotify.get_album_search_link(result.rows[idx][3]);
+                cassette.state = STATE[result.rows[idx][4]];
+                cassette.channel = CHANNEL[result.rows[idx][5]];
+                cassette.type = CASSETTE_TYPE[result.rows[idx][6]];
+                cassette.label = result.rows[idx][7];
+                cassette.genre = GENRE[result.rows[idx][8]];
+                cassette.owner_link = "/user/" + result.rows[idx][9];
 
-                ticket.page = "/ticket/" + result.rows[idx][0];
-                ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
-
-                delete ticket.owner_type;
-                delete ticket.owner_id;
-
-                let d = new Date(ticket.start_date);
-                ticket.start_date = d.toUTCString();
-
-                info.tickets.push(ticket);
+                cassettes_data.cassettes.push(cassette);
             }
 
+            connection.execute('select * from users where id = :id', [request_user_cassette], (err, result) => {
+                if (err) {
+                    LOG(err.message);
+                    message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
 
-            LOG(JSON.stringify(info));
+                cassettes_data.user = {};
 
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
+
+                cassettes_data.user.picture = result.rows[0][7];
+                if (cassettes_data.user.picture === null)
+                    cassettes_data.user.picture = settings.default_profile_pic;
+
+                cassettes_data.user.firstname = result.rows[0][1];
+                cassettes_data.user.lastname = result.rows[0][2];
+
+
+                cassettes_data.user.description = result.rows[0][6];
+                if (cassettes_data.user.description === null)
+                    cassettes_data.user.description = settings.default_description;
+
+
+                DEBUG(JSON.stringify(cassettes_data));
+
+                fs.readFile(settings.templatesPath + 'cassettes.html', 'utf8', function (err, data) {
+                    res.writeHead(404, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, cassettes_data);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
             });
-            logic.utils.realeaseConnection(connection);
-
         });
     });
 };
@@ -171,7 +196,7 @@ exports.cassette_get = function (req, res, path) {
             }
 
             let cassette = {};
-            cassette.page = "/cd/" + result.rows[0][0];
+            cassette.page = "/cassette/" + result.rows[0][0];
             cassette.artist = result.rows[0][1];
             cassette.artist_link = logic.spotify.get_artist_search_link(result.rows[0][1]);
             cassette.duration = result.rows[0][2];

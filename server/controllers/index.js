@@ -13,6 +13,7 @@ let ticket = require('./ticket');
 let cd = require('./cd');
 let cassette = require('./cassete');
 let vinyl = require('./vinyl');
+let search =  require('./search');
 
 let URLMap = {
     '': staticRes.landing,
@@ -30,6 +31,8 @@ let URLMap = {
     'ticket': ticket.requestListener,
     'vinyl':vinyl.requestListener,
 
+    'search':search.requestListener,
+
     'js': resource.resource,
     'css': resource.resource,
     'img': resource.resource,
@@ -38,6 +41,17 @@ let URLMap = {
 };
 
 exports.requestListener = function (request, response) {
+    response.___end = response.end;
+    response.___req ={};
+    response.___req.method = request.method;
+    response.___req.url = url.parse(request.url, true).pathname;
+    response.end = function()
+    {
+        LOG("> " +this.___req.method +" "+this.___req.url+" " +this.statusCode+ " " + this.statusMessage);
+        this.___end();
+    };
+
+
     let URL = url.parse(request.url, true);
     let path = URL.pathname.split('/');
 
@@ -52,5 +66,5 @@ exports.requestListener = function (request, response) {
         response.end();
     }
 
-    LOG(request.method + ' ' + URL.pathname);
+    LOG("< " + request.method + ' ' + URL.pathname);
 };

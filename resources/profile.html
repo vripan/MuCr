@@ -7,7 +7,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>My profile</title>
+    <title>User profile</title>
 
     <!-- mobile specific metas
     ================================================== -->
@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="/css/base.css">
     <link rel="stylesheet" type="text/css" href="/css/new.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/groups.css">
 
 
     <!-- script
@@ -36,14 +37,14 @@
 
 </head>
 
-<body id="top">
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
 
     <!-- header
     ================================================== -->
     <header class="s-header">
 
         <div class="header-logo">
-            <a href="#">
+            <a href="/user">
                 <img src="/img/logo.png" alt="Homepage">
             </a>
         </div>
@@ -53,6 +54,25 @@
             <a href="#0" class="header-nav__close" title="close">
                 <span>Close</span>
             </a>
+
+            <div class="header-nav__content">
+                <h3>Search</h3>
+                <form id="search_from" class="search_el">
+                    <input id="search_text" class="search_el" style="width:98%;" type="text">
+                    <select id="search_type"  class="search_el"  style="width:100%;">
+                        <option value="artist">Artists</option>
+                        <option value="album">Albums</option>
+                        <option value="user">Users</option>
+                        <option value="group">Groups</option>
+                        <option value="ticket">Tickets</option>
+                        <option value="vinyl">Vinyl</option>
+                        <option value="cd">CDs</option>
+                        <option value="cassette">Cassettes</option>
+                    </select>
+                    <input id="search_submit" class="search_el" type="submit" style="width:100%;" value="Search">
+                </form>
+            </div>
+
 
             <div class="header-nav__content">
                 <h3>Navigation</h3>
@@ -98,15 +118,18 @@
         <div class="container">
             <div class="home_title_wrap">
                 <div class="inner">
-                    <div class="profile-picture">
-                        <img src="/img/user.png" alt="">
-                    </div>
-                    <div class="info">
-                        <h3> Jane Doe</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quasi accusantium illo inventore
-                            tempora voluptates fugiat repudiandae cupiditate iste nemo mollitia, veniam neque velit! Dolor
-                            provident architecto commodi modi eveniet?</p>
-                    </div>
+                        <div class="profile-picture">
+                                <img src="<%=profile_pic%>" alt="">
+                            </div>
+                            <div class="info">
+                                <h3>
+                                    <%=firstname%>
+                                        <%=lastname%>
+                                </h3>
+                                <p>
+                                    <%=description%>
+                                </p>
+                            </div>
                 </div>
             </div>
         </div>
@@ -117,12 +140,12 @@
                         <li>
                             <div class="list_inner">
                                 <div class="image_wrap">
-                                    <img src="img/vinyl.jpg" alt="" />
+                                    <img src="/img/vinyl.jpg" alt="" />
                                 </div>
                                 <div class="image_overlay"></div>
                                 <div class="image_definition">
                                     <div class="title">
-                                        <a href="#">Check out my Vinyl Collection!</a>
+                                        <a href="/vinyl/all/<%=current_user_id%>">Check out my Vinyl Collection!</a>
                                     </div>
                                 </div>
                             </div>
@@ -130,12 +153,12 @@
                         <li>
                             <div class="list_inner">
                                 <div class="image_wrap">
-                                    <img src="img/cd.jpg" alt="" />
+                                    <img src="/img/cd.jpg" alt="" />
                                 </div>
                                 <div class="image_overlay"></div>
                                 <div class="image_definition">
                                     <div class="title">
-                                        <a href="#">Here are some CDs that I bought</a>
+                                        <a href="/cd/all/<%=current_user_id%>">Here are some CDs that I bought</a>
                                     </div>
                                 </div>
                             </div>
@@ -143,12 +166,12 @@
                         <li>
                             <div class="list_inner">
                                 <div class="image_wrap">
-                                    <img src="img/caseta.jpg" alt="" />
+                                    <img src="/img/caseta.jpg" alt="" />
                                 </div>
                                 <div class="image_overlay"></div>
                                 <div class="image_definition">
                                     <div class="title">
-                                        <a href="#">Wanna see my oldies?</a>
+                                        <a href="/cassette/all/<%=current_user_id%>">Wanna see my oldies?</a>
                                     </div>
                                 </div>
                             </div>
@@ -156,12 +179,12 @@
                         <li>
                             <div class="list_inner">
                                 <div class="image_wrap">
-                                    <img src="img/bilet.jpg" alt="" />
+                                    <img src="/img/bilet.jpg" alt="" />
                                 </div>
                                 <div class="image_overlay"></div>
                                 <div class="image_definition">
                                     <div class="title">
-                                        <a href="#">Some shows I've been to</a>
+                                        <a href="/ticket/all/<%=current_user_id%>">Some shows I've been to</a>
                                     </div>
                                 </div>
                             </div>
@@ -169,17 +192,58 @@
                         <li>
                             <div class="list_inner">
                                 <div class="image_wrap">
-                                    <img src="img/vinyl.jpg" alt="" />
+                                    <img src="/img/add.jpg" alt="" />
                                 </div>
                                 <div class="image_overlay"></div>
                                 <div class="image_definition">
                                     <div class="title">
-                                        <a href="#">Add a new item to the Collection</a>
+                                        <a href="/static/create">Add a new item to the Collection</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="list_inner">
+                                <div class="image_wrap">
+                                    <img src="/img/add_group.jpg" alt="" />
+                                </div>
+                                <div class="image_overlay"></div>
+                                <div class="image_definition">
+                                    <div class="title">
+                                        <a href="/static/create">Create a group</a>
                                     </div>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div id="groups">
+                    <h1>Groups that I own</h1>
+                    <div id="group_owner">
+                        <ul>
+                            <% groups_owner.forEach((group) => { %>
+                            <li>
+                                <a href="<%=group.link%>"><%=group.name%></a>
+                            </li>
+                            <%});%>
+                            <% if(groups_owner.length === 0) {%>
+                                <h2>None</h2>
+                            <%}%>
+                        </ul>
+                    </div>
+                    <h1>Groups I joined</h1>
+                    <div id="group_member">
+                        <ul>
+                            <% groups_member.forEach((group) => { %>
+                            <li>
+                                <a href="<%=group.link%>"><%=group.name%></a>
+                            </li>
+                            <%});%>
+                            <% if(groups_owner.length === 0) {%>
+                            <h2>None</h2>
+                            <%}%>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -189,7 +253,8 @@
     ============================================================== -->
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/modal.js"></script>
+    <script src="/js/search.js"></script>
+
 </body>
 
 </html>

@@ -26,10 +26,21 @@ let user_action = function (req, res, path) {
     }
 };
 
+let logout_action = function (req, res, path) {
+    switch (req.method) {
+        case 'GET':
+            views.user.logout(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
 
 let URLMap = {
     '^[0-9]+$': user_action,
     '': user_action,
+    'logout': logout_action
 };
 
 exports.requestListener = function (request, response, path) {
