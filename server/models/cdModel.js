@@ -1,7 +1,6 @@
 module.exports = {
     title: "string",
     artist: "string",
-    album: "string",
     duration: "number",
     label: "string",
     genre_id: "number",

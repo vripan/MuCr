@@ -72,17 +72,3 @@ exports.create_get = function (req,res,path) {
         res.end();
     });
 };
-
-exports.search_get = function (req,res,path) {
-    fs.readFile(settings.templatesPath + 'search.html', function (err, data) {
-        if (err) {
-            LOG(err.message);
-            error_page(request,response,path,500);
-            return;
-        }
-
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
-        res.end();
-    });
-};
