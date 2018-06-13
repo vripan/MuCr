@@ -40,17 +40,21 @@ let URLMap = {
     'resource': resource.requestListener
 };
 
-exports.requestListener = function (request, response) {
+let create_response_logger = function(request, response)
+{
     response.___end = response.end;
     response.___req ={};
     response.___req.method = request.method;
     response.___req.url = url.parse(request.url, true).pathname;
     response.end = function()
     {
-        LOG("> " +this.___req.method +" "+this.___req.url+" " +this.statusCode+ " " + this.statusMessage);
+        LOG(">> " +this.___req.method +" "+this.___req.url+" " +this.statusCode+ " " + this.statusMessage);
         this.___end();
     };
+};
 
+exports.requestListener = function (request, response) {
+    create_response_logger(request, response);
 
     let URL = url.parse(request.url, true);
     let path = URL.pathname.split('/');

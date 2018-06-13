@@ -27,6 +27,7 @@ let search_user = function (req, res, path, query) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Try again");
             return;
         }
@@ -34,6 +35,7 @@ let search_user = function (req, res, path, query) {
         connection.execute('select * from users where UPPER(firstname) like :q or UPPER(lastname) like :q', {"q": q}, (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
@@ -66,6 +68,7 @@ let search_group = function (req, res, path, query) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Try again");
             return;
         }
@@ -73,6 +76,7 @@ let search_group = function (req, res, path, query) {
         connection.execute('select * from groups where UPPER(name) like :q', {"q": q}, (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }

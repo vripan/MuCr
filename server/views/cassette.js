@@ -14,69 +14,78 @@ exports.cassette_update = function (req, res, path) {
 };
 
 exports.cassette_group_get = function (req, res, path) {
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
-        return;
-    }
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-
-    let request_group_ticket = undefined;
-    if (/^[0-9]+$/.test(path[1]))
-        request_group_ticket = Number(path[1]);
-
-    if (request_group_ticket === undefined) {
-        message_page(req, res, path, "Invalid group ID");
-        return;
-    }
+    let request_group_cassette = logic.utils.get_id_from_path(path, 1, req, res);
+    if (request_group_cassette === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
 
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'group\' and owner_id = :id', [request_group_ticket], (err, result) => {
+
+        connection.execute('select * from users join belongs on users.id =belongs.member_id join cassetes item on item.owner_id=users.id  where belongs.group_id = :id', [request_group_cassette], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
 
-
-            let info = {tickets: []};
+            LOG(result);
+            let item_data = {cassettes: []};
 
             for (let idx = 0; idx < result.rows.length; idx++) {
-                let ticket = {};
+                let cassette = {};
+                cassette.page = "/cassette/" + result.rows[idx][12];
+                cassette.artist = result.rows[idx][13];
+                cassette.artist_link = logic.spotify.get_artist_search_link(result.rows[idx][13]);
+                cassette.duration = result.rows[idx][14];
+                cassette.title = result.rows[idx][15];
+                cassette.album_link = logic.spotify.get_album_search_link(result.rows[idx][15]);
+                cassette.state = STATE[result.rows[idx][16]];
+                cassette.channel = CHANNEL[result.rows[idx][17]];
+                cassette.type = CASSETTE_TYPE[result.rows[idx][18]];
+                cassette.label = result.rows[idx][19];
+                cassette.genre = GENRE[result.rows[idx][20]];
+                cassette.owner_link = "/user/" + result.rows[idx][21];
 
-                ticket.page = "/ticket/" + result.rows[idx][0];
-                ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
-
-                delete ticket.owner_type;
-                delete ticket.owner_id;
-
-                let d = new Date(ticket.start_date);
-                ticket.start_date = d.toUTCString();
-
-                info.tickets.push(ticket);
+                item_data.cassettes.push(cassette);
             }
 
+            connection.execute('select * from groups where id = :id', [request_group_cassette], (err, result) => {
+                if (err) {
+                    LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
 
-            LOG(JSON.stringify(info));
+                if (result.rows.length === 0) {
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Invalid group id");
+                    return;
+                }
 
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
+                item_data.group = {};
+                item_data.group.id = result.rows[0][0];
+                item_data.group.name = result.rows[0][1];
+                item_data.group.owner_id = result.rows[0][2];
+
+                DEBUG(JSON.stringify(item_data));
+
+                fs.readFile(settings.templatesPath + 'group_cassettes.html', 'utf8', function (err, data) {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, item_data);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
             });
-            logic.utils.realeaseConnection(connection);
-
         });
     });
 };
@@ -96,6 +105,7 @@ exports.cassette_all_get = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
@@ -103,6 +113,7 @@ exports.cassette_all_get = function (req, res, path) {
         connection.execute('select * from cassetes where owner_id = :id', [request_user_cassette], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
@@ -130,9 +141,17 @@ exports.cassette_all_get = function (req, res, path) {
             connection.execute('select * from users where id = :id', [request_user_cassette], (err, result) => {
                 if (err) {
                     LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
                     message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                     return;
                 }
+
+                if (result.rows.length === 0) {
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Invalid user id");
+                    return;
+                }
+
 
                 cassettes_data.user = {};
 
@@ -179,6 +198,7 @@ exports.cassette_get = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
@@ -186,11 +206,13 @@ exports.cassette_get = function (req, res, path) {
         connection.execute('select * from cassetes where id = :id', [request_cassette], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
 
             if (result.rows.length === 0) {
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Invalid cassette ID");
                 return;
             }
@@ -230,6 +252,7 @@ exports.cassette_create = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 2
@@ -243,6 +266,7 @@ exports.cassette_create = function (req, res, path) {
         }, (err, result) => {
             if (err) {
                 LOG(err);
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Something went wrong. Try again.',
                     code: 3
@@ -251,6 +275,7 @@ exports.cassette_create = function (req, res, path) {
             }
 
             if (result.rows[0][0] !== 0) {
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'There is already a cassette with this title.',
                     code: 4
@@ -265,6 +290,7 @@ exports.cassette_create = function (req, res, path) {
             connection.execute("insert into cassetes values(NULL,:artist,:duration,:title,:state,:channel,:type,:label,:genre_id,:owner_id)", req.body, settings.queryOptions, (err, result) => {
                 if (err) {
                     console.log(err);
+                    logic.utils.realeaseConnection(connection);
                     error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                     return;
                 }
