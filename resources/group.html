@@ -1,34 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Group <%= name %></title>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>
+        <%=name%>
+    </title>
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/new.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/groups.css">
+    <link rel="stylesheet" href="/css/search.css">
+
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
 </head>
-<body>
-Group <%= name %><br>
-Owner <a href="/user/<%=owner.id%>"><%= owner.firstname %> <%= owner.lastname %></a><br>
 
-is member: <%=isMember%>
-is owner <%=isOwner%>
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
 
-Members:
-<% members.forEach((member) => { %>
-<li>
-    <img src="<%=member.profile_pic%>" alt="profile_pic">
-    <a href="/user/<%=member.id%>">
-        <%=member.firstname%><br>
-        <%=member.lastname%><br>
-    </a>
-    <br><br>
-</li>
-<% }); %>
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
 
-<% if(members.length === 0) {%>
-    <strong>No members</strong>
+        <div class="header-logo">
+            <a href="/user">
+                <img src="/img/logo.png" alt="Homepage">
+            </a>
+        </div>
 
-<br><br>
-<%};%>
+        <nav class="header-nav">
 
-mai jos vine colectia pentru grup cand e gata
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
+
+            <div class="header-nav__content">
+                <h3>Search</h3>
+                <form id="search_from" class="search_el">
+                    <input id="search_text" class="search_el box-input" style="width:98%;" type="text">
+                    <select id="search_type" class="search_el select" style="width:100%;">
+                        <option class="search_el" value="artist">Artists</option>
+                        <option class="search_el" value="album">Albums</option>
+                        <option class="search_el" value="user">Users</option>
+                        <option class="search_el" value="group">Groups</option>
+                        <option class="search_el" value="ticket">Tickets</option>
+                        <option class="search_el" value="vinyl">Vinyl</option>
+                        <option class="search_el" value="cd">CDs</option>
+                        <option class="search_el" value="cassette">Cassettes</option>
+                    </select>
+                    <input id="search_submit" class="search_el action-button" type="submit" style="width:100%;" value="Search">
+                </form>
+            </div>
+
+
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li>
+                        <a class="smoothscroll" href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                    </li>
+                    <li class="current">
+                        <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                    </li>
+                    <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                    <li>
+                        <a class="smoothscroll" href="#clients" title="clients"></a>
+                    </li>
+                    <li id="last">
+                        <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                    </li>
+                </ul>
+
+                <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                    during 2017-2018. All rights reserved.
+                </p>
+
+            </div>
+            <!-- end header-nav__content -->
+
+        </nav>
+        <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header>
+    <!-- end s-header -->
+
+    <div class="content">
+        <div class="container">
+            <div class="home_title_wrap">
+                <div class="inner">
+                    <div class="profile-picture">
+                        <img src="/img/default_disk.jpg" alt="">
+                    </div>
+                    <div class="info">
+                        <h3>
+                            <%= name %>
+                                <br>
+                        </h3>
+                        <h4>Owner:
+                            <a href="/user/<%=owner.id%>">
+                                <%= owner.firstname %>
+                                    <%= owner.lastname %>
+                            </a>
+                        </h4>
+                        <div class="members">
+                        <h4>Members:&nbsp;</h4>
+                        <p>
+                             <% members.forEach((member) => { %>
+                                 <a href="/user/<%=member.id%>">
+                                    <%=member.firstname%>
+                                        <%=member.lastname%>
+                                </a>
+                                <%});%>
+                        </p>
+                        </div>
+                        <button class="button">JOIN GROUP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="portfolio_wrap">
+                    <ul class="portfolio_list">
+                        <li>
+                            <div class="list_inner">
+                                <div class="image_wrap">
+                                    <img src="/img/vinyl.jpg" alt="" />
+                                </div>
+                                <div class="image_overlay"></div>
+                                <div class="image_definition">
+                                    <div class="title">
+                                        <a href="/vinyl/group/<%=group_id%>">Check out my Vinyl Collection!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="list_inner">
+                                <div class="image_wrap">
+                                    <img src="/img/cd.jpg" alt="" />
+                                </div>
+                                <div class="image_overlay"></div>
+                                <div class="image_definition">
+                                    <div class="title">
+                                        <a href="/cd/group/<%=group_id%">Here are some CDs that I bought</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="list_inner">
+                                <div class="image_wrap">
+                                    <img src="/img/caseta.jpg" alt="" />
+                                </div>
+                                <div class="image_overlay"></div>
+                                <div class="image_definition">
+                                    <div class="title">
+                                        <a href="/cassette/group/<%=group_id%">Wanna see my oldies?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="list_inner">
+                                <div class="image_wrap">
+                                    <img src="/img/bilet.jpg" alt="" />
+                                </div>
+                                <div class="image_overlay"></div>
+                                <div class="image_definition">
+                                    <div class="title">
+                                        <a href="/ticket/group/<%=group_id%">Some shows I've been to</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+        <script src="/js/jquery-3.2.1.min.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/search.js"></script>
+
 </body>
+
 </html>

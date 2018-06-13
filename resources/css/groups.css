@@ -8,3 +8,51 @@
 {
     padding-left:15px;
 }
+.info h3{
+    color: #39b54a;
+}
+.info p{
+    line-height: 2;
+}
+h4{
+    margin:0;
+    margin-bottom: 7px;
+    color: #FFFFFF;
+}
+
+h4 a{
+    color: #FFFFFF;
+}
+.members{
+    display: flex;
+    flex-direction: row;
+}
+
+.members a{
+    color: #FFFFFF;
+}
+.members a:hover{
+    color: #39b54a;
+}
+
+.button {
+    outline:none;
+    height: 40px;
+    text-align: center;
+    width: 130px;
+    border-radius:30px;
+    background: transparent;
+    border: 2px solid #39b54a;
+    color: #38b54a;
+    letter-spacing:1px;
+    text-shadow:0;
+    font-size:12px;
+    font-weight:bold;
+    transition: all 0.25s ease;
+  }
+
+.button:hover {
+    color:white;
+    background: #39b54a;
+    border: #39b54a;
+  }

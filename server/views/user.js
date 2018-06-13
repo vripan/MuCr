@@ -167,7 +167,7 @@ exports.login_post = function (req, res, path) {
 
 exports.register_put = function (req, res, path) {
     if (!logic.utils.check_request_body(req, res, path)) return;
-    if (!logic.user.check_login(req, res, path)) return;
+    if (!logic.user.check_register(req, res, path)) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -211,8 +211,8 @@ exports.register_put = function (req, res, path) {
 };
 
 exports.logout = function (req, res, path) {
-    let cookies_object = cookies(req, res);
-    let session_id = cookies_object.get("session_id");
+    let cookies = cookies_(req, res);
+    let session_id = cookies.get("session_id");
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -232,36 +232,14 @@ exports.logout = function (req, res, path) {
             }
             logic.utils.realeaseConnection(connection);
 
-            cookies_object.set("session_id", {expires: Date.now()});
-            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/'});
+
+            res.clearCookie("session_id");
+            res.writeHead(200, {'Content-Type': 'text/html', 'Location': '/'});
             res.end();
         });
     });
 };
 exports.delete_all_sessions = function (req, res, path) {
-
-    let cookies_object = cookies(req, res);
-
-    databaseOracle.getConnection((err, connection) => {
-        if (err) {
-            LOG(err.message);
-            error_object(req, res, path, {
-                msg: 'Something went wrong. Try again.',
-                code: 2
-            });
-            return;
-        }
-        connection.execute("delete from sessions where user_id = :user_id", [req.user_id], settings.queryOptions, (err, result) => {
-            if (err) {
-                console.log(err);
-                error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
-                return;
-            }
-            logic.utils.realeaseConnection(connection);
-            cookies_object.set("session_id", {expires: Date.now()});
-            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/'});
-            res.end();
-        });
-    });
-
+    //Todo: here
+    //vine prin GET
 };

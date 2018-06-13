@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="/css/new.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
     <link rel="stylesheet" type="text/css" href="/css/groups.css">
+    <link rel="stylesheet" href="/css/search.css">
 
 
     <!-- script
@@ -58,18 +59,18 @@
             <div class="header-nav__content">
                 <h3>Search</h3>
                 <form id="search_from" class="search_el">
-                    <input id="search_text" class="search_el" style="width:98%;" type="text">
-                    <select id="search_type"  class="search_el"  style="width:100%;">
-                        <option value="artist">Artists</option>
-                        <option value="album">Albums</option>
-                        <option value="user">Users</option>
-                        <option value="group">Groups</option>
-                        <option value="ticket">Tickets</option>
-                        <option value="vinyl">Vinyl</option>
-                        <option value="cd">CDs</option>
-                        <option value="cassette">Cassettes</option>
+                    <input id="search_text" class="search_el box-input" style="width:98%;" type="text">
+                    <select id="search_type"  class="search_el select"  style="width:100%;">
+                        <option class="search_el" value="artist">Artists</option>
+                        <option class="search_el" value="album">Albums</option>
+                        <option class="search_el" value="user">Users</option>
+                        <option class="search_el" value="group">Groups</option>
+                        <option class="search_el" value="ticket">Tickets</option>
+                        <option class="search_el" value="vinyl">Vinyl</option>
+                        <option class="search_el" value="cd">CDs</option>
+                        <option class="search_el" value="cassette">Cassettes</option>
                     </select>
-                    <input id="search_submit" class="search_el" type="submit" style="width:100%;" value="Search">
+                    <input id="search_submit" class="search_el action-button" type="submit" style="width:100%;" value="Search">
                 </form>
             </div>
 
@@ -239,7 +240,7 @@
                                 <a href="<%=group.link%>"><%=group.name%></a>
                             </li>
                             <%});%>
-                            <% if(groups_owner.length === 0) {%>
+                            <% if(groups_member.length === 0) {%>
                             <h2>None</h2>
                             <%}%>
                         </ul>

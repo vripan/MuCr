@@ -392,7 +392,9 @@ button.btn--primary:focus{
     opacity: 0;
     visibility: hidden;
 }
-
+.header-nav__content h3{
+    margin-bottom: 25px;
+}
 .header-nav__list {
     font-family: "montserrat-regular", sans-serif;
     font-size: 1.8rem;
