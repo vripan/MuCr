@@ -1,0 +1,13 @@
+<h1>CDS: </h1>
+<% cds.forEach((cd) => { %>
+page: <%=cd.page%><br>
+title: <%=cd.title%><br>
+artist_id: <%=cd.artist_id%><br>
+album_id: <%=cd.album_id%><br>
+duration: <%=cd.duration%> seconds<br>
+label: <%=cd.label%><br>
+genre: <%=cd.genre%><br>
+owner: <%=cd.owner_link%><br>
+picture: <%=cd.picture%><br>
+<br><br>
+<%});%>

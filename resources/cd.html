@@ -1,27 +1,18 @@
 <html>
 <head>
-    <title>Cd <%=event_name%></title>
+    <title>Cd <%=title%></title>
 
 </head>
 <body>
-name: <%=event_name%><br>
-individual page <%=page%><br>
-start_date: <%=start_date%><br>
+page: <%=page%><br>
+title: <%=title%><br>
+artist_id: <%=artist_id%><br>
+album_id: <%=album_id%><br>
+duration: <%=duration%> seconds<br>
+label: <%=label%><br>
 genre: <%=genre%><br>
-owner: <a href="<%=owner_link%>">go to owner</a><br>
+owner: <%=owner_link%><br>
+picture: <%=picture%><br>
+
 </body>
-
-
-info.page = "/cd/" + result.rows[0][0];
-info.title = result.rows[0][1];
-info.artist_id = result.rows[0][2];
-info.duration = result.rows[0][3];
-info.label = result.rows[0][4];
-info.genre = result.rows[0][9];
-info.owner_id = result.rows[0][6];
-info.owner_type = result.rows[0][7];
-
-
-info.owner_link = "/" + info.owner_type + "/" + info.owner_id;
-
 </html>

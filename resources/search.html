@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>
+        asdasf
+    </title>
+</head>
+<body>
+
+<form id="search">
+    <input id="txt" type="text">
+    <input id="submit_button" type="submit" value="Register">
+</form>
+
+<div id="result">
+
+</div>
+<script>
+
+    let ajax_register_listener = function () {
+            switch (this.readyState) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    break;
+                case 4:
+                    let response;
+                    try {
+                        response = JSON.parse(this.responseText);
+                    } catch (err) {
+                        console.log("Bad server response. Try again.");
+                        return;
+                    }
+                    if (response === undefined) {
+                        console.log("Invalid server response. Try again.");
+                        return;
+                    }
+
+                    let r = document.getElementById("result");
+
+                    console.log(response.items);
+                    for (let idx = 0; idx < response.items.length; idx++) {
+                        let ela = document.createElement('a');
+                        ela.setAttribute("data-value", response.items[idx].value);
+                        let nt = document.createTextNode(response.items[idx].key);
+                        ela.setAttribute("onclick", "alert(\""+response.items[idx].key+"\");");
+                        ela.appendChild(nt);
+
+                        r.appendChild(ela);
+                        r.appendChild(document.createElement('br'));
+                    }
+
+
+            }
+        }
+    ;
+
+
+    document.getElementById("search").addEventListener("submit", function (event) {
+        event.preventDefault();
+        let q = document.getElementById("txt").value;
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = ajax_register_listener;
+
+        xhttp.open("GET", "/search?q=" + q, true);
+        xhttp.send();
+
+    });
+</script>
+
+
+</body>
+</html>
