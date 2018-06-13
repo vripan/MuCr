@@ -1,43 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Artist <%= name %></title>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Album</title>
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/new.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
 </head>
-<body>
-<%= name %><br>
-<%= popularity %><br>
-<%= release_date%><br>
-<%= label%><br>
 
-<img src="<%= picture %>" alt="artist">
+<body id="top">
 
-<% if(tracks.length >0) {%>
-<h1>Tracks</h1>
-<ul>
-    <% tracks.forEach((track) => { %>
-    <li>
-        <%=track.name%>
-        <%=track.minutes%>
-        <%=track.seconds%>
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
 
-        <%if (track.explicit) {%>
-            <p>explicit</p>
-        <%}%>
+        <div class="header-logo">
+            <a href="#">
+                <img src="/img/logo.png" alt="Homepage">
+            </a>
+        </div>
 
-        <%if (track.preview_url !== null) {%>
-        <p>Song preview </p>
-        <audio controls>
-            <source src="<%=track.preview_url%>" type="audio/ogg">
-            <source src="<%=track.preview_url%>" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-        <%}%>
-    </li>
-    <% }); %>
-</ul>
-<% } %>
+        <nav class="header-nav">
 
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
 
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li>
+                        <a class="smoothscroll" href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                    </li>
+                    <li class="current">
+                        <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                    </li>
+                    <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                    <li>
+                        <a class="smoothscroll" href="#clients" title="clients"></a>
+                    </li>
+                    <li id="last">
+                        <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                    </li>
+                </ul>
+
+                <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                    during 2017-2018. All rights reserved.
+                </p>
+
+            </div>
+            <!-- end header-nav__content -->
+
+        </nav>
+        <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header>
+    <!-- end s-header -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="container">
+            <div class="home_title_wrap portfolio">
+                <div class="inner">
+                    <div class="profile-picture">
+                        <img src="<%= picture %>" alt="artist">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="twice_box_wrap">
+                    <div class="leftbox">
+                        <div class="title portfolio">
+                            <h3>Album Details</h3>
+                        </div>
+                        <div class="detail_list">
+                            <ul>
+                                <li>
+                                    <span class="first">Album :</span>
+                                    <span class="second">
+                                        <%= name %>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Release date :</span>
+                                    <span class="second">
+                                        <%= release_date %>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Label :</span>
+                                    <span class="second">
+                                        <%= label %>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rightbox">
+                        <div class="about_text_wrap">
+                            <iframe src="https://open.spotify.com/embed/album/0WgCzYM55nO45wJWLImb1R" width="600" height="300" frameborder="0" allowtransparency="true"
+                                allow="encrypted-media">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="pagination_wrap portfolio">
+                <div class="prev">
+                    <a href="#">Prev</a>
+                </div>
+                <div class="next">
+                    <a href="#">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /CONTENT -->
+
+    <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/modal.js"></script>
 </body>
+
 </html>
