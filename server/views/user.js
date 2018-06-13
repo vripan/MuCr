@@ -24,6 +24,7 @@ exports.user_get = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
@@ -31,11 +32,13 @@ exports.user_get = function (req, res, path) {
         connection.execute('select * from users where id = :id', [request_user], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
 
             if (result.rows.length === 0) {
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Invalid user");
                 return;
             }
@@ -69,6 +72,7 @@ exports.user_get = function (req, res, path) {
             connection.execute('select * from groups where owner_id = :id', [request_user], (err, result) => {
                 if (err) {
                     LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
                     message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                     return;
                 }
@@ -85,13 +89,16 @@ exports.user_get = function (req, res, path) {
                     'join users on belongs.member_id = users.id where users.id = :id', [request_user], (err, result) => {
                     if (err) {
                         LOG(err.message);
+                        logic.utils.realeaseConnection(connection);
                         message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                         return;
                     }
 
+                    DEBUG(result);
+
                     for (let idx = 0; idx < result.rows.length; idx++) {
                         let g_member = {};
-                        g_member.link = "/group/" + result.rows[idx][0]
+                        g_member.link = "/group/" + result.rows[idx][1];
                         g_member.name = result.rows[idx][4];
                         info.groups_member.push(g_member);
                     }
@@ -116,6 +123,7 @@ exports.login_post = function (req, res, path) {
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 6
@@ -126,6 +134,7 @@ exports.login_post = function (req, res, path) {
         connection.execute('select id from users where email = :email and password = :password', req.body, (err, result) => {
             if (err) {
                 LOG(err);
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Something went wrong. Try again.',
                     code: 3
@@ -134,6 +143,7 @@ exports.login_post = function (req, res, path) {
             }
 
             if (result.rows.length === 0) {
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Email or password incorrect.', code: 4
                 });
@@ -149,6 +159,7 @@ exports.login_post = function (req, res, path) {
             }, settings.queryOptions, (err, result) => {
                 if (err) {
                     LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
                     error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                     return;
                 }
@@ -167,11 +178,12 @@ exports.login_post = function (req, res, path) {
 
 exports.register_put = function (req, res, path) {
     if (!logic.utils.check_request_body(req, res, path)) return;
-    if (!logic.user.check_register(req, res, path)) return;
+    if (!logic.user.check_login(req, res, path)) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 2
@@ -182,6 +194,7 @@ exports.register_put = function (req, res, path) {
         connection.execute('select count(*) from users where email = :email', [req.body.email], (err, result) => {
             if (err) {
                 LOG(err);
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Something went wrong. Try again.',
                     code: 3
@@ -190,6 +203,7 @@ exports.register_put = function (req, res, path) {
             }
 
             if (result.rows[0][0] !== 0) {
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Email already exists.', code: 4
                 });
@@ -199,6 +213,7 @@ exports.register_put = function (req, res, path) {
             connection.execute("insert into users values(NULL,:firstname,:lastname,:email,:password,1,'','','')", req.body, settings.queryOptions, (err, result) => {
                 if (err) {
                     console.log(err);
+                    logic.utils.realeaseConnection(connection);
                     error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                     return;
                 }
@@ -211,12 +226,13 @@ exports.register_put = function (req, res, path) {
 };
 
 exports.logout = function (req, res, path) {
-    let cookies = cookies_(req, res);
-    let session_id = cookies.get("session_id");
+    let cookies_object = cookies(req, res);
+    let session_id = cookies_object.get("session_id");
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
-            LOG(err.message);
+            DEBUG(err.message);
+            logic.utils.realeaseConnection(connection);
             error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 2
@@ -226,20 +242,45 @@ exports.logout = function (req, res, path) {
 
         connection.execute("delete from sessions where token = :token", [session_id], settings.queryOptions, (err, result) => {
             if (err) {
-                console.log(err);
+                DEBUG(err);
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                 return;
             }
             logic.utils.realeaseConnection(connection);
 
-
-            res.clearCookie("session_id");
-            res.writeHead(200, {'Content-Type': 'text/html', 'Location': '/'});
+            cookies_object.set("session_id", {expires: Date.now()});
+            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/'});
             res.end();
         });
     });
 };
 exports.delete_all_sessions = function (req, res, path) {
-    //Todo: here
-    //vine prin GET
+
+    let cookies_object = cookies(req, res);
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            error_object(req, res, path, {
+                msg: 'Something went wrong. Try again.',
+                code: 2
+            });
+            return;
+        }
+        connection.execute("delete from sessions where user_id = :user_id", [req.user_id], settings.queryOptions, (err, result) => {
+            if (err) {
+                DEBUG(err);
+                logic.utils.realeaseConnection(connection);
+                error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
+                return;
+            }
+            logic.utils.realeaseConnection(connection);
+            cookies_object.set("session_id", {expires: Date.now()});
+            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/'});
+            res.end();
+        });
+    });
+
 };

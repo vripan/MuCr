@@ -1,0 +1,19 @@
+<%=group.name%>
+<%=group.id%>
+<!--de aici iei link catre grup-->
+<h1>CDS</h1>
+<br>
+
+<% cds.forEach((cd) => { %>
+
+<%=cd.page %><br>
+<%=cd.title%><br>
+<%=cd.album_link %><br>
+<%=cd.artist %><br>
+<%=cd.artist_link %><br>
+<%=cd.duration%><br>
+<%=cd.label%><br>
+<%=cd.genre %><br>
+<%=cd.owner_link %><br>
+<br><br>
+<% });%>

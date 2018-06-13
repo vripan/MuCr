@@ -1,0 +1,23 @@
+<%=group.name%>
+<%=group.id%>
+<!--de aici iei link catre grup-->
+<h1>VINYLS</h1>
+<br>
+
+<% vinyls.forEach((vinyl) => { %>
+<%=vinyl.page%><br>
+<%=vinyl.rpm%><br>
+<%=vinyl.state%><br>
+<%=vinyl.color %><br>
+<%=vinyl.channel %><br>
+<%=vinyl.weight %><br>
+<%=vinyl.special%><br>
+<%=vinyl.condition %><br>
+<%=vinyl.artist%><br>
+<%=vinyl.artist_link %><br>
+<%=vinyl.title %><br>
+<%=vinyl.album_link %><br>
+<%=vinyl.label %><br>
+<%=vinyl.genre %><br>
+<%=vinyl.owner_link%><br>
+<% });%>

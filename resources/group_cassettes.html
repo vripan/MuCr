@@ -1,0 +1,23 @@
+<%=group.name%>
+<%=group.id%>
+<!--de aici iei link catre grup-->
+<h1>CDS</h1>
+<br>
+
+<% cassettes.forEach((cassette) => { %>
+
+<%=cassette.page %><br>
+<%=cassette.artist %><br>
+<%=cassette.artist_link %><br>
+<%=cassette.duration%><br>
+<%=cassette.title %><br>
+<%=cassette.album_link%><br>
+<%=cassette.state %><br>
+<%=cassette.channel %><br>
+<%=cassette.type %><br>
+<%=cassette.label %><br>
+<%=cassette.genre%><br>
+<%=cassette.owner_link%><br>
+
+<br><br>
+<% });%>

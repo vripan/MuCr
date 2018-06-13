@@ -1,0 +1,19 @@
+<%=group.name%>
+<%=group.id%>
+<!--de aici iei link catre grup-->
+<h1>TICKETS</h1>
+<br>
+
+<% tickets.forEach((ticket) => { %>
+
+<%=ticket.page %><br>
+<%=ticket.event_name%><br>
+<%=ticket.location %><br>
+<%=ticket.genre %><br>
+<%=ticket.start_date%><br>
+<%=ticket.artist %><br>
+<%=ticket.artist_link %><br>
+<%=ticket.price %><br>
+<%=ticket.owner_link %><br>
+<br><br>
+<% });%>
