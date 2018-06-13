@@ -95,3 +95,41 @@ exports.get_artist_search_link = function (artist_name) {
 exports.get_album_search_link = function (album_name) {
     return "/search?type=album&query=" + encodeURIComponent(album_name);
 };
+
+exports.search_artist = function(query, callback)
+{
+    ajax.get(settings.spotify_base_url + "search?type=artist&q=" + query, {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
+        let results = null;
+
+        if (response.statusCode !== 200) {
+            LOG("Invalid artist search: " + album_id);
+            let err = utils.parse(body);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
+            callback(results);
+            return;
+        }
+
+        results = utils.parse(body);
+        callback(results);
+    });
+};
+
+exports.search_album = function(query, callback)
+{
+    ajax.get(settings.spotify_base_url + "search?type=album&q=" + query, {'Authorization': 'Bearer ' + spotify_access_token}, (err, response, body) => {
+        let results = null;
+
+        if (response.statusCode !== 200) {
+            LOG("Invalid artist search: " + album_id);
+            let err = utils.parse(body);
+            if (err != null && err.error !== undefined)
+                LOG("Err: " + err.error.message);
+            callback(results);
+            return;
+        }
+
+        results = utils.parse(body);
+        callback(results);
+    });
+};
