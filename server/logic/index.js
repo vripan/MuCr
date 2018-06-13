@@ -10,3 +10,4 @@ exports.collection = require("./collection");
 exports.cd = require('./cd');
 exports.cassette = require('./cassette');
 exports.vinyl = require('./vinyl');
+exports.search = require('./search');

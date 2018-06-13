@@ -2,7 +2,7 @@
 let utils = require("./utils");
 let model = require("../models");
 
-exports.check = function (req) {
+let check_group_data = function (req) {
     try {
         if (req.body.name === undefined)
             return "Incomplete data";
@@ -20,4 +20,18 @@ exports.check = function (req) {
         return "Something went wrong";
     }
     return undefined;
+};
+
+exports.check_group = function (req, res, path) {
+    let message = check_group_data(req);
+
+    if (message !== undefined) {
+        LOG("Invalid data");
+        error_object(req, res, path, {
+            msg: message,
+            code: 6
+        });
+        return false;
+    }
+    return true;
 };
