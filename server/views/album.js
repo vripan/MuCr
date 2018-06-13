@@ -20,6 +20,7 @@ exports.album_get = function (req, res, path) {
         template_info.album_type = logic.utils.assignCheck(album_info.album_type, settings.default_album_type);
         template_info.release_date = logic.utils.assignCheck(album_info.release_date, settings.album_default_release_date);
         template_info.label = logic.utils.assignCheck(album_info.label, settings.default_album_label);
+        template_info.id = spotify_album_id;
 
         template_info.picture = logic.utils.assignCheck(album_info.images[0].url, null);
         if (template_info.picture === null)

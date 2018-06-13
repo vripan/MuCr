@@ -39,11 +39,13 @@ let getLogIn = function (req, res, path, callback) {
         connection.execute('select user_id from sessions where token = :token ', [session_id], (err, result) => {
             if (err) {
                 LOG(err.message);
+                exports.realeaseConnection(connection);
                 callback(req, res, path);
                 return;
             }
 
             if (result.rows.length === 0) {
+                exports.realeaseConnection(connection);
                 callback(req, res, path);
                 return;
             }
@@ -123,14 +125,18 @@ exports.check_request_body = function (req, res, path) {
     return true;
 };
 
-exports.get_id_from_path= function (path, idx, req, res) {
+exports.get_id_from_path = function (path, idx, req, res, acceptNone) {
     let id = undefined;
     if (/^[0-9]+$/.test(path[idx]))
         id = Number(path[idx]);
 
-    if (id === undefined) {
-        message_page(req, res, path, "Invalid ID");
-        return false;
-    }
-    return true;
+    if (!acceptNone)
+        if (id === undefined) {
+            message_page(req, res, path, "Invalid ID");
+            return false;
+        }
+
+    if (id === undefined)
+        id = false;
+    return id;
 };

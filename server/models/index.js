@@ -5,3 +5,4 @@ exports.ticket = require("./ticketModel");
 exports.cd = require("./cdModel");
 exports.cassette = require('./cassetteModel');
 exports.vinyl = require('./vinylModel');
+exports.login = require('./loginModel');

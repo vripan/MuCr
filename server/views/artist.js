@@ -18,12 +18,14 @@ exports.artist_get = function (req, res, path) {
         template_info.name = logic.utils.assignCheck(artist_info.name, settings.default_artist_name);
         template_info.popularity = logic.utils.assignCheck(artist_info.popularity, settings.default_artist_popularity);
 
-        template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[0].url, null);
-        if (template_info.artist_profile_picture === null)
-            template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[1].url, null);
-        if (template_info.artist_profile_picture === null)
-            template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[2].url, settings.default_artist_pic);
-
+        if (artist_info.images.length > 0) {
+            template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[0].url, null);
+            if (template_info.artist_profile_picture === null)
+                template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[1].url, null);
+            if (template_info.artist_profile_picture === null)
+                template_info.artist_profile_picture = logic.utils.assignCheck(artist_info.images[2].url, settings.default_artist_pic);
+        } else
+            template_info.artist_profile_picture = settings.default_artist_pic;
 
         logic.spotify.get_albums_by_artist(spotify_artist_id, (albums_info) => {
             template_info.albums = [];
@@ -63,5 +65,5 @@ exports.artist_get = function (req, res, path) {
 };
 
 exports.default_artist_get = function (req, res, path) {
-    message_page(req,res,path,"Give me an artist");
+    message_page(req, res, path, "Give me an artist");
 };
