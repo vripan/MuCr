@@ -8,23 +8,18 @@ let fs = require('fs');
 let ejs = require('ejs');
 
 exports.user_delete = function (req, res, path) {
-    error_object(req,res,path,501);
+    error_object(req, res, path, 501);
 };
 
 exports.user_update = function (req, res, path) {
-    error_object(req,res,path,501);
+    error_object(req, res, path, 501);
 };
 
 exports.user_get = function (req, res, path) {
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
-        return;
-    }
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-
-    let request_user = req.user_id;
-    if (/^[0-9]+$/.test(path[0]))
-        request_user = Number(path[0]);
+    let request_user = logic.utils.get_id_from_path(path, 0, req, res, true);
+    if (request_user === false) request_user = req.user_id;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -46,6 +41,8 @@ exports.user_get = function (req, res, path) {
             }
 
             let info = {};
+            info.current_user_id = request_user;
+
             info.firstname = result.rows[0][1];
             info.lastname = result.rows[0][2];
 
@@ -78,7 +75,7 @@ exports.user_get = function (req, res, path) {
 
                 for (let idx = 0; idx < result.rows.length; idx++) {
                     let g_owner = {};
-                    g_owner.id = result.rows[idx][0];
+                    g_owner.link = "/group/" + result.rows[idx][0];
                     g_owner.name = result.rows[idx][1];
                     info.groups_owner.push(g_owner);
                 }
@@ -94,13 +91,13 @@ exports.user_get = function (req, res, path) {
 
                     for (let idx = 0; idx < result.rows.length; idx++) {
                         let g_member = {};
-                        g_member.id = result.rows[idx][1];
+                        g_member.link = "/group/" + result.rows[idx][0]
                         g_member.name = result.rows[idx][4];
                         info.groups_member.push(g_member);
                     }
 
                     fs.readFile(settings.templatesPath + 'profile.html', 'utf8', function (err, data) {
-                        res.writeHead(404, {'Content-Type': 'text/html'});
+                        res.writeHead(200, {'Content-Type': 'text/html'});
                         data = ejs.render(data, info);
                         res.write(data);
                         res.end();
@@ -113,23 +110,9 @@ exports.user_get = function (req, res, path) {
 };
 
 exports.login_post = function (req, res, path) {
-    if (req.body === undefined) {
-        LOG("Unable to parse JSON");
-        error_object(req, res, path, {
-            msg: 'Something went wrong. Try again.',
-            code: 1
-        });
-        return;
-    }
+    if (!logic.utils.check_request_body(req, res, path)) return;
+    if (!logic.user.check_login(req, res, path)) return;
 
-    if (!logic.user.check_login(req)) {
-        LOG("Invalid register data");
-        error_object(req, res, path, {
-            msg: 'Invalid data',
-            code: 6
-        });
-        return;
-    }
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
@@ -158,7 +141,7 @@ exports.login_post = function (req, res, path) {
             }
 
             let sessionToken = sha256(req.body.email + req.body.password + result.rows[0][0] + Date.now());
-            let cookiess = new cookies(req, res);
+            let cookiess_object = new cookies(req, res);
 
             connection.execute("insert into sessions values(NULL,:id,:token)", {
                 id: result.rows[0][0],
@@ -170,7 +153,7 @@ exports.login_post = function (req, res, path) {
                     return;
                 }
 
-                cookiess.set("session_id", sessionToken);
+                cookiess_object.set("session_id", sessionToken);
                 send_object(req, res, path, {
                     msg: 'Your are logged in.',
                     session_id: sessionToken,
@@ -183,24 +166,8 @@ exports.login_post = function (req, res, path) {
 };
 
 exports.register_put = function (req, res, path) {
-    if (req.body === undefined) {
-        LOG("Unable to parse JSON");
-        error_object(req, res, path, {
-            msg: 'Something went wrong. Try again.',
-            code: 1
-        });
-        return;
-    }
-
-    let message = logic.user.check_register(req);
-    if (message !== undefined) {
-        LOG("Invalid register data");
-        error_object(req, res, path, {
-            msg: message,
-            code: 6
-        });
-        return;
-    }
+    if (!logic.utils.check_request_body(req, res, path)) return;
+    if (!logic.user.check_login(req, res, path)) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -241,4 +208,38 @@ exports.register_put = function (req, res, path) {
             });
         });
     });
+};
+
+exports.logout = function (req, res, path) {
+    let cookies = cookies_(req, res);
+    let session_id = cookies.get("session_id");
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            error_object(req, res, path, {
+                msg: 'Something went wrong. Try again.',
+                code: 2
+            });
+            return;
+        }
+
+        connection.execute("delete from sessions where token = :token", [session_id], settings.queryOptions, (err, result) => {
+            if (err) {
+                console.log(err);
+                error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
+                return;
+            }
+            logic.utils.realeaseConnection(connection);
+
+
+            res.clearCookie("session_id");
+            res.writeHead(200, {'Content-Type': 'text/html', 'Location': '/'});
+            res.end();
+        });
+    });
+};
+exports.delete_all_sessions = function (req, res, path) {
+    //Todo: here
+    //vine prin GET
 };
