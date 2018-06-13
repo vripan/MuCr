@@ -14,83 +14,14 @@ exports.ticket_update = function (req, res, path) {
 };
 
 exports.ticket_group_get = function (req, res, path) {
-    error_object(req, res, path, 501);
-
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
-        return;
-    }
-
-
-    let request_group_ticket = undefined;
-    if (/^[0-9]+$/.test(path[1]))
-        request_group_ticket = Number(path[1]);
-
-    if (request_group_ticket === undefined) {
-        message_page(req, res, path, "Invalid group ID");
-        return;
-    }
-
-    databaseOracle.getConnection((err, connection) => {
-        if (err) {
-            LOG(err.message);
-            message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
-            return;
-        }
-
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'group\' and owner_id = :id', [request_group_ticket], (err, result) => {
-            if (err) {
-                LOG(err.message);
-                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
-                return;
-            }
-
-
-            let info = {tickets: []};
-
-            for (let idx = 0; idx < result.rows.length; idx++) {
-                let ticket = {};
-
-                ticket.page = "/ticket/" + result.rows[idx][0];
-                ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
-
-                delete ticket.owner_type;
-                delete ticket.owner_id;
-
-                let d = new Date(ticket.start_date);
-                ticket.start_date = d.toUTCString();
-
-                info.tickets.push(ticket);
-            }
-
-
-            LOG(JSON.stringify(info));
-
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
-            });
-            logic.utils.realeaseConnection(connection);
-
-        });
-    });
+    //Todo: here
 };
 
 exports.ticket_all_get = function (req, res, path) {
-    error_object(req, res, path, 501);
-
-    let user_tickets_id = undefined;
-
     if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
-    if(!(user_tickets_id=logic.utils.get_id_from_path(path,1,req,res))) return;
 
+    let request_user_tickets = logic.utils.get_id_from_path(path,0,req,res);
+    if (request_user_tickets === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -99,47 +30,68 @@ exports.ticket_all_get = function (req, res, path) {
             return;
         }
 
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'user\' and owner_id = :id', [req.user_id], (err, result) => {
+        connection.execute('select * from tickets where owner_id = :id', [request_user_tickets], (err, result) => {
             if (err) {
                 LOG(err.message);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
+            let tickets_data = {tickets: []};
 
-
-            let info = {tickets: []};
 
             for (let idx = 0; idx < result.rows.length; idx++) {
                 let ticket = {};
-
                 ticket.page = "/ticket/" + result.rows[idx][0];
                 ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
-
-                delete ticket.owner_type;
-                delete ticket.owner_id;
+                ticket.location = result.rows[idx][2];
+                ticket.genre = GENRE[result.rows[idx][3]];
+                ticket.start_date = result.rows[idx][4];
+                ticket.artist = result.rows[idx][5];
+                ticket.artist_link = logic.spotify.get_artist_search_link(result.rows[idx][5]);
+                ticket.price = result.rows[idx][6];
+                ticket.owner_link = "/user/" + result.rows[idx][7];
 
                 let d = new Date(ticket.start_date);
                 ticket.start_date = d.toUTCString();
 
-                info.tickets.push(ticket);
+                tickets_data.tickets.push(ticket);
             }
 
+            connection.execute('select * from users where id = :id', [request_user_tickets], (err, result) => {
+                if (err) {
+                    LOG(err.message);
+                    message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
 
-            LOG(JSON.stringify(info));
+                tickets_data.user = {};
 
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
+
+                tickets_data.user.picture = result.rows[0][7];
+                if (tickets_data.user.picture === null)
+                    tickets_data.user.picture = settings.default_profile_pic;
+
+                tickets_data.user.firstname = result.rows[0][1];
+                tickets_data.user.lastname = result.rows[0][2];
+
+
+                tickets_data.user.description = result.rows[0][6];
+                if(tickets_data.user.description === null)
+                    tickets_data.user.description = settings.default_description;
+
+                tickets_data.current_user_id = req.user_id;
+
+                DEBUG(JSON.stringify(tickets_data));
+
+                fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
+                    res.writeHead(404, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, tickets_data);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
+
             });
-            logic.utils.realeaseConnection(connection);
-
         });
     });
 };
@@ -147,14 +99,8 @@ exports.ticket_all_get = function (req, res, path) {
 exports.ticket_get = function (req, res, path) {
     if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-    let request_ticket = undefined;
-    if (/^[0-9]+$/.test(path[0]))
-        request_ticket = Number(path[0]);
-
-    if (request_ticket === undefined) {
-        message_page(req, res, path, "Invalid ticket ID");
-        return;
-    }
+    let request_ticket = logic.utils.get_id_from_path(path,0,req,res);
+    if (request_ticket === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -189,6 +135,7 @@ exports.ticket_get = function (req, res, path) {
             let d = new Date(ticket.start_date);
             ticket.start_date = d.toUTCString();
 
+            ticket.current_user_id = req.user_id;
             DEBUG(JSON.stringify(ticket));
 
             fs.readFile(settings.templatesPath + 'ticket.html', 'utf8', function (err, data) {

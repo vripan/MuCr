@@ -5,7 +5,7 @@ let settings = require("../settings");
 
 
 exports.favicon_get = function(req,res,path){
-    error_object(req,res,path,501);
+    error_response(req,res,path,404);
 };
 
 exports.resource_get = function (req, res, path) {
