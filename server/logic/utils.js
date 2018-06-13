@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 let cookies_ = require("cookies");
 let databaseOracle = require('oracledb');
 
@@ -82,12 +82,12 @@ exports.checkLength = function (str, min, max) {
 };
 
 exports.checkEmail = function (email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 };
 
 exports.isAlfanumeric = function (str) {
-    let regx = /^[a-z0-9]+$/;
+    let regx = /^[a-zA-Z0-9 ]+$/;
     return regx.test(str);
 
 };
@@ -96,6 +96,12 @@ exports.realeaseConnection = function (connection) {
     connection.close((err) => {
         if (err) console.log("Cannot release connection\n" + err.message);
     });
+};
+
+global.send_object = function (req, res, path, object) {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(object));
+    res.end();
 };
 
 exports.assignCheck = assignCheck;
