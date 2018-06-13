@@ -32,7 +32,7 @@ exports.artist_get = function (req, res, path) {
                     let tempalte_album = {};
                     tempalte_album.name = logic.utils.assignCheck(album.name, settings.album_default_name);
                     tempalte_album.release_date = logic.utils.assignCheck(album.release_date, settings.album_default_release_date);
-                    tempalte_album.type = logic.utils.assignCheck(album.album_type, settings.default_album_type);
+                    tempalte_album.type = logic.utils.assignCheck(album.album_type, settings.default_album_type).toUpperCase();
                     tempalte_album.id = logic.utils.assignCheck(album.id, settings.default_album_id);
 
 

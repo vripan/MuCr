@@ -31,4 +31,4 @@ exports.default_album_pic = "/img/user.png";
 exports.default_profile_pic = "/img/user.png";
 exports.default_cover_pic = "/img/cover.jpg";
 exports.default_artist_pic = "/img/user.png";
-exports.default_description = "This is me. A default desciption. Love music. Play guitar, piano. Like sports, chess."
+exports.default_description = "Illum constituto no eum. Sed invidunt intellegam et, cum affert virtute quaeque ad. Illud libris voluptatibus at eos, ad vel affert timeam delicatissimi. Usu te cibo oblique constituto, vim ne sonet admodum.";
