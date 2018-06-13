@@ -1,0 +1,10 @@
+#groups *
+{
+    color:#FFFFFF;
+    list-style-type: none;
+}
+
+#groups li
+{
+    padding-left:15px;
+}

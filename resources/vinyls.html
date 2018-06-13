@@ -7,7 +7,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>Album</title>
+    <title>My Vinyls</title>
 
     <!-- mobile specific metas
     ================================================== -->
@@ -36,7 +36,7 @@
 
 </head>
 
-<body id="top">
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
 
     <!-- header
     ================================================== -->
@@ -94,76 +94,60 @@
     </header>
     <!-- end s-header -->
 
-    <!-- CONTENT -->
     <div class="content">
         <div class="container">
-            <div class="home_title_wrap portfolio">
+            <div class="home_title_wrap">
                 <div class="inner">
                     <div class="profile-picture">
-                        <img src="<%= picture %>" alt="artist">
+                        <img src="<%=user.picture%>" alt="">
+                    </div>
+                    <div class="info">
+                        <h3>
+                            <%=user.firstname%>
+                                <%=user.lastname%>
+                        </h3>
+                        <p>
+                            <%=user.description%>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="section">
             <div class="container">
-                <div class="twice_box_wrap">
-                    <div class="leftbox">
-                        <div class="title portfolio">
-                            <h3>Album Details</h3>
-                        </div>
-                        <div class="detail_list">
-                            <ul>
-                                <li>
-                                    <span class="first">Album :</span>
-                                    <span class="second">
-                                        <%= name %>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Release date :</span>
-                                    <span class="second">
-                                        <%= release_date %>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Label :</span>
-                                    <span class="second">
-                                        <%= label %>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="rightbox">
-                        <div class="about_text_wrap">
-                            <iframe src="https://open.spotify.com/embed/album/<%=id%>" width="600" height="300" frameborder="0" allowtransparency="true"
-                                allow="encrypted-media">
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="pagination_wrap portfolio">
-                <div class="prev">
-                    <a href="#">Prev</a>
-                </div>
-                <div class="next">
-                    <a href="#">Next</a>
+                <div class="portfolio_wrap">
+                    <ul class="portfolio_list">
+                        <% vinyls.forEach((vinyl) => { %>
+                            <li>
+                                <div class="list_inner">
+                                    <div class="image_wrap">
+                                        <img src="/img/default_vinyl.jpg" alt="" />
+                                    </div>
+                                    <div class="image_overlay"></div>
+                                    <div class="image_definition">
+                                        <div class="title">
+                                            <a href="<%= vinyl.page %>">
+                                                <%= vinyl.artist %>
+                                                    <br>
+                                                    <%= vinyl.title %>
+                                                        <br>
+                                                        <%= vinyl.genre %>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <%});%>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- /CONTENT -->
-
     <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
     ============================================================== -->
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/modal.js"></script>
 </body>
 
 </html>

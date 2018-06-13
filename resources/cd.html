@@ -1,18 +1,171 @@
+<!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Cd <%=title%></title>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title><%= title %></title>
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/new.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/latest.css">
+
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
 
 </head>
-<body>
-page: <%=page%><br>
-title: <%=title%><br>
-album_link: <%=album_link%><br>
-artist: <%=artist%><br>
-artist_link: <%=artist_link%><br>
-duration: <%=duration%><br>
-label: <%=label%><br>
-genre: <%=genre%><br>
-owner_link: <%=owner_link%><br>
 
+<body id="top">
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a href="/user">
+                <img src="/img/logo.png" alt="Homepage">
+            </a>
+        </div>
+
+        <nav class="header-nav">
+
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
+
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li>
+                        <a class="smoothscroll" href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                    </li>
+                    <li class="current">
+                        <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                    </li>
+                    <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                    <li>
+                        <a class="smoothscroll" href="#clients" title="clients"></a>
+                    </li>
+                    <li id="last">
+                        <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                    </li>
+                </ul>
+
+                <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                    during 2017-2018. All rights reserved.
+                </p>
+
+            </div>
+            <!-- end header-nav__content -->
+
+        </nav>
+        <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header>
+    <!-- end s-header -->
+
+    <!-- CONTENT -->
+    <div class="content" id="single">
+        <div class="container">
+            <div class="home_title_wrap portfolio">
+                <div class="inner">
+                    <div class="profile-picture">
+                        <img src="/img/default_disk.jpg" alt="artist">
+                    </div>
+                    <div class="info" id="notting">
+                        <div class="title portfolio">
+                            <h3>CD Details</h3>
+                        </div>
+                        <div class="detail_list">
+                            <ul>
+                                <li>
+                                    <span class="first">Artist:</span>
+                                    <span class="second">
+                                        <a href="<%=artist_link%>">
+                                            <%=artist%>
+                                        </a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Album Title:</span>
+                                    <span class="second">
+                                        <a href="<%=album_link%>">
+                                            <%=title%>
+                                        </a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Label:</span>
+                                    <span class="second">
+                                        <%=label%>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Genre:</span>
+                                    <span class="second">
+                                        <%=genre%>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Duration:</span>
+                                    <span class="second">
+                                        <%=duration%> minutes
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="first">Owner:</span>
+                                    <span class="second">
+                                        <a href="<%= owner_link %>"> See owner</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <!-- /CONTENT -->
+
+    <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/main.js"></script>
 </body>
+
 </html>
