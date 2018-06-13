@@ -1,0 +1,141 @@
+/*
+This file is made by Marketify (2018)
+This css file includes all base styles and template's main color (in this tempalte main color is pink(#f00a77)). 
+Template's main color styles located at the bottom of this file.
+
+01) BASE
+02) FORM ELEMENTS
+03) FONTELLO
+04) SKELETON OR GRID
+05) ANIMATION
+*/
+
+/*------------------------------------------------------------------*/ 
+/*	01) BASE
+/*------------------------------------------------------------------*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td
+	{
+	background: transparent;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	outline: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+    display: block;
+}
+
+blockquote {
+	quotes: none;
+}
+
+blockquote:before,blockquote:after {
+	content: '';
+	content: none;
+}
+ul, ol{
+	margin:0px;	
+}
+ul li, ol li{
+	margin-bottom:0px;
+}
+img{
+	vertical-align:middle;
+	max-width:100%;
+}
+iframe{
+	max-width:100%;
+}
+del {
+	text-decoration: line-through;
+}
+a, i{
+	border:none;
+}
+a:hover{text-decoration:none;}
+
+h1, h2, h3, h4, h5, h6{
+	font-weight:600;
+	font-family: "Quicksand";
+	line-height: 1.6;
+}
+h1 { font-size: 45px; }
+h2 { font-size: 36px; }
+h3 { font-size: 30px; }
+h4 { font-size: 24px; }
+h5 { font-size: 20px; }
+h6 { font-size: 16px; }
+
+/*------------------------------------------------------------------*/ 
+/*	04) SKELETON OR GRID
+/*------------------------------------------------------------------*/
+
+.container {
+	max-width: 1350px;
+	width:100%;
+	margin-left: auto;
+	margin-right: auto;
+	height:auto;
+	padding:0px 40px;
+	position:relative;
+	clear:both;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+.container.another{
+	max-width: 1530;
+	width: 1530;
+}
+.container.full{
+	max-width:100%;
+}
+.row {
+	height:auto;
+} 
+[class*="fl-col"], .fl-sidebar{
+	float: left;
+	margin-right: 4%;
+}
+[class*="fl-col"].float-right{
+	float:right;
+}
+[class*="fl-col"].last, .fl-sidebar.last, [class*="fl-col"].no-space, .fl-col-12{
+	margin-right:0px;
+}
+  
+.fl-col-12 {  width: 100%;      }
+.fl-col-9  {  width: 74%;       }
+.fl-col-8  {  width: 65.3333%;  }
+.fl-col-6  {  width: 48%;       }
+.fl-col-4  {  width: 30.6666%;  }
+.fl-col-3  {  width: 22%;       }
+.fl-sidebar  {  width: 30.6666%;     }
+
+.fl-col-9.no-space  {  width: 78%;  }
+.fl-col-8.no-space  {  width: 69.3333%;  }
+.fl-col-6.no-space  {  width: 52%;  }
+.fl-col-4.no-space  {  width: 34.6666%;  }
+.fl-col-3.no-space  {  width: 26%;  }
+
+@media (max-width: 1040px) {
+.fl-sidebar  {  width: 100%; clear:both; margin-right:0px; padding:50px 0px;  }
+.fl-col-8.fix { width:100%; }
+.container{padding:0px 20px;}
+}
+
+@media (max-width: 768px) {
+.fl-col-12 {  width: 100%;  }
+.fl-col-9  {  width: 100%;  }
+.fl-col-8  {  width: 100%;  }
+.fl-col-6  {  width: 100%;  }
+.fl-col-4  {  width: 100%;  }
+.fl-col-3  {  width: 100%;  }
+}
+
+@media (max-width: 480px) {
+.container{padding:0px 10px;}
+}
+

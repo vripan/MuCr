@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Music Collector - 404 page</title>
-    <style>
-      #mainMessage
-      {
-        text-align: center;
-        padding-top: 25%;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="mainMessage">
-      <h1><%= code %></h1>
-      <h1><%= message %></h1>
+
+<head>
+  <meta charset="utf-8">
+  <title>Music Collector - 404 page</title>
+  <!-- favicon
+    ================================================== -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+
+  <!-- CSS
+    ================================================== -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/new.css">
+  <link rel="stylesheet" href="/css/error.css">
+
+  <!-- script
+    ================================================== -->
+  <script src="/js/pace.min.js"></script>
+
+  <!-- icons
+    ================================================== -->
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+  <!-- header
+    ================================================== -->
+  <header class="s-header">
+
+    <div class="header-logo">
+      <a href="index">
+        <img src="/img/logo.png" alt="Homepage">
+      </a>
     </div>
-  </body>
+
+  </header>
+  <!-- end s-header -->
+
+  <div class="container">
+    <div class="main-component">
+      <h1>Oops!</h1>
+      <h2><%= message %> - We're really sorry for this inconvenience!</h2>
+      <h4>Error Code: <%= code %></h4>
+      <p id="intro-links">Here are some useful links instead:</li>
+        <div class="links">
+          <a>Home</a>
+          </li>
+          <a>Sign Up</a>
+          <a>Sign In</a>
+          <a>About Us</a>
+        </div>
+    </div>
+  </div>
+</body>
+
 </html>
