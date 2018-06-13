@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group <%= name %></title>
+</head>
+<body>
+Group <%= name %><br>
+Owner <a href="/user/<%=owner.id%>"><%= owner.firstname %> <%= owner.lastname %></a><br>
+
+
+Members:
+<% members.forEach((member) => { %>
+<li>
+    <img src="<%=member.profile_pic%>" alt="profile_pic">
+    <a href="/user/<%=member.id%>">
+        <%=member.firstname%><br>
+        <%=member.lastname%><br>
+    </a>
+    <br><br>
+</li>
+<% }); %>
+
+<% if(members.length === 0) {%>
+    <strong>No members</strong>
+
+<br><br>
+<%};%>
+
+mai jos vine colectia pentru grup cand e gata
+</body>
+</html>

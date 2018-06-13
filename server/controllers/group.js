@@ -1,7 +1,5 @@
 "use strict";
 let views = require("../views");
-let url = require("url");
-let logic = require("../logic");
 
 let group_action = function (req, res, path) {
     switch (req.method) {
@@ -26,9 +24,11 @@ let group_action = function (req, res, path) {
 
 let URLMap = {
     '^[0-9]+$': group_action,
+    '':group_action
 };
 
 exports.requestListener = function (request, response, path) {
+    if(path[1] === undefined) path.push('');
     let resolver = URLMap[path[1]];
 
     if (resolver === undefined)
