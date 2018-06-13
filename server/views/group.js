@@ -6,26 +6,16 @@ let fs = require('fs');
 let ejs = require('ejs');
 
 exports.group_delete = function (req, res, path) {
-    error_object(req,res,path,501);
+    error_object(req, res, path, 501);
 };
 exports.group_update = function (req, res, path) {
-    error_object(req,res,path,501);
+    error_object(req, res, path, 501);
 };
 exports.group_get = function (req, res, path) {
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
-        return;
-    }
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-
-    let request_group = undefined;
-    if (/^[0-9]+$/.test(path[0]))
-        request_group = Number(path[0]);
-
-    if (request_group === undefined) {
-        message_page(req, res, path, "Invalid group ID");
-        return;
-    }
+    let request_group = logic.utils.get_id_from_path(path, 0, req, res);
+    if (request_group === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -48,9 +38,15 @@ exports.group_get = function (req, res, path) {
 
 
             let info = {};
+            info.isMember = 0;
+            info.isOwner = 0;
+
             info.name = result.rows[0][1];
             info.owner = {};
             info.owner.id = result.rows[0][2];
+
+            if(info.owner.id === req.user_id)
+                info.isOwner =1;
 
 
             connection.execute('select * from users where id = :id', [info.owner.id], (err, result) => {
@@ -77,6 +73,10 @@ exports.group_get = function (req, res, path) {
 
                     for (let idx = 0; idx < result.rows.length; idx++) {
                         let member = {};
+
+                        if(member.id === req.user_id)
+                            info.isMember = 1;
+
                         member.id = result.rows[idx][3];
                         member.firstname = result.rows[idx][4];
                         member.lastname = result.rows[idx][5];
@@ -86,6 +86,9 @@ exports.group_get = function (req, res, path) {
                         else member.profile_pic = result.rows[idx][10];
                         info.members.push(member);
                     }
+
+                    info.current_user_id = req.user_id;
+
 
                     fs.readFile(settings.templatesPath + 'group.html', 'utf8', function (err, data) {
                         res.writeHead(404, {'Content-Type': 'text/html'});
@@ -101,29 +104,9 @@ exports.group_get = function (req, res, path) {
 };
 
 exports.group_create = function (req, res, path) {
-    if (req.body === undefined) {
-        LOG("Unable to parse JSON");
-        error_object(req, res, path, {
-            msg: 'Something went wrong. Try again.',
-            code: 1
-        });
-        return;
-    }
-
-    if (!logic.utils.mustBeLoggedIn(req, res, path)) {
-        error_page(req, res, path, 401);
-        return;
-    }
-
-    let message = logic.group.check(req);
-    if (message !== undefined) {
-        LOG("Invalid register data");
-        error_object(req, res, path, {
-            msg: message,
-            code: 6
-        });
-        return;
-    }
+    if (!logic.utils.check_request_body(req, res, path)) return;
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+    if (!logic.group.check_group(req, res, path)) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {

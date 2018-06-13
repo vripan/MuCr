@@ -14,22 +14,94 @@ exports.vinyl_update = function (req, res, path) {
 };
 
 exports.vinyl_group_get = function (req, res, path) {
+    //Todo: here
 };
 
 exports.vinyl_all_get = function (req, res, path) {
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    let request_user_vinyl = logic.utils.get_id_from_path(path, 0, req, res);
+    if (request_user_vinyl === false) return;
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
+            return;
+        }
+
+        connection.execute('select * from vinyl where owner_id = :id', [request_user_vinyl], (err, result) => {
+            if (err) {
+                LOG(err.message);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            let vinyl_data = {vinyls: []};
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let vinyl = {};
+                vinyl.page = "/vinyl/" + result.rows[idx][0];
+                vinyl.rpm = result.rows[idx][1];
+                vinyl.state = STATE[result.rows[idx][2]];
+                vinyl.color = COLOR[result.rows[idx][3]];
+                vinyl.channel = CHANNEL[result.rows[idx][4]];
+                vinyl.weight = WEIGHT[result.rows[idx][5]];
+                vinyl.special = SPECIAL[result.rows[idx][6]];
+                vinyl.condition = result.rows[idx][7];
+                vinyl.artist = result.rows[idx][8];
+                vinyl.artist_link = logic.spotify.get_artist_search_link(result.rows[idx][8]);
+                vinyl.title = result.rows[idx][9];
+                vinyl.album_link = logic.spotify.get_album_search_link(result.rows[idx][9]);
+                vinyl.label = result.rows[idx][10];
+                vinyl.genre = GENRE[result.rows[idx][11]];
+                vinyl.owner_link = "/user/" + result.rows[idx][12];
+
+                vinyl_data.vinyls.push(vinyl);
+            }
+
+            connection.execute('select * from users where id = :id', [request_user_vinyl], (err, result) => {
+                if (err) {
+                    LOG(err.message);
+                    message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
+
+                vinyl_data.user = {};
+
+                vinyl_data.user.picture = result.rows[0][7];
+                if (vinyl_data.user.picture === null)
+                    vinyl_data.user.picture = settings.default_profile_pic;
+
+                vinyl_data.user.firstname = result.rows[0][1];
+                vinyl_data.user.lastname = result.rows[0][2];
+
+
+                vinyl_data.user.description = result.rows[0][6];
+                if (vinyl_data.user.description === null)
+                    vinyl_data.user.description = settings.default_description;
+
+
+                vinyl_data.current_user_id = req.user_id;
+                DEBUG(JSON.stringify(vinyl_data));
+
+                fs.readFile(settings.templatesPath + 'vinyls.html', 'utf8', function (err, data) {
+                    res.writeHead(404, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, vinyl_data);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
+            });
+        });
+    });
 };
 
 exports.vinyl_get = function (req, res, path) {
     if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-    let request_vinyl = undefined;
-    if (/^[0-9]+$/.test(path[0]))
-        request_vinyl = Number(path[0]);
-
-    if (request_vinyl === undefined) {
-        message_page(req, res, path, "Invalid ticket ID");
-        return;
-    }
+    let request_vinyl = logic.utils.get_id_from_path(path, 0, req, res);
+    if (request_vinyl === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
@@ -68,6 +140,7 @@ exports.vinyl_get = function (req, res, path) {
             vinyl.genre = GENRE[result.rows[0][11]];
             vinyl.owner_link = "/user/" + result.rows[0][12];
 
+            vinyl.current_user_id = req.user_id;
             DEBUG(JSON.stringify(vinyl));
 
             fs.readFile(settings.templatesPath + 'vinyl.html', 'utf8', function (err, data) {
