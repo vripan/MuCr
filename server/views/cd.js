@@ -4,6 +4,8 @@ let databaseOracle = require('oracledb');
 let settings = require('../settings');
 let fs = require('fs');
 let ejs = require('ejs');
+let async = require("async");
+
 
 exports.cd_delete = function (req, res, path) {
     error_object(req, res, path, 501);
@@ -19,12 +21,11 @@ exports.cd_group_get = function (req, res, path) {
         return;
     }
 
-
-    let request_group_ticket = undefined;
+    let request_group_cd= undefined;
     if (/^[0-9]+$/.test(path[1]))
-        request_group_ticket = Number(path[1]);
+        request_group_cd = Number(path[1]);
 
-    if (request_group_ticket === undefined) {
+    if (request_group_cd === undefined) {
         message_page(req, res, path, "Invalid group ID");
         return;
     }
@@ -36,46 +37,61 @@ exports.cd_group_get = function (req, res, path) {
             return;
         }
 
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'group\' and owner_id = :id', [request_group_ticket], (err, result) => {
+        connection.execute('select * from cds join genre on cds.genre_id=genre.id where owner_type = \'group\' and owner_id = :id', [request_group_cd], (err, result) => {
             if (err) {
                 LOG(err.message);
-                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 124");
                 return;
             }
 
+            let info = {cds: []};
 
-            let info = {tickets: []};
+            async.each(result.rows,
+                function (row, callback) {
+                    let cd = {};
+                    cd.page = "/cd/" + row[0];
+                    cd.title = row[1];
+                    cd.artist_id = row[2];
+                    cd.album_id = row[3];
+                    cd.duration = row[4];
+                    cd.label = row[5];
+                    cd.genre = row[10];
+                    cd.owner_id = row[7];
+                    cd.owner_type = row[8];
+                    cd.owner_link = "/" + cd.owner_type + "/" + cd.owner_id;
+                    delete cd.owner_type;
+                    delete cd.owner_id;
 
-            for (let idx = 0; idx < result.rows.length; idx++) {
-                let ticket = {};
+                    logic.spotify.get_album(cd.album_id, (album_info) => {
+                        cd.picture = logic.utils.assignCheck(album_info.images[0].url, null);
+                        if (cd.picture === null)
+                            cd.picture = logic.utils.assignCheck(album_info.images[1].url, null);
+                        if (cd.picture === null)
+                            cd.picture = logic.utils.assignCheck(album_info.images[2].url, settings.default_album_pic);
 
-                ticket.page = "/ticket/" + result.rows[idx][0];
-                ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
+                        info.cds.push(cd);
 
-                delete ticket.owner_type;
-                delete ticket.owner_id;
+                        callback();
+                    });
+                },
+                function (err) {
+                    if (err) {
+                        LOG(err.message);
+                        message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 924");
+                        return;
+                    }
 
-                let d = new Date(ticket.start_date);
-                ticket.start_date = d.toUTCString();
+                    LOG(info);
 
-                info.tickets.push(ticket);
-            }
-
-
-            LOG(JSON.stringify(info));
-
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
-            });
-            logic.utils.realeaseConnection(connection);
+                    fs.readFile(settings.templatesPath + 'cds.html', 'utf8', function (err, data) {
+                        res.writeHead(404, {'Content-Type': 'text/html'});
+                        data = ejs.render(data, info);
+                        res.write(data);
+                        res.end();
+                    });
+                    logic.utils.realeaseConnection(connection);
+                }
+            );
         });
     });
 };
@@ -93,47 +109,61 @@ exports.cd_all_get = function (req, res, path) {
             return;
         }
 
-        connection.execute('select * from tickets join genre on tickets.genre_id=genre.id where owner_type = \'user\' and owner_id = :id', [req.user_id], (err, result) => {
+        connection.execute('select * from cds join genre on cds.genre_id=genre.id where owner_type = \'user\' and owner_id = :id', [req.user_id], (err, result) => {
             if (err) {
                 LOG(err.message);
-                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 124");
                 return;
             }
 
+            let info = {cds: []};
 
-            let info = {tickets: []};
+            async.each(result.rows,
+                function (row, callback) {
+                    let cd = {};
+                    cd.page = "/cd/" + row[0];
+                    cd.title = row[1];
+                    cd.artist_id = row[2];
+                    cd.album_id = row[3];
+                    cd.duration = row[4];
+                    cd.label = row[5];
+                    cd.genre = row[10];
+                    cd.owner_id = row[7];
+                    cd.owner_type = row[8];
+                    cd.owner_link = "/" + cd.owner_type + "/" + cd.owner_id;
+                    delete cd.owner_type;
+                    delete cd.owner_id;
 
-            for (let idx = 0; idx < result.rows.length; idx++) {
-                let ticket = {};
+                    logic.spotify.get_album(cd.album_id, (album_info) => {
+                        cd.picture = logic.utils.assignCheck(album_info.images[0].url, null);
+                        if (cd.picture === null)
+                            cd.picture = logic.utils.assignCheck(album_info.images[1].url, null);
+                        if (cd.picture === null)
+                            cd.picture = logic.utils.assignCheck(album_info.images[2].url, settings.default_album_pic);
 
-                ticket.page = "/ticket/" + result.rows[idx][0];
-                ticket.event_name = result.rows[idx][1];
-                ticket.genre = result.rows[idx][7];
-                ticket.start_date = result.rows[idx][3];
-                ticket.owner_id = result.rows[idx][4];
-                ticket.owner_type = result.rows[idx][5];
-                ticket.owner_link = "/" + ticket.owner_type + "/" + ticket.owner_id;
+                        info.cds.push(cd);
 
-                delete ticket.owner_type;
-                delete ticket.owner_id;
+                        callback();
+                    });
+                },
+                function (err) {
+                    if (err) {
+                        LOG(err.message);
+                        message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 924");
+                        return;
+                    }
 
-                let d = new Date(ticket.start_date);
-                ticket.start_date = d.toUTCString();
+                    LOG(info);
 
-                info.tickets.push(ticket);
-            }
-
-
-            LOG(JSON.stringify(info));
-
-            fs.readFile(settings.templatesPath + 'tickets.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
-            });
-            logic.utils.realeaseConnection(connection);
-
+                    fs.readFile(settings.templatesPath + 'cds.html', 'utf8', function (err, data) {
+                        res.writeHead(404, {'Content-Type': 'text/html'});
+                        data = ejs.render(data, info);
+                        res.write(data);
+                        res.end();
+                    });
+                    logic.utils.realeaseConnection(connection);
+                }
+            );
         });
     });
 };
@@ -160,10 +190,10 @@ exports.cd_get = function (req, res, path) {
             return;
         }
 
-        connection.execute('select * from cds join genre on cds.genre_id=genre.id where id = :id', [request_cd], (err, result) => {
+        connection.execute('select * from cds join genre on cds.genre_id=genre.id where cds.id = :id', [request_cd], (err, result) => {
             if (err) {
                 LOG(err.message);
-                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 124");
                 return;
             }
 
@@ -176,27 +206,39 @@ exports.cd_get = function (req, res, path) {
             info.page = "/cd/" + result.rows[0][0];
             info.title = result.rows[0][1];
             info.artist_id = result.rows[0][2];
-            info.duration = result.rows[0][3];
-            info.label = result.rows[0][4];
-            info.genre = result.rows[0][9];
-            info.owner_id = result.rows[0][6];
-            info.owner_type = result.rows[0][7];
-
-
+            info.album_id = result.rows[0][3];
+            info.duration = result.rows[0][4];
+            info.label = result.rows[0][5];
+            info.genre = result.rows[0][10];
+            info.owner_id = result.rows[0][7];
+            info.owner_type = result.rows[0][8];
             info.owner_link = "/" + info.owner_type + "/" + info.owner_id;
+
 
             delete info.owner_type;
             delete info.owner_id;
 
-            LOG(JSON.stringify(info));
+            logic.spotify.get_album(info.album_id, (album_info) => {
+                if (album_info === null) {
+                    message_page(req, res, path, "Invalid album ID.");
+                    return;
+                }
 
-            fs.readFile(settings.templatesPath + 'cd.html', 'utf8', function (err, data) {
-                res.writeHead(404, {'Content-Type': 'text/html'});
-                data = ejs.render(data, info);
-                res.write(data);
-                res.end();
+                info.picture = logic.utils.assignCheck(album_info.images[0].url, null);
+                if (info.picture === null)
+                    info.picture = logic.utils.assignCheck(album_info.images[1].url, null);
+                if (info.picture === null)
+                    info.picture = logic.utils.assignCheck(album_info.images[2].url, settings.default_album_pic);
+
+                fs.readFile(settings.templatesPath + 'cd.html', 'utf8', function (err, data) {
+                    res.writeHead(404, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, info);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
             });
-            logic.utils.realeaseConnection(connection);
+
         });
     });
 };
@@ -246,8 +288,8 @@ exports.cd_create = function (req, res, path) {
 
             connection.execute('select count(*) from cds where title = :name and owner_id = :own_id and owner_type = :type', {
                 "name": req.body.title,
-                "own_id": req.body.owner_id,
-                "type": req.body.owner_type
+                    "own_id": req.body.owner_id,
+                    "type": req.body.owner_type
             }, (err, result) => {
                 if (err) {
                     LOG(err);
@@ -287,7 +329,7 @@ exports.cd_create = function (req, res, path) {
 
                     LOG(JSON.stringify(req.body));
 
-                    connection.execute("insert into cds values(NULL,:title,:artist,:duration,:label,:genre_id,:owner_id,:owner_type)", req.body, settings.queryOptions, (err, result) => {
+                    connection.execute("insert into cds values(NULL,:title,:artist,:album,:duration,:label,:genre_id,:owner_id,:owner_type)", req.body, settings.queryOptions, (err, result) => {
                         if (err) {
                             console.log(err);
                             error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
