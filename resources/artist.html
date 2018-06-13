@@ -1,28 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Artist <%= name %></title>
+    <title>
+        <%= name %>
+    </title>
 </head>
+
 <body>
-<%= name %><br>
-Inre 0 si 100, merge un progress bar. <%= popularity %><br>
+    <!DOCTYPE html>
 
-<img src="<%= artist_profile_picture %>" alt="artist">
+    <html>
 
-<% if(albums.length >0) {%>
-<h1>Albums</h1>
-<ul>
-    <% albums.forEach((album) => { %>
-    <li><a href="/album/<%= album.id %>">
-        <img src="<%=album.picture%>">
-        <%=album.release_date%>
-        <%=album.type%>
-        <%= album.name%></a></li>
-    <% }); %>
-</ul>
-<% } %>
+    <head>
+
+        <!--- basic page needs
+            ================================================== -->
+        <meta charset="utf-8">
+        <title>My profile</title>
+
+        <!-- mobile specific metas
+            ================================================== -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- CSS
+            ================================================== -->
+        <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+        <link rel="stylesheet" type="text/css" href="/css/base.css">
+        <link rel="stylesheet" type="text/css" href="/css/new.css">
+        <link rel="stylesheet" type="text/css" href="/css/profile.css">
 
 
-</body>
-</html>
+        <!-- script
+            ================================================== -->
+        <script src="/js/pace.min.js"></script>
+
+        <!-- favicons
+            ================================================== -->
+        <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
+    </head>
+
+    <body id="top">
+
+        <!-- header
+            ================================================== -->
+        <header class="s-header">
+
+            <div class="header-logo">
+                <a href="#">
+                    <img src="/img/logo.png" alt="Homepage">
+                </a>
+            </div>
+
+            <nav class="header-nav">
+
+                <a href="#0" class="header-nav__close" title="close">
+                    <span>Close</span>
+                </a>
+
+                <div class="header-nav__content">
+                    <h3>Navigation</h3>
+
+                    <ul class="header-nav__list">
+                        <li>
+                            <a class="smoothscroll" href="index.html" title="home">Home</a>
+                        </li>
+                        <li>
+                            <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                        </li>
+                        <li class="current">
+                            <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                        </li>
+                        <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                        <li>
+                            <a class="smoothscroll" href="#clients" title="clients"></a>
+                        </li>
+                        <li id="last">
+                            <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                        </li>
+                    </ul>
+
+                    <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                        during 2017-2018. All rights reserved.
+                    </p>
+
+                </div>
+                <!-- end header-nav__content -->
+
+            </nav>
+            <!-- end header-nav -->
+
+            <a class="header-menu-toggle" href="#0">
+                <span class="header-menu-text">Menu</span>
+                <span class="header-menu-icon"></span>
+            </a>
+
+        </header>
+        <!-- end s-header -->
+
+        <div class="content">
+            <div class="container">
+                <div class="home_title_wrap">
+                    <div class="inner">
+                        <div class="profile-picture">
+                            <img src="<%= artist_profile_picture %>" alt="artist">
+                        </div>
+                        <div class="info">
+                            <h3>
+                                <%= name %>
+                            </h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio quasi accusantium illo inventore
+                                tempora voluptates fugiat repudiandae cupiditate iste nemo mollitia, veniam neque velit!
+                                Dolor provident architecto commodi modi eveniet?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="container">
+                    <div class="portfolio_wrap">
+                        <ul class="portfolio_list">
+                            <% albums.forEach((album) => { %>
+                                <li>
+                                    <div class="list_inner">
+                                        <div class="image_wrap">
+                                            <img src="<%=album.picture%>" alt="" />
+                                        </div>
+                                        <div class="image_overlay"></div>
+                                        <div class="image_definition">
+                                            <div class="title">
+                                                <a href="#">
+                                                    <%=album.release_date%>
+                                                        <br>
+                                                        <%=album.type%>
+                                                            <br>
+                                                            <%= album.name%>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <% }); %>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <%= name %>
+            <br> Inre 0 si 100, merge un progress bar.
+            <%= popularity %>
+                <br>
+
+                <img src="<%= artist_profile_picture %>" alt="artist">
+
+                <% if(albums.length >0) {%>
+                    <h1>Albums</h1>
+                    <ul>
+                        <% albums.forEach((album) => { %>
+                            <li>
+                                <a href="/album/<%= album.id %>">
+                                    <img src="<%=album.picture%>">
+                                    <%=album.release_date%>
+                                        <%=album.type%>
+                                            <%= album.name%>
+                                </a>
+                            </li>
+                            <% }); %>
+                    </ul>
+                    <% } %> -->
+        <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+            ============================================================== -->
+        <script src="/js/jquery-3.2.1.min.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="/js/modal.js"></script>
+
+
+    </body>
+
+    </html>
