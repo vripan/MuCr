@@ -9,3 +9,5 @@ exports.album = require("./album");
 exports.group = require("./group");
 exports.ticket = require("./ticket");
 exports.cd = require('./cd');
+exports.cassette = require('./cassette');
+exports.vinyl = require('./vinyl');

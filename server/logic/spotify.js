@@ -87,3 +87,11 @@ exports.get_tracks_by_album = function (album_id, callback) {
         callback(tracks_info);
     });
 };
+
+exports.get_artist_search_link = function (artist_name) {
+    return "/search?type=artist&query=" + encodeURIComponent(artist_name);
+};
+
+exports.get_album_search_link = function (album_name) {
+    return "/search?type=album&query=" + encodeURIComponent(album_name);
+};

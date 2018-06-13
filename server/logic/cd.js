@@ -3,36 +3,43 @@
 let utils = require("./utils");
 let model = require("../models");
 
-exports.check_cd = function (req) {
+let check = function (req) {
     try {
-
         if (!model.cd.isOk(req.body))
             return "Incomplete data";
-        LOG(JSON.stringify(req.body));
 
+        if (!(utils.checkLength(req.body.title, 3, 50) &&
+            utils.checkLength(req.body.artist, 3, 20) &&
+            utils.checkLength(req.body.label, 3, 50)))
+            return "Title or artist name or label too short";
 
-        if (!(utils.checkLength(req.body.artist, 3, 50) &&
-            utils.checkLength(req.body.label, 3, 20) &&
-            utils.checkLength(req.body.album, 3, 50) &&
-            utils.checkLength(req.body.title, 3, 20) &&
-            utils.checkLength(req.body.group_name, 3, 20)))
-            return "Name too short";
+        if (!(utils.isAlfanumeric(req.body.title) &&
+            utils.isAlfanumeric(req.body.artist) &&
+            utils.isAlfanumeric(req.body.label)))
+            return "Invalid characters in title, artist or label";
 
-        if (!(utils.isAlfanumeric(req.body.artist) &&
-            utils.isAlfanumeric(req.body.album) &&
-            utils.isAlfanumeric(req.body.label) &&
-            utils.isAlfanumeric(req.body.title) &&
-            utils.isAlfanumeric(req.body.group_name)))
-            return "Invalid characters";
+        if (req.body.duration < 0)
+            return "Invalid duration";
 
-        if (req.body.owner_type !== "user" && req.body.owner_type !== "group")
-            return "Invalid owner";
-
-        if(req.body.duration <0)
-            return "Invalid cd duration";
+        if (GENRE[req.body.genre_id] === undefined)
+            return "Invalid genre";
 
     } catch (err) {
         return "Something went wrong";
     }
     return undefined;
+};
+
+exports.check_cd = function (req, res, path) {
+    let message = check(req);
+
+    if (message !== undefined) {
+        LOG("Invalid CD data");
+        error_object(req, res, path, {
+            msg: message,
+            code: 6
+        });
+        return false;
+    }
+    return true;
 };

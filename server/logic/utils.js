@@ -73,8 +73,12 @@ exports.JSONparse = function (req, res, path, callback) {
 };
 
 exports.mustBeLoggedIn = function (req, res, path) {
-    return req.user_id !== undefined;
-
+    if (req.user_id === undefined) {
+        LOG("Not logged in");
+        error_page(req, res, path, 401);
+        return false;
+    }
+    return true;
 };
 
 exports.checkLength = function (str, min, max) {
@@ -106,3 +110,27 @@ global.send_object = function (req, res, path, object) {
 
 exports.assignCheck = assignCheck;
 exports.parse = parse;
+
+exports.check_request_body = function (req, res, path) {
+    if (req.body === undefined) {
+        LOG("Unable to parse JSON");
+        error_object(req, res, path, {
+            msg: 'Something went wrong. Try again.',
+            code: 1
+        });
+        return false;
+    }
+    return true;
+};
+
+exports.get_id_from_path= function (path, idx, req, res) {
+    let id = undefined;
+    if (/^[0-9]+$/.test(path[idx]))
+        id = Number(path[idx]);
+
+    if (id === undefined) {
+        message_page(req, res, path, "Invalid ID");
+        return false;
+    }
+    return true;
+};
