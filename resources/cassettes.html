@@ -7,9 +7,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>
-        <%= title %>
-    </title>
+    <title>My Cassettes</title>
 
     <!-- mobile specific metas
     ================================================== -->
@@ -21,7 +19,6 @@
     <link rel="stylesheet" type="text/css" href="/css/base.css">
     <link rel="stylesheet" type="text/css" href="/css/new.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
-    <link rel="stylesheet" type="text/css" href="/css/latest.css">
 
 
     <!-- script
@@ -39,9 +36,9 @@
 
 </head>
 
-<body id="top">
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
 
-   <!-- header
+    <!-- header
     ================================================== -->
     <header class="s-header">
 
@@ -97,90 +94,55 @@
     </header>
     <!-- end s-header -->
 
-    <!-- CONTENT -->
-    <div class="content" id="single">
+    <div class="content">
         <div class="container">
-            <div class="home_title_wrap portfolio">
+            <div class="home_title_wrap">
                 <div class="inner">
                     <div class="profile-picture">
-                        <img src="/img/default_cassette.jpg" alt="artist">
+                        <img src="<%=user.picture%>" alt="">
                     </div>
-                    <div class="info" id="notting">
-                        <div class="title portfolio">
-                            <h3>Cassette Details</h3>
-                        </div>
-                        <div class="detail_list">
-                            <ul>
-                                <li>
-                                    <span class="first">Artist:</span>
-                                    <span class="second">
-                                        <a href="<%=artist_link%>">
-                                            <%=artist%>
-                                        </a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Album Title:</span>
-                                    <span class="second">
-                                        <a href="<%=album_link%>">
-                                            <%=title%>
-                                        </a>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Label:</span>
-                                    <span class="second">
-                                        <%=label%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Genre:</span>
-                                    <span class="second">
-                                        <%=genre%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Channel:</span>
-                                    <span class="second">
-                                        <%=channel%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Type:</span>
-                                    <span class="second">
-                                        <%=type%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">State:</span>
-                                    <span class="second">
-                                        <%=state%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Duration:</span>
-                                    <span class="second">
-                                        <%=duration%>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="first">Owner:</span>
-                                    <span class="second">
-                                        <a href="<%= owner_link %>"> See owner</a>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="info">
+                        <h3>
+                            <%=user.firstname%>
+                                <%=user.lastname%>
+                        </h3>
+                        <p>
+                            <%=user.description%>
+                        </p>
                     </div>
                 </div>
             </div>
-
-
         </div>
-
+        <div class="section">
+            <div class="container">
+                <div class="portfolio_wrap">
+                    <ul class="portfolio_list">
+                        <% cassettes.forEach((cassette) => { %>
+                            <li>
+                                <div class="list_inner">
+                                    <div class="image_wrap">
+                                        <img src="/img/default_cassette.jpg" alt="" />
+                                    </div>
+                                    <div class="image_overlay"></div>
+                                    <div class="image_definition">
+                                        <div class="title">
+                                            <a href="<%= cassette.page %>">
+                                                <%= cassette.artist %>
+                                                    <br>
+                                                    <%= cassette.title %>
+                                                        <br>
+                                                        <%= cassette.genre %>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <%});%>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- /CONTENT -->
 
     <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
     ============================================================== -->
