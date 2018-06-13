@@ -47,15 +47,29 @@ let documentation = function (req, res, path) {
     }
 };
 
+let create = function(req,res,path)
+{
+    switch (req.method) {
+        case 'GET':
+            views.staticRes.create_get(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
+
 let URLMap = {
     '': landing,
     'index': landing,
     'register': register,
     'login': login,
-    'documentation': documentation
+    'documentation': documentation,
+    'create': create
 };
 
 exports.requestListener = function (request, response, path) {
+    if(path[1] === undefined) path.push('');
     let resolver = URLMap[path[1]];
     if (resolver === undefined) error_page(request, response, path.slice(1), 404);
     else resolver(request, response, path.slice(1));

@@ -33,8 +33,8 @@ let URLMap = {
 };
 
 exports.requestListener = function (request, response, path) {
+    if(path[1] === undefined) path.push('');
     let resolver = URLMap[path[1]];
-
     if (resolver === undefined)
         for (let key in URLMap) {
             if (URLMap.hasOwnProperty(key)) {

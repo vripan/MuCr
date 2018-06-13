@@ -1,0 +1,8 @@
+<h1>Tickets: </h1>
+<% tickets.forEach((ticket) => { %>
+name: <%=ticket.event_name%><br>
+start_date: <%=ticket.start_date%><br>
+genre: <%=ticket.genre%><br>
+individual page: <%=ticket.page%><br>
+owner: <a href="<%=ticket.owner_link%>">go to owner</a><br><br><br>
+<%});%>
