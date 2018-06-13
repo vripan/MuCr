@@ -33,6 +33,8 @@ databaseOracle.createPool(settings.databaseInfo, (err) => {
         process.exit(2);
     }
 
+    LOG("All good...");
+
     LOG('Connected to database...');
     http.createServer(controllers.requestListener).listen(settings.PORT);
     LOG("Server listening to port " + settings.PORT + "...");
