@@ -1,8 +1,153 @@
-<h1>Tickets: </h1>
-<% tickets.forEach((ticket) => { %>
-name: <%=ticket.event_name%><br>
-start_date: <%=ticket.start_date%><br>
-genre: <%=ticket.genre%><br>
-individual page: <%=ticket.page%><br>
-owner: <a href="<%=ticket.owner_link%>">go to owner</a><br><br><br>
-<%});%>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>My Tickets</title>
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/new.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
+</head>
+
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a href="/user">
+                <img src="/img/logo.png" alt="Homepage">
+            </a>
+        </div>
+
+        <nav class="header-nav">
+
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
+
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li>
+                        <a class="smoothscroll" href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                    </li>
+                    <li class="current">
+                        <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                    </li>
+                    <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                    <li>
+                        <a class="smoothscroll" href="#clients" title="clients"></a>
+                    </li>
+                    <li id="last">
+                        <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                    </li>
+                </ul>
+
+                <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                    during 2017-2018. All rights reserved.
+                </p>
+
+            </div>
+            <!-- end header-nav__content -->
+
+        </nav>
+        <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header>
+    <!-- end s-header -->
+
+    <div class="content">
+        <div class="container">
+            <div class="home_title_wrap">
+                <div class="inner">
+                    <div class="profile-picture">
+                        <img src="<%=user.picture%>" alt="">
+                    </div>
+                    <div class="info">
+                        <h3>
+                            <%=user.firstname%>
+                                <%=user.lastname%>
+                        </h3>
+                        <p>
+                            <%=user.description%>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="portfolio_wrap">
+                    <ul class="portfolio_list">
+                        <% tickets.forEach((ticket) => { %>
+                            <li>
+                                <div class="list_inner">
+                                    <div class="image_wrap">
+                                        <img src="/img/default_ticket.jpg" alt="" />
+                                    </div>
+                                    <div class="image_overlay"></div>
+                                    <div class="image_definition">
+                                        <div class="title">
+                                            <a href="<%= ticket.page %>">
+                                                <%= ticket.artist %>
+                                                    <br>
+                                                    <%= ticket.event_name %>
+                                                        <br>
+                                                        <%= ticket.price %>$
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <%});%>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
