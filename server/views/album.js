@@ -8,7 +8,7 @@ let ejs = require('ejs');
 exports.album_get = function (req, res, path) {
     let spotify_album_id = path[0];
     let template_info = {};
-    LOG('here');
+
     logic.spotify.get_album(spotify_album_id, (album_info) => {
         if (album_info === null) {
             message_page(req, res, path, "Invalid album ID.");

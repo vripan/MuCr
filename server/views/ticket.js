@@ -14,18 +14,91 @@ exports.ticket_update = function (req, res, path) {
 };
 
 exports.ticket_group_get = function (req, res, path) {
-    //Todo: here
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    let request_group_ticket = logic.utils.get_id_from_path(path, 1, req, res);
+    if (request_group_ticket === false) return;
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
+            return;
+        }
+
+
+        connection.execute('select * from users join belongs on users.id =belongs.member_id join tickets item on item.owner_id=users.id  where belongs.group_id = :id', [request_group_ticket], (err, result) => {
+            if (err) {
+                LOG(err.message);
+                logic.utils.realeaseConnection(connection);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            let item_data = {tickets: []};
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let ticket = {};
+                ticket.page = "/ticket/" + result.rows[idx][12];
+                ticket.event_name = result.rows[idx][13];
+                ticket.location = result.rows[idx][14];
+                ticket.genre = GENRE[result.rows[idx][15]];
+                ticket.start_date = result.rows[idx][16];
+                ticket.artist = result.rows[idx][17];
+                ticket.artist_link = logic.spotify.get_artist_search_link(result.rows[idx][17]);
+                ticket.price = result.rows[idx][18];
+                ticket.owner_link = "/user/" + result.rows[idx][19];
+
+                let d = new Date(ticket.start_date);
+                ticket.start_date = d.toUTCString();
+
+                item_data.tickets.push(ticket);
+            }
+
+            connection.execute('select * from groups where id = :id', [request_group_ticket], (err, result) => {
+                if (err) {
+                    LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
+
+                if (result.rows.length === 0) {
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Invalid group id");
+                    return;
+                }
+
+                item_data.group = {};
+                item_data.group.id = result.rows[0][0];
+                item_data.group.name = result.rows[0][1];
+                item_data.group.owner_id = result.rows[0][2];
+
+                DEBUG(JSON.stringify(item_data));
+
+                fs.readFile(settings.templatesPath + 'group_tickets.html', 'utf8', function (err, data) {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    data = ejs.render(data, item_data);
+                    res.write(data);
+                    res.end();
+                });
+                logic.utils.realeaseConnection(connection);
+            });
+        });
+    });
 };
 
 exports.ticket_all_get = function (req, res, path) {
     if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-    let request_user_tickets = logic.utils.get_id_from_path(path,0,req,res);
+    let request_user_tickets = logic.utils.get_id_from_path(path, 1, req, res);
     if (request_user_tickets === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
@@ -33,6 +106,7 @@ exports.ticket_all_get = function (req, res, path) {
         connection.execute('select * from tickets where owner_id = :id', [request_user_tickets], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
@@ -60,7 +134,14 @@ exports.ticket_all_get = function (req, res, path) {
             connection.execute('select * from users where id = :id', [request_user_tickets], (err, result) => {
                 if (err) {
                     LOG(err.message);
+                    logic.utils.realeaseConnection(connection);
                     message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                    return;
+                }
+
+                if (result.rows.length === 0) {
+                    logic.utils.realeaseConnection(connection);
+                    message_page(req, res, path, "Invalid user ID");
                     return;
                 }
 
@@ -76,7 +157,7 @@ exports.ticket_all_get = function (req, res, path) {
 
 
                 tickets_data.user.description = result.rows[0][6];
-                if(tickets_data.user.description === null)
+                if (tickets_data.user.description === null)
                     tickets_data.user.description = settings.default_description;
 
                 tickets_data.current_user_id = req.user_id;
@@ -99,12 +180,13 @@ exports.ticket_all_get = function (req, res, path) {
 exports.ticket_get = function (req, res, path) {
     if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
 
-    let request_ticket = logic.utils.get_id_from_path(path,0,req,res);
+    let request_ticket = logic.utils.get_id_from_path(path, 0, req, res);
     if (request_ticket === false) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
             LOG(err.message);
+            logic.utils.realeaseConnection(connection);
             message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
             return;
         }
@@ -112,11 +194,13 @@ exports.ticket_get = function (req, res, path) {
         connection.execute('select * from tickets where id = :id', [request_ticket], (err, result) => {
             if (err) {
                 LOG(err.message);
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
                 return;
             }
 
             if (result.rows.length === 0) {
+                logic.utils.realeaseConnection(connection);
                 message_page(req, res, path, "Invalid ticket");
                 return;
             }
@@ -156,7 +240,8 @@ exports.ticket_create = function (req, res, path) {
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
-            LOG(err.message);
+            DEBUG(err.message);
+            logic.utils.realeaseConnection(connection);
             error_object(req, res, path, {
                 msg: 'Something went wrong. Try again.',
                 code: 2
@@ -169,7 +254,8 @@ exports.ticket_create = function (req, res, path) {
             "own_id": req.user_id
         }, (err, result) => {
             if (err) {
-                LOG(err);
+                DEBUG(err);
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'Something went wrong. Try again.',
                     code: 3
@@ -178,6 +264,7 @@ exports.ticket_create = function (req, res, path) {
             }
 
             if (result.rows[0][0] !== 0) {
+                logic.utils.realeaseConnection(connection);
                 error_object(req, res, path, {
                     msg: 'You already own a ticket for this event.', code: 4
                 });
@@ -191,6 +278,7 @@ exports.ticket_create = function (req, res, path) {
             connection.execute("insert into tickets values(NULL,:event_name,:location,:genre_id,:start_date,:artist,:price,:owner_id)", req.body, settings.queryOptions, (err, result) => {
                 if (err) {
                     console.log(err);
+                    logic.utils.realeaseConnection(connection);
                     error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
                     return;
                 }

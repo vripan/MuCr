@@ -1,7 +1,7 @@
 "use strict";
 
 exports.checkIfGroup = function (req, res, path, connection, callback) {
-
+    //Todo:check if we still need this
     req.group_id = null;
     if (req.body.owner_type === "group") {
         connection.execute('select * from groups where owner_id = :id and name = :name', [req.user_id, req.body.group_name], (err, result) => {
