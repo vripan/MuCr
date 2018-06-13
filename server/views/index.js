@@ -7,3 +7,5 @@ exports.object = require("./object");
 exports.artist = require("./artist");
 exports.album = require("./album");
 exports.group = require("./group");
+exports.ticket = require("./ticket");
+exports.cd = require('./cd');
