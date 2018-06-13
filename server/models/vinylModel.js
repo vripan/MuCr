@@ -1,9 +1,15 @@
 module.exports = {
-    title: "string",
-    artist: "string",
-    duration: "number",
-    label: "string",
-    genre_id: "number",
+    rpm:"number",
+    state:"number", // 1--10
+    color:"number",
+    channel:"number",
+    weight:"number",
+    special:"number",
+    condition:"number", //0 sau 1
+    genre_id:"number",
+    artist:"string",
+    title:"string",
+    label:"string",
     isOk: function (object) {
         for (let key in object) {
             if (key === "isOk") {
