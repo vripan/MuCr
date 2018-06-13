@@ -12,23 +12,23 @@ let group = require('./group');
 let ticket = require('./ticket');
 let cd = require('./cd');
 let cassette = require('./cassete');
+let vinyl = require('./vinyl');
 
 let URLMap = {
-    'search': sss,
-
     '': staticRes.landing,
     'index': staticRes.landing,
     'static': staticRes.requestListener,
 
     'user': user.requestListener,
+    'group': group.requestListener,
 
     'album': album.requestListener,
     'artist': artist.requestListener,
-    'group': group.requestListener,
+
     'cd': cd.requestListener,
     'cassette': cassette.requestListener,
-
     'ticket': ticket.requestListener,
+    'vinyl':vinyl.requestListener,
 
     'js': resource.resource,
     'css': resource.resource,

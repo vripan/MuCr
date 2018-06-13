@@ -132,10 +132,108 @@ module.exports = function () {
         510: 'Not Extended (RFC 2774)',
         511: 'Network Authentication Required (RFC 6585)',
     };
+    global.GENRE = {
+        "1": "Alternative",
+        "2": "Anime",
+        "3": "Blues",
+        "4": "Children’s Music",
+        "5": "Classical",
+        "6": "Comedy",
+        "7": "Commercial",
+        "8": "Country",
+        "9": "Dance",
+        "10": "Disney",
+        "11": "Easy Listening",
+        "12": "Electronic",
+        "13": "Enka",
+        "14": "French Pop",
+        "15": "German Folk",
+        "16": "German Pop",
+        "17": "Fitness & Workout",
+        "18": "Hip-Hop/Rap",
+        "19": "Holiday",
+        "20": "Indie Pop",
+        "21": "Industrial",
+        "22": "Inspirational",
+        "23": "Instrumental",
+        "24": "J-Pop",
+        "25": "Jazz",
+        "26": "K-Pop",
+        "27": "Karaoke",
+        "28": "Kayokyoku",
+        "29": "Latin",
+        "30": "New Age",
+        "31": "Opera",
+        "32": "Pop",
+        "33": "R&B/Soul",
+        "34": "Reggae",
+        "35": "Rock",
+        "36": "Singer/Songwriter",
+        "37": "Soundtrack",
+        "38": "Spoken Word",
+        "39": "Tejano",
+        "40": "Vocal"
+    };
+    global.MONTHS = {
+        "0": "January",
+        "1": "February",
+        "2": "March",
+        "3": "April",
+        "4": "May",
+        "5": "June",
+        "6": "July",
+        "7": "August",
+        "8": "September",
+        "9": "October",
+        "10": "November",
+        "11": "December"
+    };
+    global.CASSETTE_STATE = {
+        "0": "USED",
+        "1": "NEW"
+    };
+    global.CHANNEL = {
+        "0": "MONO",
+        "1": "STEREO"
+    };
+    global.CASSETTE_TYPE = {
+        "0": "TAPE RECORDER", //MAGNETOFON
+        "1": "CASSETTE PLAYER" //CASETOFON
+    };
+
+    global.COLOR = {
+        "1": "Default/Black",
+        "2": "Red",
+        "3": "Green",
+        "4": "Blue",
+        "5": "Yellow",
+        "6": "Pink",
+        "7": "Multicolor",
+    };
+
+    global.WEIGHT = {
+        "120": "120",
+        "180": "180",
+        "200": "200"
+    };
+
+    global.SPECIAL = {
+        "1":"YES",
+        "0":"NO"
+    };
+
+    global.CONDITION = {
+        "1":"NEW",
+        "0":"USED"
+    };
+
+    global.STATE = {
+        "1":"NEW",
+        "0":"USED"
+    };
 
     global.spotify_access_token = null;
 
     logic.spotify.get_access_token();
-    setInterval(logic.spotify.get_access_token,1000 * 60 * 45); // 45 minutes
-
+    setInterval(logic.spotify.get_access_token, 1000 * 60 * 45); // 45 minutes
 };
