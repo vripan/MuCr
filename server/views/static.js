@@ -18,6 +18,20 @@ exports.landing_get = function (req,res,path) {
     });
 };
 
+exports.update_user = function (req,res,path) {
+    fs.readFile(settings.templatesPath + 'settings.html', function (err, data) {
+        if (err) {
+            LOG(err.message);
+            error_page(request,response,path,500);
+            return;
+        }
+
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        res.end();
+    });
+};
+
 exports.create_group_get = function (req,res,path) {
     fs.readFile(settings.templatesPath + 'create-group.html', function (err, data) {
         if (err) {

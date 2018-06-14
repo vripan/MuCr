@@ -102,7 +102,7 @@ exports.search_artist = function(query, callback)
         let results = null;
 
         if (response.statusCode !== 200) {
-            LOG("Invalid artist search: " + album_id);
+            LOG("Invalid artist search: " + query);
             let err = utils.parse(body);
             if (err != null && err.error !== undefined)
                 LOG("Err: " + err.error.message);
@@ -121,7 +121,7 @@ exports.search_album = function(query, callback)
         let results = null;
 
         if (response.statusCode !== 200) {
-            LOG("Invalid artist search: " + album_id);
+            LOG("Invalid artist search: " + query);
             let err = utils.parse(body);
             if (err != null && err.error !== undefined)
                 LOG("Err: " + err.error.message);

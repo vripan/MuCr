@@ -38,12 +38,13 @@ exports.artist_get = function (req, res, path) {
                     tempalte_album.id = logic.utils.assignCheck(album.id, settings.default_album_id);
 
 
-                    tempalte_album.picture = logic.utils.assignCheck(album.images[0].url, null);
-                    if (tempalte_album.picture === null)
-                        tempalte_album.picture = logic.utils.assignCheck(album.images[1].url, null);
-                    if (tempalte_album.picture === null)
-                        tempalte_album.picture = logic.utils.assignCheck(album.images[2].url, settings.default_album_pic);
-
+                    if (album.images !== undefined && album.images.length > 0) {
+                        tempalte_album.picture = logic.utils.assignCheck(album.images[0].url, null);
+                        if (tempalte_album.picture === null)
+                            tempalte_album.picture = logic.utils.assignCheck(album.images[1].url, null);
+                        if (tempalte_album.picture === null)
+                            tempalte_album.picture = logic.utils.assignCheck(album.images[2].url, settings.default_album_pic);
+                    } else tempalte_album.picture = settings.default_album_pic;
                     template_info.albums.push(tempalte_album);
                 }
 

@@ -6,13 +6,22 @@ let sha256 = require('sha256');
 let cookies = require('cookies');
 let fs = require('fs');
 let ejs = require('ejs');
+let multipart = require("multipart");
 
 exports.user_delete = function (req, res, path) {
     error_object(req, res, path, 501);
 };
 
 exports.user_update = function (req, res, path) {
-    error_object(req, res, path, 501);
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    //   let form = new formidable.IncomingForm();
+    // form.parse(req, function(err,fields,files){
+    //     LOG(files);
+    //     LOG(fields);
+    //     message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com");
+    // });
+
 };
 
 exports.user_get = function (req, res, path) {
