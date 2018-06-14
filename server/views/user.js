@@ -103,8 +103,6 @@ exports.user_get = function (req, res, path) {
                         return;
                     }
 
-                    DEBUG(result);
-
                     for (let idx = 0; idx < result.rows.length; idx++) {
                         let g_member = {};
                         g_member.link = "/group/" + result.rows[idx][1];
