@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Create Group - Music Collector</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/forms.css">
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
+    <div class="header">
+        <div class="formbox">
+            <div class="logo">
+                <img src="/img/logo.png" alt="Homepage">
+            </div>
+            <form id='create-group'>
+                <p>Group Name</p>
+                <input id='group-name' type="text" name="text" placeholder="Enter group name" required>
+                <div id="msg" class="message"></div>
+                <input id="submit_button" type="submit" value="Create Group">
+            </form>
+        </div>
+    </div>
+    <script>
+        let clear_message_container = function () {
+            let info = document.getElementById("msg");
+    
+            if (info.classList.contains("message-error"))
+                info.classList.remove("message-error");
+    
+            if (info.classList.contains("message-warning"))
+                info.classList.remove("message-warning");
+    
+            if (info.classList.contains("message-success"))
+                info.classList.remove("message-success");
+    
+            if (!info.classList.contains("message"))
+                info.classList.add("message");
+    
+            info.innerText = "";
+        };
+        let show_error = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
+    
+            info.classList.add("message-error");
+            info.innerHTML = message;
+        };
+        let show_warning = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
+    
+            info.classList.add("message-warning");
+            info.innerText = message;
+        };
+        let show_succcess = function (message) {
+            let info = document.getElementById("msg");
+            clear_message_container();
+    
+            info.classList.add("message-success");
+            info.innerText = message;
+        };
+    
+    
+        let ajax_group_listener = function () {
+                switch (this.readyState) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        document.getElementById("submit_button").disabled = true;
+                        show_warning("Getting it ready...");
+                        break;
+                    case 4:
+                        let response;
+                        document.getElementById("submit_button").disabled = false;
+                        document.getElementById("submit_button").innerText = "Register";
+                        try {
+                            response = JSON.parse(this.responseText);
+                        } catch (err) {
+                            show_error("Bad server response. Try again.");
+                            return;
+                        }
+                        if (response === undefined || response.code === undefined || response.msg === undefined) {
+                            show_error("Invalid server response. Try again.");
+                            return;
+                        }
+    
+                        if (response.code === 0) {
+                            let _form = document.getElementById('create-group');
+                            if (_form) _form.reset();
+    
+                            show_succcess("Account created!\nYou will be redirected to your profile.");
+                            setTimeout(() => {
+                                window.location.href = "/user";
+                            }, 4000);
+                        }
+                        else {
+                            show_warning(response.msg);
+                        }
+                }
+            }
+        ;
+    
+        document.getElementById("create-group").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let request_object = {};
+    
+            let groupName = document.getElementById("group-name");
+            
+            let info = document.getElementById("msg");
+    
+            request_object.name = groupName.value;
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = ajax_group_listener;
+    
+            xhttp.open("POST", "/group", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            console.log(JSON.stringify(request_object));
+            xhttp.send(JSON.stringify(request_object));
+        });
+    </script>
+</body>
+</html>
