@@ -104,6 +104,7 @@ let search_artist = function (req, res, path, query) {
 
     spotify.search_artist(query.query, (searchResults) => {
 
+        if(searchResults !== null)
         searchResults.artists.items.forEach((arrItem, index) => {
             let item = {};
             item.name = arrItem.name;
@@ -129,6 +130,7 @@ let search_album = function (req, res, path, query) {
     spotify.search_album(query.query, (searchResults) => {
         LOG(JSON.stringify(searchResults));
 
+        if(searchResults !== null)
         searchResults.albums.items.forEach((arrItem) => {
             let item = {};
             item.name = arrItem.name;
@@ -148,15 +150,212 @@ let search_album = function (req, res, path, query) {
     });
 };
 
+let search_ticket = function (req, res, path, query) {
+    let q = "%" + decodeURIComponent(query.query) + "%";
+    q = q.toUpperCase();
+    let results = {items: [], type: query.type, filters: []};
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            message_page(req, res, path, "Something went wrong. Try again");
+            return;
+        }
+
+
+        connection.execute('select * from tickets where UPPER(event_name) like :q', {"q": q}, (err, result) => {
+            if (err) {
+                LOG(err.message);
+                logic.utils.realeaseConnection(connection);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let item = {};
+                item.name = result.rows[idx][1];
+                item.description = "Ticket: "+ result.rows[idx][2];
+
+                item.picture = settings.default_ticket_pic;
+
+                item.link = "/ticket/" + result.rows[idx][0];
+
+                results.items.push(item);
+            }
+
+            send_ejs(res, results);
+            logic.utils.realeaseConnection(connection);
+        });
+    });
+};
+
+let search_vinyl = function (req, res, path, query) {
+    let q = "%" + decodeURIComponent(query.query) + "%";
+    q = q.toUpperCase();
+    let results = {items: [], type: query.type, filters: []};
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            message_page(req, res, path, "Something went wrong. Try again");
+            return;
+        }
+
+        let querySQL = 'select * from vinyl where UPPER(title) like :q';
+        let obj = {"q": q};
+
+        if(!isNaN(Number(query.rpm))) {
+            querySQL += " and RPM = :RPM";
+            obj.RPM = query.rpm;
+        }
+
+        if(!isNaN(Number(query.weight))) {
+            querySQL += " and weight = :weight";
+            obj.weight = query.weight;
+        }
+
+        if(!isNaN(Number(query.genre))) {
+            querySQL += " and genre_id = :genre";
+            obj.genre = query.genre;
+        }
+
+        if(!isNaN(Number(query.special))) {
+            querySQL += " and special = :special";
+            obj.special = query.special;
+        }
+
+        connection.execute( querySQL,obj, (err, result) => {
+            if (err) {
+                LOG(err.message);
+                logic.utils.realeaseConnection(connection);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let item = {};
+                item.name = result.rows[idx][9];
+                item.description = "Vinyl MUCR";
+
+                item.picture = settings.default_vinyl_pic;
+
+                item.link = "/vinyl/" + result.rows[idx][0];
+
+                results.items.push(item);
+            }
+
+            send_ejs(res, results);
+            logic.utils.realeaseConnection(connection);
+        });
+    });
+};
+
+let search_cd = function (req, res, path, query) {
+    let q = "%" + decodeURIComponent(query.query) + "%";
+    q = q.toUpperCase();
+    let results = {items: [], type: query.type, filters: []};
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            message_page(req, res, path, "Something went wrong. Try again");
+            return;
+        }
+
+        let querySQL = 'select * from cds where UPPER(title) like :q';
+        let obj = {"q": q};
+
+        if(!isNaN(Number(query.genre))) {
+            querySQL += " and genre_id = :genre";
+            obj.genre = query.genre;
+        }
+
+
+        connection.execute( querySQL,obj, (err, result) => {
+            if (err) {
+                LOG(err.message);
+                logic.utils.realeaseConnection(connection);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let item = {};
+                item.name = result.rows[idx][1];
+                item.description = "CD MUCR";
+
+                item.picture = settings.default_disk_pic;
+
+                item.link = "/cd/" + result.rows[idx][0];
+
+                results.items.push(item);
+            }
+
+            send_ejs(res, results);
+            logic.utils.realeaseConnection(connection);
+        });
+    });
+};
+
+let search_cassette = function (req, res, path, query) {
+    let q = "%" + decodeURIComponent(query.query) + "%";
+    q = q.toUpperCase();
+    let results = {items: [], type: query.type, filters: []};
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            message_page(req, res, path, "Something went wrong. Try again");
+            return;
+        }
+
+        let querySQL = 'select * from cassetes where UPPER(title) like :q';
+        let obj = {"q": q};
+
+        if(!isNaN(Number(query.genre))) {
+            querySQL += " and genre_id = :genre";
+            obj.genre = query.genre;
+        }
+
+        connection.execute( querySQL,obj, (err, result) => {
+            if (err) {
+                LOG(err.message);
+                logic.utils.realeaseConnection(connection);
+                message_page(req, res, path, "Something went wrong. Contact admin at admin@admin.com. Code: 123");
+                return;
+            }
+
+            for (let idx = 0; idx < result.rows.length; idx++) {
+                let item = {};
+                item.name = result.rows[idx][1];
+                item.description = "Cassette MUCR";
+
+                item.picture = settings.default_cassette_pic;
+
+                item.link = "/cassette/" + result.rows[idx][0];
+
+                results.items.push(item);
+            }
+
+            send_ejs(res, results);
+            logic.utils.realeaseConnection(connection);
+        });
+    });
+};
+
 let SearchType = {
     "artist": search_artist,
     "album": search_album,
     "user": search_user,
     "group": search_group,
-    // "ticket": search_ticket,
-    // "vinyl": search_vinyl,
-    // "cd": search_cd,
-    // "cassette": search_cassette
+    "ticket": search_ticket,
+    "vinyl": search_vinyl,
+    "cd": search_cd,
+    "cassette": search_cassette
 };
 
 exports.search = function (req, res, path) {

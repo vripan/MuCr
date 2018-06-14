@@ -48,8 +48,8 @@ exports.group_get = function (req, res, path) {
             info.owner = {};
             info.owner.id = result.rows[0][2];
 
-            if(info.owner.id === req.user_id)
-                info.isOwner =1;
+            if (info.owner.id === req.user_id)
+                info.isOwner = 1;
 
 
             connection.execute('select * from users where id = :id', [info.owner.id], (err, result) => {
@@ -83,7 +83,7 @@ exports.group_get = function (req, res, path) {
                         member.firstname = result.rows[idx][4];
                         member.lastname = result.rows[idx][5];
 
-                        if(member.id === req.user_id)
+                        if (member.id === req.user_id)
                             info.isMember = 1;
 
                         if (result.rows[idx][10] === null)
@@ -96,7 +96,7 @@ exports.group_get = function (req, res, path) {
 
 
                     fs.readFile(settings.templatesPath + 'group.html', 'utf8', function (err, data) {
-                        res.writeHead(404, {'Content-Type': 'text/html'});
+                        res.writeHead(200, {'Content-Type': 'text/html'});
                         data = ejs.render(data, info);
                         res.write(data);
                         res.end();
@@ -155,6 +155,75 @@ exports.group_create = function (req, res, path) {
                 send_object(req, res, path, {msg: 'Group successfully created.', code: 0});
                 logic.utils.realeaseConnection(connection);
             });
+        });
+    });
+};
+
+exports.group_join = function (req, res, path) {
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    let request_group = logic.utils.get_id_from_path(path, 1, req, res);
+    if (request_group === false) return;
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            error_object(req, res, path, {
+                msg: 'Something went wrong. Try again.',
+                code: 2
+            });
+            return;
+        }
+        connection.execute("insert into belongs values(NULL,:group_id,:member_id)", {
+            "group_id": request_group,
+            "member_id": req.user_id
+        }, settings.queryOptions, (err, result) => {
+            if (err) {
+                DEBUG(err);
+                logic.utils.realeaseConnection(connection);
+                error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
+                return;
+            }
+            logic.utils.realeaseConnection(connection);
+
+            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/group/' + request_group});
+            res.end();
+        });
+    });
+
+};
+
+exports.group_leave = function (req, res, path) {
+    if (!logic.utils.mustBeLoggedIn(req, res, path)) return;
+
+    let request_group = logic.utils.get_id_from_path(path, 1, req, res);
+    if (request_group === false) return;
+
+    databaseOracle.getConnection((err, connection) => {
+        if (err) {
+            LOG(err.message);
+            logic.utils.realeaseConnection(connection);
+            error_object(req, res, path, {
+                msg: 'Something went wrong. Try again.',
+                code: 2
+            });
+            return;
+        }
+        connection.execute("delete from belongs where group_id = :group_id and member_id = :member_id", {
+            "group_id": request_group,
+            "member_id": req.user_id
+        }, settings.queryOptions, (err, result) => {
+            if (err) {
+                DEBUG(err);
+                logic.utils.realeaseConnection(connection);
+                error_object(req, res, path, {msg: 'Something went wrong. Try again.', code: 5});
+                return;
+            }
+            logic.utils.realeaseConnection(connection);
+
+            res.writeHead(302, {'Content-Type': 'text/html', 'Location': '/group/' + request_group});
+            res.end();
         });
     });
 };
