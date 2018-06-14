@@ -59,6 +59,18 @@ let create = function(req,res,path)
     }
 };
 
+let create_group = function(req,res,path)
+{
+    switch (req.method) {
+        case 'GET':
+            views.staticRes.create_group_get(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
+
 let search = function(req,res,path)
 {
     switch (req.method) {
@@ -78,7 +90,8 @@ let URLMap = {
     'login': login,
     'documentation': documentation,
     'create': create,
-    'search':search
+    'search':search,
+    'create_group':create_group
 };
 
 exports.requestListener = function (request, response, path) {

@@ -178,7 +178,7 @@ exports.login_post = function (req, res, path) {
 
 exports.register_put = function (req, res, path) {
     if (!logic.utils.check_request_body(req, res, path)) return;
-    if (!logic.user.check_login(req, res, path)) return;
+    if (!logic.user.check_register(req, res, path)) return;
 
     databaseOracle.getConnection((err, connection) => {
         if (err) {
