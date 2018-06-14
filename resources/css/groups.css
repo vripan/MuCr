@@ -56,3 +56,25 @@ h4 a{
     background: #39b54a;
     border: #39b54a;
   }
+
+  .button-leave {
+    outline:none;
+    height: 40px;
+    text-align: center;
+    width: 130px;
+    border-radius:30px;
+    background: transparent;
+    border: 2px solid #990000;
+    color: #990000;
+    letter-spacing:1px;
+    text-shadow:0;
+    font-size:12px;
+    font-weight:bold;
+    transition: all 0.25s ease;
+  }
+
+  .button-leave:hover {
+    color:white;
+    background: #990000;
+    border: #990000;
+  }

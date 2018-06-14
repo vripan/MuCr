@@ -83,6 +83,19 @@ let search = function(req,res,path)
     }
 };
 
+let update_user = function(req,res,path)
+{
+    switch (req.method) {
+        case 'GET':
+            views.staticRes.update_user(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
+
+
 let URLMap = {
     '': landing,
     'index': landing,
@@ -91,7 +104,8 @@ let URLMap = {
     'documentation': documentation,
     'create': create,
     'search':search,
-    'create_group':create_group
+    'create_group':create_group,
+    'update_user':update_user,
 };
 
 exports.requestListener = function (request, response, path) {

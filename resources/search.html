@@ -1,19 +1,232 @@
-Ai cautat <%=type%>
+<!DOCTYPE html>
+<html>
 
-Filtre:
-<% filters.forEach((filter) => { %>
-    <%=filter.name%><br>
-    <%=filter.value%><br>
-<%});%>
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Search</title>
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/new.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/search.css">
 
 
-<ul>
-<% items.forEach((item) => { %>
-    <li>
-        <%=item.name%>
-        <%=item.description%>
-        <%=item.picture%>
-        <%=item.link%>
-    </li>
-<%});%>
-</ul>
+    <!-- script
+    ================================================== -->
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+
+</head>
+
+<body id="top" style="background-size:cover; background: #000000 url('/img/black_background3.jpg') no-repeat;">
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a href="/user">
+                <img src="/img/logo.png" alt="Homepage">
+            </a>
+        </div>
+
+        <nav class="header-nav">
+
+            <a href="#0" class="header-nav__close" title="close">
+                <span>Close</span>
+            </a>
+
+            <!-- <div class="header-nav__content">
+                <h3>Search</h3>
+                <form id="search_from" class="search_el">
+                    <input id="search_text" class="search_el box-input" style="width:98%;" type="text">
+                    <select id="search_type" class="search_el select" style="width:100%;">
+                        <option class="search_el" value="artist">Artists</option>
+                        <option class="search_el" value="album">Albums</option>
+                        <option class="search_el" value="user">Users</option>
+                        <option class="search_el" value="group">Groups</option>
+                        <option class="search_el" value="ticket">Tickets</option>
+                        <option class="search_el" value="vinyl">Vinyl</option>
+                        <option class="search_el" value="cd">CDs</option>
+                        <option class="search_el" value="cassette">Cassettes</option>
+                    </select>
+                    <input id="search_submit" class="search_el action-button" type="submit" style="width:100%; margin-top: 10px; margin-bottom: 20px;"
+                        value="Search">
+                </form>
+            </div> -->
+
+
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li>
+                        <a class="smoothscroll" href="index.html" title="home">Home</a>
+                    </li>
+                    <li>
+                        <a class="smoothscroll" href="settings.html" title="about">Account Settings</a>
+                    </li>
+                    <li class="current">
+                        <a class="smoothscroll" href="#services" title="services">My Profile</a>
+                    </li>
+                    <!-- <li><a class="smoothscroll"  href="#works" title="works">My Collection</a></li> -->
+                    <li>
+                        <a class="smoothscroll" href="#clients" title="clients"></a>
+                    </li>
+                    <li id="last">
+                        <a class="smoothscroll" href="#contact" title="contact">Sign Out</a>
+                    </li>
+                </ul>
+
+                <p>Music Collector is an web application developed by Calin Zapan, Vladimir R&#238;pan and Bogdan M&#238;rza
+                    during 2017-2018. All rights reserved.
+                </p>
+
+            </div>
+            <!-- end header-nav__content -->
+
+        </nav>
+        <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header>
+    <!-- end s-header -->
+
+    <div class="content">
+        <div class="search-title">
+            <h3>Search</h3>
+            <h5>You've searched for
+                <%=type%>
+            </h5>
+        </div>
+
+        <div class="filter-container">
+            <form id="search-form" class="search_el">
+                <input id="search_text" class="search_el box-input" type="text">
+                <select id="search-type" class="search_el select">
+                    <option class="search_el" value="artist">Artists</option>
+                    <option class="search_el" value="album">Albums</option>
+                    <option class="search_el" value="user">Users</option>
+                    <option class="search_el" value="group">Groups</option>
+                    <option class="search_el" value="ticket">Tickets</option>
+                    <option class="search_el" value="vinyl">Vinyl</option>
+                    <option class="search_el" value="cd">CDs</option>
+                    <option class="search_el" value="cassette">Cassettes</option>
+                </select>
+                <select id="search-rpm" class="select">
+                    <option value="#">RPM</option>
+                    <option value="33">33 RPM</option>
+                    <option value="45">45 RPM</option>
+                    <option value="78">78 RPM</option>
+                </select>
+                <select id="search-weight" class="select">
+                    <option value="#">Weight</option>
+                    <option value="120">120g</option>
+                    <option value="180">180g</option>
+                    <option value="200">200g</option>
+                </select>
+                <select id="search-genre" class="select">
+                    <option value="#">Genre</option>
+                    <option value="1">Alternative</option>
+                    <option value="2">Anime</option>
+                    <option value="3">Blues</option>
+                    <option value="4">Children’s Music</option>
+                    <option value="5">Classical</option>
+                    <option value="6">Comedy</option>
+                    <option value="7">Commercial</option>
+                    <option value="8">Country</option>
+                    <option value="9">Dance</option>
+                    <option value="10">Disney</option>
+                    <option value="11">Easy Listening</option>
+                    <option value="12">Electronic</option>
+                    <option value="13">Enka</option>
+                    <option value="14">French Pop</option>
+                    <option value="15">German Folk</option>
+                    <option value="16">German Pop</option>
+                    <option value="17">Fitness & Workout</option>
+                    <option value="18">Hip-Hop/Rap</option>
+                    <option value="19">Holiday</option>
+                    <option value="20">Indie Pop</option>
+                    <option value="21">Industrial</option>
+                    <option value="22">Inspirational</option>
+                    <option value="23">Instrumental</option>
+                    <option value="24">J-Pop</option>
+                    <option value="25">Jazz</option>
+                    <option value="26">K-Pop</option>
+                    <option value="27">Karaoke</option>
+                    <option value="28">Kayokyoku</option>
+                    <option value="29">Latin</option>
+                    <option value="30">New Age</option>
+                    <option value="31">Opera</option>
+                    <option value="32">Pop</option>
+                    <option value="33">R&B/Soul</option>
+                    <option value="34">Reggae</option>
+                    <option value="35">Rock</option>
+                    <option value="36">Singer/Songwriter</option>
+                    <option value="37">Soundtrack</option>
+                    <option value="38">Spoken Word</option>
+                    <option value="39">Tejano</option>
+                    <option value="40">Vocal</option>
+                </select>
+                <select id="search-special" class="select">
+                    <option value="#">Special edition</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+                <input id="search-submit" class="search_el action-button" type="submit" value="Search">
+            </form>
+        </div>
+        <div class="item-container">
+            <% items.forEach((item) => { %>
+                <div class="item">
+                    <div class="item-picture">
+                        <a href="<%=item.link%>">
+                            <img src="<%=item.picture%>" alt="">
+                        </a>
+                    </div>
+                    <div class="item-description">
+                        <h4>
+                            <a href="<%=item.link%>">
+                                <%=item.name%>
+                            </a>
+                        </h4>
+                        <p>
+                            <%=item.description%>
+                        </p>
+                    </div>
+                </div>
+                <%});%>
+        </div>
+    </div>
+
+    <!-- SOME SCRIPTS PLACED AT THE END TO MAKE THE PAGE LOAD FASTER
+    ============================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/search-filter.js"></script>
+
+</body>
+
+</html>

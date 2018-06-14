@@ -8,9 +8,6 @@ let user_action = function (req, res, path) {
         case 'DELETE':
             views.user.user_delete(req, res, path);
             break;
-        case 'PATCH':
-            views.user.user_update(req, res, path);
-            break;
         case 'GET':
             views.user.user_get(req, res, path);
             break;
@@ -21,7 +18,7 @@ let user_action = function (req, res, path) {
             views.user.register_put(req, res, path);
             break;
         default:
-            error_page(request, response, path, 405);
+            error_page(req, res, path, 405);
             break;
     }
 };
@@ -32,7 +29,7 @@ let logout_action = function (req, res, path) {
             views.user.logout(req, res, path);
             break;
         default:
-            error_page(request, response, path, 405);
+            error_page(req, res, path, 405);
             break;
     }
 };
@@ -43,7 +40,18 @@ let session_action = function (req, res, path) {
             views.user.delete_all_sessions(req, res, path);
             break;
         default:
-            error_page(request, response, path, 405);
+            error_page(req, res, path, 405);
+            break;
+    }
+};
+
+let user_update = function (req, res, path) {
+    switch (req.method) {
+        case 'POST':
+            views.user.user_update(req, res, path);
+            break;
+        default:
+            error_page(req, res, path, 405);
             break;
     }
 };
@@ -52,11 +60,12 @@ let URLMap = {
     '^[0-9]+$': user_action,
     '': user_action,
     'logout': logout_action,
-    'remove_sessions':session_action
+    'remove_sessions': session_action,
+    'user_update':user_update
 };
 
 exports.requestListener = function (request, response, path) {
-    if(path[1] === undefined) path.push('');
+    if (path[1] === undefined) path.push('');
     let resolver = URLMap[path[1]];
     if (resolver === undefined)
         for (let key in URLMap) {

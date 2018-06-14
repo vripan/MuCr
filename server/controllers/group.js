@@ -21,10 +21,34 @@ let group_action = function (req, res, path) {
     }
 };
 
+let group_join = function (req, res, path) {
+    switch (req.method) {
+        case 'GET':
+            views.group.group_join(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
+
+
+let group_leave = function (req, res, path) {
+    switch (req.method) {
+        case 'GET':
+            views.group.group_leave(req, res, path);
+            break;
+        default:
+            error_page(request, response, path, 405);
+            break;
+    }
+};
 
 let URLMap = {
     '^[0-9]+$': group_action,
-    '':group_action
+    '':group_action,
+    'join':group_join,
+    'leave':group_leave
 };
 
 exports.requestListener = function (request, response, path) {
