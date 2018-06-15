@@ -54,7 +54,7 @@ global.message_page = function(req,res,path,msg){
         }
 
         data = ejs.render(data, {message: msg});
-        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.writeHead(400, {'Content-Type': 'text/html'});
         res.write(data);
         res.end();
     });
