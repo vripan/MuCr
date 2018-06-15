@@ -1,0 +1,839 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "MusicCollector OpenAPI documentation\n",
+    "version" : "1.0.0",
+    "title" : "Music Collector"
+  },
+  "host" : "localhost:8010",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+
+  "paths" : {
+    "/user" : {
+      "post" : {
+        "summary" : "Login user",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/user_login"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok credentials",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad credentials",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Register user",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/register"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}" : {
+      "get" : {
+        "summary" : "Get user with specified ID",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of user",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "User webpage"
+          },
+          "400" : {
+            "description" : "Invalid user"
+          }
+        }
+      }
+    },
+    "/user/logout" : {
+      "get" : {
+        "summary" : "Logout current user",
+        "produces" : [ "text/html" ],
+        "responses" : {
+          "200" : {
+            "description" : "User webpage"
+          }
+        }
+      }
+    },
+
+
+
+
+    "/group" : {
+      "post" : {
+        "summary" : "Create group",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/group"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/group/{id}" : {
+      "get" : {
+        "summary" : "Get group with specified ID",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of group",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Group webpage"
+          },
+          "400" : {
+            "description" : "Invalid group"
+          }
+        }
+      }
+    },
+    "/group/join/{id}" : {
+      "get" : {
+        "summary" : "Join in specified group",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of group",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Group webpage"
+          },
+          "400" : {
+            "description" : "Invalid group"
+          }
+        }
+      }
+    },
+    "/group/leave/{id}" : {
+      "get" : {
+        "summary" : "Join in specified group",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of group",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Group webpage"
+          },
+          "400" : {
+            "description" : "Invalid group"
+          }
+        }
+      }
+    },
+
+
+    "/album/{id}" : {
+      "get" : {
+        "summary" : "Get album specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of album",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Album webpage"
+          },
+          "400" : {
+            "description" : "Invalid invalid"
+          }
+        }
+      }
+    },
+    "/artist/{id}" : {
+      "get" : {
+        "summary" : "Get artist specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of album",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Artist webpage"
+          },
+          "400" : {
+            "description" : "Invalid artist"
+          }
+        }
+      }
+    },
+
+
+    "/ticket" : {
+      "post" : {
+        "summary" : "Create ticket",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ticket"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/ticket/{id}" : {
+      "get" : {
+        "summary" : "Get ticket specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of ticket",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/ticket/all/{id}" : {
+      "get" : {
+        "summary" : "Get ticket of user specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of ticket",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/ticket/group/{id}" : {
+      "get" : {
+        "summary" : "Get ticket of group specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of ticket",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+
+
+    "/cassette" : {
+      "post" : {
+        "summary" : "Create cassette",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/cassette"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/cassette/{id}" : {
+      "get" : {
+        "summary" : "Get cassette specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cassette",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/cassette/all/{id}" : {
+      "get" : {
+        "summary" : "Get cassette of user specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cassette",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/cassette/group/{id}" : {
+      "get" : {
+        "summary" : "Get cassette of group specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cassette",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+
+
+    "/cd" : {
+      "post" : {
+        "summary" : "Create cd",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/cd"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/cd/{id}" : {
+      "get" : {
+        "summary" : "Get cd specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cd",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/cd/all/{id}" : {
+      "get" : {
+        "summary" : "Get cd of user specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cd",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/cd/group/{id}" : {
+      "get" : {
+        "summary" : "Get cd of group specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of cd",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+
+    
+    "/vinyl" : {
+      "post" : {
+        "summary" : "Create vinyl",
+        "consumes" : [ "application/json"],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/vinyl"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok data",
+            "schema" : {
+              "$ref" : "#/definitions/message"
+            }
+          },
+          "400" : {
+            "description" : "Bad data",
+            "schema" : {
+              "$ref" : "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/vinyl/{id}" : {
+      "get" : {
+        "summary" : "Get vinyl specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of vinyl",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/vinyl/all/{id}" : {
+      "get" : {
+        "summary" : "Get vinyl of user specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of vinyl",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+    "/vinyl/group/{id}" : {
+      "get" : {
+        "summary" : "Get vinyls of group specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "ID of vinyl",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    },
+
+    "/search" : {
+      "get" : {
+        "summary" : "Get vinyls of group specified by id",
+        "produces" : [ "text/html" ],
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Item type",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "user", "artist", "album", "cd", "vinyl", "cassette", "ticket" ]
+        },
+        {
+          "name" : "query",
+          "in" : "query",
+          "description" : "Item name",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok request"
+          },
+          "400" : {
+            "description" : "Invalid request"
+          }
+        }
+      }
+    }
+
+
+
+
+
+
+
+
+
+  },
+
+
+
+
+
+  "definitions" : {
+    "user_login" : {
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "remember" : {
+          "type" : "boolean"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    },
+    "cassette":{
+      "type" : "object",
+      "properties" : {
+        "artist" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "number"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "state" : {
+          "type" : "number"
+        },
+        "channel" : {
+          "type" : "number"
+        },
+        "type" : {
+          "type" : "number"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "genre_id" : {
+          "type" : "number"
+        }
+      }
+    },
+    "cd":{
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string"
+        },
+        "artist" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "genre_id" : {
+          "type" : "number"
+        }
+      }
+    },
+    "error":{
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "number"
+        },
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "message":{
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "number"
+        },
+        "msg" : {
+          "type" : "string"
+        }
+      }
+    },
+    "group":{
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "register":{
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "firstname" : {
+          "type" : "string"
+        },
+        "lastname" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ticket":{
+      "type" : "object",
+      "properties" : {
+        "event_name" : {
+          "type" : "string"
+        },
+        "location" : {
+          "type" : "string"
+        },
+        "genre_id" : {
+          "type" : "number"
+        },
+        "start_date" : {
+          "type" : "string"
+        },
+        "artist" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number"
+        }
+      }
+    },
+    "vinyl":{
+      "type" : "object",
+      "properties" : {
+        "rpm" : {
+          "type" : "number"
+        },
+        "state" : {
+          "type" : "number"
+        },
+        "color" : {
+          "type" : "number"
+        },
+        "channel" : {
+          "type" : "number"
+        },
+        "weight" : {
+          "type" : "number"
+        },
+        "special" : {
+          "type" : "number"
+        },
+        "condition" : {
+          "type" : "number"
+        },
+        "genre_id" : {
+          "type" : "number"
+        },
+        "artist" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
