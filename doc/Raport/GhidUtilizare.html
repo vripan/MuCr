@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MuCr</title>
+    <link rel="stylesheet" href="css/scholarly.min.css">
+    <script src="js/scholarly.min.js"></script>
+</head>
+<body prefix="schema: http://schema.org">
+<header>
+
+    <h1>MuCr (Music Collector) - Ghidul de utilizare</h1>
+</header>
+<div role="contentinfo">
+
+</div>
+<section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+    <h2>Descriere</h2>
+    <p>
+        MuCr (Music Collector) este o platforma online de gestionare a colectiilor muzicale destinata iubitorilor
+        de muzica.Acestia se pot organiza in grupuri pastrandu-si colectiile intr-un bloc comun.
+        Ace?tia au capacitatea
+        de a inregistra, prin completarea unor formulare specifice, discuri de vinyl, benzi magnetice, bilete pentru
+        spectacole, precum ?i melodii.
+    </p>
+</section>
+<section id="introduction" role="doc-introduction">
+    <h2>Introducere</h2>
+    <p>
+        Echipa este formata din :Mirza Constantin-Bogdan , Ripan Ilie-Vladimir si Zapan Calin-George.
+        Vom prezenta in continuare ghidul de utilizare a unui user nou.
+    </p>
+    <p>
+        Detalii despre modul de lucru :
+    </p>
+    <ul>
+        <li>Dezvoltarea front-end-ului (HTML + CSS + JavaScript).</li>
+        <li>Realizarea arhitecturii.</li>
+        <li>Intelegerea modului de lucru cu functii callback.</li>
+        <li>Implementarea design patternului MVC (Model View Controller).</li>
+        <li>Integrarea modulelor obtinute pe baza arhitecturii construite.</li>
+        <li>Testarea fiecarui modul.</li>
+    </ul>
+    <p>
+        In final, s-a reu?it realizarea unui proiect functional.
+    </p>
+</section>
+<section id="structure">
+    <!-- review? -->
+    <h2>Ghidul de utilizare</h2>
+    <p>
+        In continuare, vom prezenta functionalitatile paginii:
+    </p>
+    <section id="Root">
+        <!-- review? -->
+        <h3>Inregistrarea</h3>
+        <p>
+            Pentru ca userul sa aiba permisiunea sa utilizeze functionalitatile paginii MuCr, acesta va trebuie mai intai sa se inregistreze apasand pe
+			butonul <b>"Get it started"</b> care il va redirectiona spre un formular.
+			Userul va introduce un nume,prenume,adresa de e-mail valida si o parola pe care le va trimite la server prin apasarea butonului <b>"Register"</b>.
+			Dupa acest pas, userul va fi redirectionat spre pagina de logare.
+        </p>
+    </section>
+    <section id="article">
+        <!-- review? -->
+        <h3>Logarea</h3>
+        <p>
+           Daca userul are un cont creat in baza de date a proiectului, acesta va trebuie sa se logheze apasand pe butonul <b>"Log in"</b> care il va
+           redirectionat spre un formular.
+		   Userul va introduce adresa de e-mail si parola pe care le va trimite la server prin apasarea butonului <b>"Login"</b>, daca acestea sunt corecte,
+		   userul va fi redirectionat spre pagina de profil unde ii sunt disponibile colectiile de vinyluri, cd-uri, casete si bilete.
+        </p>
+    </section>
+    <section id="inline">
+        <!-- review? -->
+        <h3>Adaugarea unui item</h3>
+        <p>
+            Pentru ca un user sa poate adauga un item (vinyl,cd,caseta,bilet) acesta trebuie sa fie logat.Pe pagina de profil este disponibil un buton
+			<b>"+1 ADD ITEM"</b>, iar prin apasarea lui, userul poate decide ce fel de item vrea sa adauge.Pentru fiecare tip de item, userul este obligat sa
+			adauge anumite caracteristici, dupa finalizarea acestui pas, userul va apasa butonul <b>"Submit"</b>, iar itemul va fi adaugat in colectia acestuia.
+        </p>
+    </section>
+    <section id="references">
+        <!-- review? -->
+        <h3>Vizualizarea unui item</h3>
+        <p>
+            Pentru ca un user sa isi poata vizualiza propriile iteme (vinyl,cd,caseta,bilet) acesta trebuie sa fie logat.Pe pagina de profil este disponibila o imagine
+			pentru fiecare dintre cele 4 categorii, iar prin apasarea ei, userul va fi redirectionat spre colectia de iteme din acea categorie.Pentru ca userul sa poata vizualiza
+			un anumit item, acesta va trebuie sa apese pe imaginea de profil a acestuia, ce ii va arata caracteristicile itemului.
+        </p>
+    </section>
+    <section id="references">
+        <!-- review? -->
+        <h3>Crearea unui grup</h3>
+        <p>
+            Pentru ca un user sa poata crea un grup acesta trebuie sa fie logat.Pe pagina de profil este disponibil un buton
+			<b>"++1 ADD GROUP"</b>, iar prin apasarea lui, userul va fi redirectionat pe un formular in care va alege numele grupului.Dupa ce userul
+			a introdus informatia necesara, va apasa butonul <b>"Create Group"</b>, care va crea un grup nou.
+        </p>
+    </section>
+	<section id="references">
+        <!-- review? -->
+        <h3>Functia de cautare</h3>
+        <p>
+            Pentru ca un user sa poata folosi functia de cautare a paginii web acesta trebuie sa fie logat.Pe pagina de profil este disponibil un buton
+			<b>"MENU"</b>, iar prin apasarea lui, userul va putea alege dintr-o categorie ce anume doreste sa caute(artist,user,album,grup,iteme).Dupa ce userul
+			a ales ceea ce doreste sa caute, el are optiunea de a adauga un nume dupa care sa se faca cautarea iar apoi va apasa butonul <b>"Search"</b> ce ii
+			va afisa rezultatele disponibile din baza de date a paginii web.Dupa afisarea rezultatelor cautarii, userul are optiunea de a face o filtrare a datelor.
+        </p>
+    </section>
+	<section id="references">
+        <!-- review? -->
+        <h3>Inscrierea intr-un grup</h3>
+        <p>
+            Pentru ca un user sa se poata inscrie intr-un anumit grup acesta trebuie sa fie logat.Userul va cauta grupul in care doreste sa se inscrie
+			utilizand functia Search prezentata la punctul anterior ce il va redirectiona spre o lista de grupuri.Userul va trebuie sa acceseze un anumit
+			grup, iar pentru a se inscrie va trebui sa apese pe butonul <b>"JOIN GROUP"</b>, ceea ce il va face unul dintre membrii grupului.
+        </p>
+    </section>
+	<section id="references">
+        <!-- review? -->
+        <h3>Iesirea dintr-un grup</h3>
+        <p>
+            Pentru ca un user sa poata iesi dintr-un anumit grup acesta trebuie sa fie logat si sa faca parte din acel grup.Userul are pe pagina de profil 
+			o lista cu toate  grupurile din care face parte, dar nu le detine.Userul va trebuie sa acceseze un anumit
+			grup, iar pentru a iesi va trebui sa apese pe butonul <b>"LEAVE GROUP"</b>, ceea ce il va face sa nu mai fie unul dintre membrii grupului.
+        </p>
+    </section>
+
+</section>
+</section>
+<section id="scholarly-article">
+    <!-- review? -->
+    <h2>Autori</h2>
+    <p>
+        @Mirza Constantin-Bogdan
+        <br>
+        @Ripan Ilie-Vladimir
+        <br>
+        @Zapan Calin-George
+        <br>
+
+    </p>
+    <p class="issue">
+        Proiectul realizat se poate gasi la adresa <a
+            href=https://github.com/calinzapan/MuCr>github.com/calinzapan/MuCr</a>
+    </p>
+
+</section>
+<section id="hypermedia">
+
+    <h2>Drepturi de Autor</h2>
+    <p>
+    <h4>&copy; 2018 MuCr, All rights reserved</h4>
+    </p>
+</section>
+<section id="prof">
+    <h2> Profesor Indrumator </h2>
+    <a href=https://www.ionutdanila.com/> Danila Ionut </a>
+</section>
+<section id="biblio-references">
+    <h2>
+        References
+    </h2>
+    <ul>
+        <li>
+            https://musicbrainz.org/doc/Developer_Resources
+        </li>
+        <li>
+            https://www.programmableweb.com/category/music/api
+        </li>
+        <li>
+            https://profs.info.uaic.ro/~busaco/teach/courses/cliw/web-film.html#week4
+        </li>
+        <li>
+            https://developer.spotify.com/documentation/
+        </li>
+        <li>
+            https://nodejs.org/en/docs/
+        </li>
+        <li>
+            https://stackoverflow.com/
+        </li>
+    </ul>
+
+</section>
+</body>
+</html>
+

@@ -15,6 +15,7 @@
     "ejs": "^2.5.8",
     "formidable": "^1.2.1",
     "mongoose": "^5.0.14",
+    "multipart": "^0.1.5",
     "mysql": "^2.15.0",
     "oracledb": "^2.2.0",
     "request": "^2.85.0",
